@@ -1,0 +1,39 @@
+@import './css/reset.css';
+@import './css/vars.css';
+
+html {
+  box-sizing: border-box;
+}
+
+/* stylelint-disable */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+/* stylelint-enable */
+
+body {
+  font-family: var(--font);
+}
+
+li {
+  line-height: 1.8;
+}
+
+.container {
+  width: 60rem;
+  margin: var(--spacerBig) auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pagetitle {
+  font-size: var(--fontBig);
+}
+
+.demo-list {
+  margin-top: var(--spacerBig);
+  text-transform: capitalize;
+}
