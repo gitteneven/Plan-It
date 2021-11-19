@@ -1,0 +1,22 @@
+@import './css/reset.css';
+
+html {
+  box-sizing: border-box;
+}
+
+/* stylelint-disable */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+/* stylelint-enable */
+
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Helvectica, Arial, sans-serif;
+  font-size: 2rem;
+  margin-top: 10rem;
+}
