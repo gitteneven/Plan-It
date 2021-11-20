@@ -1,13 +1,7 @@
 {
-<<<<<<< HEAD
-  "name": "webpack-template",
-  "version": "1.0.0",
-  "description": "template for a webpack project",
-=======
   "name": "webpack-php-template",
   "version": "1.0.0",
   "description": "template for a webpack project with php",
->>>>>>> 6020ad6 (initial commit)
   "main": "index.js",
   "devDependencies": {
     "css-loader": "^6.3.0",
@@ -30,14 +24,10 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --mode development",
-<<<<<<< HEAD
-    "prod": "rm -rf dist/ && webpack --mode production"
-=======
     "prod": "npm run clean && npm run copydist && webpack --mode production",
     "copydist": "rsync -a --exclude=*.css --exclude=*.js ./src/ ./dist",
     "clean": "rm -rf ./dist",
     "heroku-postbuild": "npm run prod"
->>>>>>> 6020ad6 (initial commit)
   },
   "author": "Frederik Duchi",
   "license": "ISC"
