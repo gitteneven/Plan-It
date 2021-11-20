@@ -4,6 +4,10 @@ $routes = array(
   'home' => array(
     'controller' => 'Pages',
     'action' => 'index'
+  ),
+  'signup' => array(
+    'controller' => 'Pages',
+    'action' => 'signup'
   )
 );
 
