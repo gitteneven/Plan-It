@@ -14,6 +14,10 @@ class PagesController extends Controller {
     $result  = json_decode($content);
     $movies = $result->results;
 
+    if(isset($_SESSION['id'])){
+    $userLogin= User::where('id', $_SESSION['id'])->first();
+    $this->set('userLogin', $userLogin);
+      }
 
     $this->set('movies',$movies);
     $this->set('title','Home');
@@ -58,7 +62,7 @@ class PagesController extends Controller {
            $_SESSION['id']=$newUser->id;
           $userLogin= User::where('id', $_SESSION['id'])->first();
           $this->set('userLogin',$userLogin);
-          header('Location:index.php?page=signup');
+          header('Location:index.php?');
           exit();
         }else{
           $this->set('errors', $errors);
@@ -69,4 +73,36 @@ class PagesController extends Controller {
     $this->set('title','Sign up');
 
   }
+   public function login() {
+
+    $this->set('title','Log in');
+    if(!empty($_POST['action'])) {
+      if ($_POST['action'] == 'login') {
+
+        if(!empty($_POST['username']) && !empty($_POST['password'])) {
+        $username=$_POST['username'];
+        $password=$_POST['password'];
+
+        $userLogin= User::where('username', $_POST['username'])->where('password', $password)->first();
+        if(empty($userLogin)){
+          $errorLogin='No account was found';
+          $this->set('errorLogin', $errorLogin);
+        }
+        else{
+          $_SESSION['id']=$userLogin->id;
+            header("Location: index.php?");
+            exit();
+        }
+        }
+
+      }}
+      $userLogin= User::find(1);
+    $this->set('userLogin', $userLogin);
+
+  }
+  public function logout() {
+    session_destroy();
+    header("Location: index.php?");
+
+   }
 }

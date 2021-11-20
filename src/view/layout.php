@@ -8,6 +8,9 @@
   <title><?php echo $title; ?></title>
 </head>
 <body>
+  <header>
+    <li class="nav__item nav__login <?php if($_GET['page']== 'login') {echo 'selected--login';}?>"><?php if(empty($_SESSION['id'])){echo '<a href="index.php?page=login">Log In</a>';} if(!empty($_SESSION['id'])){?><a href="index.php?page=logout">Log Out</a><?php ;} ?></li>
+</header>
   <div class="container">
       <header><h1 class="pagetitle">Watcho</h1></header>
       <?php echo $content;?>

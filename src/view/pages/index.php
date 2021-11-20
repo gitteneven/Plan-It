@@ -22,3 +22,11 @@
   ?>
   </ul>
 </section>
+<div>
+  <?php if(!empty($userLogin)){
+    echo $userLogin;
+  }else{
+    echo 'user';
+  }
+  ?>
+  </div>

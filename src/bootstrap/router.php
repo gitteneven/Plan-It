@@ -8,6 +8,14 @@ $routes = array(
   'signup' => array(
     'controller' => 'Pages',
     'action' => 'signup'
+  ),
+  'login' => array(
+    'controller' => 'Pages',
+    'action' => 'login'
+  ),
+  'logout' => array(
+    'controller' => 'Pages',
+    'action' => 'logout'
   )
 );
 
