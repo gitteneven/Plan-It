@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-=======
 //const HtmlWebPackPlugin = require('html-webpack-plugin');
->>>>>>> 6020ad6 (initial commit)
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -12,16 +8,6 @@ module.exports = (env, {mode}) => {
   console.log(mode);
   return {
     output: {
-<<<<<<< HEAD
-      filename: '[name].[fullhash].js'
-    },
-    devServer: {
-      hot: true
-    },
-    module: {
-      rules: [
-        {
-=======
       filename: 'script.js'
     },
     devServer: {
@@ -34,7 +20,6 @@ module.exports = (env, {mode}) => {
     module: {
       rules: [
         /*{
->>>>>>> 6020ad6 (initial commit)
           test: /\.html$/,
           use: [
             {
@@ -44,11 +29,7 @@ module.exports = (env, {mode}) => {
               }
             }
           ]
-<<<<<<< HEAD
-        },
-=======
         },*/
->>>>>>> 6020ad6 (initial commit)
         {
           test: /\.(jpe?g|png|svg|webp)$/,
           type: 'asset/resource'
@@ -76,21 +57,12 @@ module.exports = (env, {mode}) => {
       ]
     },
     plugins: [
-<<<<<<< HEAD
-      new HtmlWebPackPlugin({
-        template: './src/index.html',
-        filename: './index.html'
-      }),
-      new MiniCssExtractPlugin({
-        filename: 'style.[contenthash].css'
-=======
       /*new HtmlWebPackPlugin({
         template: './src/index.html',
         filename: './index.html'
       }),*/
       new MiniCssExtractPlugin({
         filename: 'style.css'
->>>>>>> 6020ad6 (initial commit)
       }),
       new OptimizeCSSAssetsPlugin(),
       new webpack.HotModuleReplacementPlugin()
