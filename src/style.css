@@ -1,8 +1,5 @@
 @import './css/reset.css';
-<<<<<<< HEAD
-=======
 @import './css/vars.css';
->>>>>>> 6020ad6 (initial commit)
 
 html {
   box-sizing: border-box;
@@ -16,15 +13,6 @@ html {
 }
 /* stylelint-enable */
 
-<<<<<<< HEAD
-.message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Helvectica, Arial, sans-serif;
-  font-size: 2rem;
-  margin-top: 10rem;
-=======
 body {
   font-family: var(--font);
 }
@@ -48,5 +36,4 @@ li {
 .demo-list {
   margin-top: var(--spacerBig);
   text-transform: capitalize;
->>>>>>> 6020ad6 (initial commit)
 }
