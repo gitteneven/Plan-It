@@ -34,6 +34,9 @@ class User extends Model {
     return $errors;
   }
 
+  public function stream_services(){
+    return $this->hasMany(Stream_service::class);
+  }
 
 
 

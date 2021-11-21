@@ -9,6 +9,10 @@ $routes = array(
     'controller' => 'Pages',
     'action' => 'signup'
   ),
+  'signup2' => array(
+    'controller' => 'Pages',
+    'action' => 'signup2'
+  ),
   'login' => array(
     'controller' => 'Pages',
     'action' => 'login'

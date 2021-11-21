@@ -2,7 +2,8 @@
 
  <h1 class="signup__title">Sign up</h1>
  <section class="">
-     <form class="signup__form" method="post" action="index.php?page=signup" enctype="multipart/form-data">
+
+     <form class="signup__form " method="post" action="index.php?page=signup" enctype="multipart/form-data" <?php if(!empty($part1) && $part1==false) {echo 'style="display: none;"';} ?>>
          <input type="hidden" name="action" value="signup">
 
          <label class="signup__label c1">
@@ -41,9 +42,37 @@
             <input type="file" name="picture" accept="image/png, image/jpeg, image/gif" class="signup__input" >
         </label> -->
 
-        <input type="submit" class="signup__button" value="SIGN UP">
+        <input type="submit" class="signup__button" value="NEXT">
 
 </form>
+
+<?php if(!empty($part1) && $part1==false){ ?>
+   <form class="signup__form" method="post" action="index.php?page=signup" enctype="multipart/form-data">
+      <input type="hidden" name="action" value="streaming">
+      <h2 class=subtitle>Choose your streaming services:</h2>
+
+      <label class="country input" for="country">Choose your country:
+    <select id="country" class="country" name="country[]" size="1">
+    <?php foreach($countries as $country): ?>
+                    <option value="<?php echo $country; ?>"><?php echo $country; ?></option>
+                <?php endforeach; ?>
+      </select> <br>
+       <span class="error"><?php if(!empty($errors['text'])){ echo $errors['text'];} ?></span>
+
+    <ul name="strInput" id="strInput" class="strInput">
+    <p class="form__text">Select your streaming services:</p>
+    <li ><label>
+    <input type="checkbox" id="netflix" name="strOption[]" value="Netflix" class="option filter" >
+    Netflix</label></li>
+    <li ><label>
+    <input type="checkbox" id="disney+" name="strOption[]" value="Disney+" class="option filter" >
+    Disney+</label></li>
+
+  </ul>
+      <input type="submit" class="signup__button" value="SIGN UP">
+  </form>
+  <?php
+} ?>
 </section>
 
  <!-- <script src="js/validate.js"></script> -->

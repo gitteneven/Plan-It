@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/Controller.php';
 require_once __DIR__ . '/../model/User.php';
-
+require_once __DIR__ . '/../model/Stream_service.php';
 
 class PagesController extends Controller {
 
@@ -60,18 +60,70 @@ class PagesController extends Controller {
            $_SESSION['name']=$_POST['name'];
            $_SESSION['password']=$_POST['password'];
            $_SESSION['id']=$newUser->id;
-          $userLogin= User::where('id', $_SESSION['id'])->first();
-          $this->set('userLogin',$userLogin);
-          header('Location:index.php?');
+          // $userLogin= User::where('id', $_SESSION['id'])->first();
+          // $this->set('userLogin',$userLogin);
+
+          header('Location:index.php?page=signup2');
           exit();
         }else{
           $this->set('errors', $errors);
         }
       }
+
     }
+    $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "UK","USA","Venezuela","Vietnam");
+    $this->set('countries', $countries);
 
     $this->set('title','Sign up');
 
+  }
+  public function signup2() {
+    if(!empty($_POST['action'])) {
+      if ($_POST['action'] == 'streaming') {
+        $newUser= User::where('id', $_SESSION['id'])->first();
+         $strServ=new Stream_service;
+          $strServ->user_id=$_SESSION['id'];
+
+          $_SESSION['strServ']=$_SESSION['id'];
+        foreach($_POST['strOption'] as $value){
+          //$newUser->stream_serv = $value;
+          if($value=='netflix'){
+            $strServ->netflix = 1;
+          }
+          if($value=='amazon_prime'){
+            $strServ->amazon_prime = 1;
+          }
+          if($value=='disney'){
+            $strServ->disney = 1;
+          }
+          if($value=='hbo_max'){
+            $strServ->hbo_max = 1;
+          }
+          if($value=='hulu'){
+            $strServ->hulu = 1;
+          }
+            //echo "Chosen stream_serv : ".$value.'<br/>';
+
+            // echo $newUser;
+        }
+        $strServ->save();
+        foreach($_POST['country'] as $value){
+            //echo "Chosen country : ".$value.'<br/>';
+            $newUser->country = $value;
+        }
+
+
+        $newUser->save();
+        //$part1=true;
+        header('Location:index.php?');
+          exit();
+      }
+
+    }
+    $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "UK","USA","Venezuela","Vietnam");
+    $this->set('countries', $countries);
+
+    $this->set('title','Sign up');
   }
    public function login() {
 
