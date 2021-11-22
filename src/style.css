@@ -37,3 +37,7 @@ li {
   margin-top: var(--spacerBig);
   text-transform: capitalize;
 }
+
+.form {
+  color: red;
+}

@@ -4,6 +4,17 @@ $routes = array(
   'home' => array(
     'controller' => 'Pages',
     'action' => 'index'
+  ),
+
+
+  'overview' => array(
+    'controller' => 'Pages',
+    'action' => 'overview'
+  ),
+
+     'search' => array(
+    'controller' => 'Pages',
+    'action' => 'search'
   )
 );
 
