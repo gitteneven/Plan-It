@@ -49,6 +49,12 @@ class PagesController extends Controller {
         $newWatch->user_id = $_SESSION['id'];
         $newWatch->watch_id = $_POST['watch__id'];
         $newWatch->title = $_POST['watch__name'];
+          if($_POST['watch__type']=='series'){
+            $newWatch->series = 1;
+          }
+          if($_POST['watch__type']=='movie'){
+            $newWatch->movie = 1;
+          }
         $newWatch->save();
         }
     }

@@ -27,9 +27,11 @@
         if($_POST['type'] == 'series'){
          echo($title = $movie->name);
           echo '<input type="hidden" name="watch__name" value="'. $movie->name . '">';
+          echo '<input type="hidden" name="watch__type" value="series">';
         } else if($_POST['type'] == 'movie'){
           echo($title = $movie->title);
            echo '<input type="hidden" name="watch__name" value="'. $movie->title . '">';
+            echo '<input type="hidden" name="watch__type" value="movie">';
         }
         ?>
         <input type="hidden" name="watch__id" value="<?php echo $movie->id?>">
