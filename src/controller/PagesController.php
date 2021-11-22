@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/Controller.php';
 require_once __DIR__ . '/../model/User.php';
+require_once __DIR__ . '/../model/Watch_list.php';
 require_once __DIR__ . '/../model/Stream_service.php';
 
 class PagesController extends Controller {
@@ -20,7 +21,10 @@ class PagesController extends Controller {
   }
 
   public function overview() {
+   // $user = User::where('id', '=', $_SESSION['id'])->first();
+    $watchlist = Watchlist::where('user_id', '=', $_SESSION['id'])->get();
 
+    $this->set('watchlist', $watchlist);
   }
 
   public function search() {
@@ -38,6 +42,14 @@ class PagesController extends Controller {
 
       }
    }
+
+  if(!empty($_POST['action'])) {
+      if($_POST['action'] == 'addWatchlist'){
+
+      }
+   }
+
+
   $this->set('movies',$movies);
   }
 
@@ -172,7 +184,7 @@ class PagesController extends Controller {
     $this->set('userLogin', $userLogin);
 
   }
-  
+
   public function logout() {
     session_destroy();
     header("Location: index.php?");

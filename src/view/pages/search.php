@@ -1,4 +1,4 @@
-<section class="content">
+<article class="search">
 <form id="form" class="form" method="post" action="index.php?page=search">
   <input type="hidden" name="action" value="searchWatchlist">
 
@@ -16,26 +16,25 @@
   <a class="reset button" href="index.php">Reset</a>
   </div>
 </form>
+
 <ul class="search__list">
-
-  <li> <?php
-     foreach ($movies as $movie){
-
-    }
-      ?> </li>
-
-
 <?php foreach ($movies as $movie): ?>
-      <li>
+   <form class="add__button "method="post">
+      <input type="hidden" name="action" value="addWatchlist">
+      <li class="search__list--item">
         <?php if($_POST['type'] == 'series'){
          echo($movie->name);
         }else if($_POST['type'] == 'movie'){
           echo($movie->title);
         }
-        ?> <form class="add__button "method="post"> <input type="hidden" name="action" value="addWatchlist">
-		<input type="submit" name="add" value="add"/> </form> </li>
+        ?>
+        <input type="submit" name="add" value="add"/>
+        <?php echo $movie->id?>
+      </form>
+    </li>
   <?php endforeach ?>
 
 
   </ul>
+
 </section>
