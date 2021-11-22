@@ -22,13 +22,13 @@ class PagesController extends Controller {
 
   public function overview() {
    // $user = User::where('id', '=', $_SESSION['id'])->first();
-    $watchlist = Watchlist::where('user_id', '=', $_SESSION['id'])->get();
+    $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
 
     $this->set('watchlist', $watchlist);
   }
 
   public function search() {
-  if(!empty($_POST['action'])) {
+    if(!empty($_POST['action'])) {
       if($_POST['action']== 'searchWatchlist'){
           $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . '%' . $_POST['title'] . '%';
           $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . '%' . $_POST['title'] . '%';
@@ -43,14 +43,17 @@ class PagesController extends Controller {
       }
    }
 
-  if(!empty($_POST['action'])) {
+    if(!empty($_POST['action'])) {
       if($_POST['action'] == 'addWatchlist'){
+        $newWatch = new Watch_list;
+        $newWatch->user_id = $_SESSION['id'];
+        $newWatch->watch_id = $_POST['watch__id'];
+        $newWatch->title = $_POST['watch__name'];
+        $newWatch->save();
+        }
+    }
 
-      }
-   }
-
-
-  $this->set('movies',$movies);
+    $this->set('movies',$movies);
   }
 
   public function signup() {

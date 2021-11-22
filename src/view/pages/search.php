@@ -19,17 +19,23 @@
 
 <ul class="search__list">
 <?php foreach ($movies as $movie): ?>
-   <form class="add__button "method="post">
+   <form class="add__button" method="post">
       <input type="hidden" name="action" value="addWatchlist">
       <li class="search__list--item">
-        <?php if($_POST['type'] == 'series'){
-         echo($movie->name);
-        }else if($_POST['type'] == 'movie'){
-          echo($movie->title);
+        <?php
+
+        if($_POST['type'] == 'series'){
+         echo($title = $movie->name);
+          echo '<input type="hidden" name="watch__name" value="'. $movie->name . '">';
+        } else if($_POST['type'] == 'movie'){
+          echo($title = $movie->title);
+           echo '<input type="hidden" name="watch__name" value="'. $movie->title . '">';
         }
         ?>
+        <input type="hidden" name="watch__id" value="<?php echo $movie->id?>">
+
         <input type="submit" name="add" value="add"/>
-        <?php echo $movie->id?>
+
       </form>
     </li>
   <?php endforeach ?>

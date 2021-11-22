@@ -2,7 +2,7 @@
 
 use \Illuminate\Database\Eloquent\Model;
 
-class WatchList extends Model {
+class Watch_list extends Model {
   //
   public $timestamps = false;
 
