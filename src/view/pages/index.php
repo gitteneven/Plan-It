@@ -1,9 +1,18 @@
+<header>
+  <a href="index.php?page=signup" class="button">Sign Up</a>
+
+  <br>
+  <br>
+</header>
 <section class="content">
-<ul class="demo-list">
-<?php
-    foreach ($demos as $demo){
-      echo('<li>' . $demo->name . '</li>');
-    }
-  ?>
-  </ul>
+
+
 </section>
+<div>
+  <?php if(!empty($userLogin)){
+    echo $userLogin;
+  }else{
+    echo 'user';
+  }
+  ?>
+  </div>
