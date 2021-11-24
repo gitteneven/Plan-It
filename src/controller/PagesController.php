@@ -30,12 +30,22 @@ class PagesController extends Controller {
   public function search() {
     if(!empty($_POST['action'])) {
       if($_POST['action']== 'searchWatchlist'){
-          $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . '%' . $_POST['title'] . '%';
-          $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . '%' . $_POST['title'] . '%';
+          $titleClean =str_replace(' ', '%20', $_POST['title']);
+          print_r($titleClean);
+          $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
+          $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
+          $seriesCode = file_get_contents($seriesSearch);
+          $moviesCode = file_get_contents($moviesSearch);
+          $resultSeries = json_decode($seriesCode);
+          $resultMovies = json_decode($moviesCode);
+          $seriesArray = $resultSeries->results;
+          $moviesArray = $resultMovies->results;
+          $mergedArrays = array_merge($seriesArray, $moviesArray);
+          print_r($mergedArrays);
         if($_POST['type'] == 'series'){
-          $content = file_get_contents($seriesSearch);
+          $content = file_get_contents($seriesArray);
         } else if($_POST['type'] == 'movie'){
-          $content = file_get_contents($moviesSearch);
+          $content = file_get_contents($moviesArray);
         }
         $result = json_decode($content);
         $movies = $result->results;

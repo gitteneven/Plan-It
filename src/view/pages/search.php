@@ -13,10 +13,9 @@
 
   <div class="buttons">
   <input type="submit" name="submit" value="search" class="search button">
-  <a class="reset button" href="index.php">Reset</a>
+  <a class="reset button" href="index.php?page=search">Reset</a>
   </div>
 </form>
-
 <ul class="search__list">
 <?php foreach ($movies as $movie): ?>
    <form class="add__button" method="post">
