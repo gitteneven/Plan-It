@@ -32,7 +32,6 @@ class PagesController extends Controller {
     if(!empty($_POST['action'])) {
       if($_POST['action']== 'searchWatchlist'){
           $titleClean =str_replace(' ', '%20', $_POST['title']);
-          print_r($titleClean);
           $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
           $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
           $seriesCode = file_get_contents($seriesSearch);
@@ -41,15 +40,16 @@ class PagesController extends Controller {
           $resultMovies = json_decode($moviesCode);
           $seriesArray = $resultSeries->results;
           $moviesArray = $resultMovies->results;
-          $mergedArrays = array_merge($seriesArray, $moviesArray);
-          print_r($mergedArrays);
+          $resultList = array_merge($seriesArray, $moviesArray);
+          print_r($resultList);
+        /*
         if($_POST['type'] == 'series'){
           $content = file_get_contents($seriesArray);
         } else if($_POST['type'] == 'movie'){
           $content = file_get_contents($moviesArray);
         }
-        $result = json_decode($content);
-        $movies = $result->results;
+        */
+
 
       }
    }
@@ -70,7 +70,7 @@ class PagesController extends Controller {
         }
     }
 
-    $this->set('movies',$movies);
+    $this->set('resultList', $resultList);
     $this->set('title','My watchlist - Search');
   }
 

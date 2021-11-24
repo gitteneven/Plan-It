@@ -17,12 +17,30 @@
   </div>
 </form>
 <ul class="search__list">
-<?php foreach ($movies as $movie): ?>
+<?php foreach ($resultList as $movie): ?>
    <form class="add__button" method="post">
       <input type="hidden" name="action" value="addWatchlist">
       <li class="search__list--item">
         <?php
-
+        
+          if($movie->name){
+            echo($movie->name);
+          } else if($movie->title){
+            echo($movie->title);
+          }
+          /*
+          switch($movie){
+            case $movie->name;
+              echo($movie->name);
+              break;
+            case $movie->title;
+          }
+          */
+          echo '<input type="hidden" name="watch__name" value="'. $movie->name . '">';
+          echo '<input type="hidden" name="watch__type" value="series">';
+        ?>
+        <?php
+      /*
         if($_POST['type'] == 'series'){
          echo($title = $movie->name);
           echo '<input type="hidden" name="watch__name" value="'. $movie->name . '">';
@@ -31,7 +49,7 @@
           echo($title = $movie->title);
            echo '<input type="hidden" name="watch__name" value="'. $movie->title . '">';
             echo '<input type="hidden" name="watch__type" value="movie">';
-        }
+        }*/
         ?>
         <input type="hidden" name="watch__id" value="<?php echo $movie->id?>">
 
