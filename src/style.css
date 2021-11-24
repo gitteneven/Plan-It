@@ -15,6 +15,9 @@ html {
 
 body {
   font-family: var(--font);
+  background-color: black;
+  color: white;
+  line-height: 1.2;
 }
 
 li {
@@ -29,13 +32,98 @@ li {
   align-items: center;
 }
 
+@font-face {
+  font-family: 'bronx_reg';
+  src: url(./assets/fonts/Bronx.woff2);
+}
+
+@font-face {
+  font-family: 'bronx_inline';
+  src: url(./assets/fonts/Bronx-Inline.woff2);
+}
+
+@font-face {
+  font-family: 'bronx_twolines';
+  src: url(./assets/fonts/Bronx-TwoLines.woff2);
+}
+
 .pagetitle {
-  font-size: var(--fontBig);
+  font-size: 7rem;
+  font-family: 'bronx_twolines', sans-serif;
+  color: var(--colorBlue);
+}
+
+.subtitle {
+  font-family: 'bronx_reg', sans-serif;
+  font-size: 1.75rem;
+  margin-top: .4rem;
+}
+
+.dropshadow {
+  filter: drop-shadow(.25rem .3rem .2rem var(--colorBlue));
+}
+
+.line {
+  width: 24.7rem;
+  height: .7rem;
+  border-bottom: .3rem solid var(--colorBlue);
+  /* position: absolute; */
+  margin-right: auto;
+  margin-left: auto;
+
 }
 
 .error {
   color: red;
   font-size: .9rem;
+}
+
+.button {
+  color: white;
+  background-color: var(--colorPink);
+  padding: .6rem 1.1rem;
+  font-size: 1.6rem;
+  border-radius: .8rem;
+  text-decoration: none;
+  font-family: 'bronx_reg', sans-serif;
+}
+
+.button:hover {
+  background-color: var(--colorPurple);
+}
+
+.button--signup {
+  background-color: var(--colorDarkblue);
+}
+
+/*---------------------------------intro------------------------------------*/
+
+.intro__text {
+  margin-top: 2.4rem;
+  font-size: 1.3rem;
+  width: 30rem;
+  /* font-weight: bold; */
+}
+
+.intro__text2 {
+  margin-top: 1rem;
+  font-weight: 100;
+  margin-bottom: 1.5rem;
+}
+
+.intro {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.button--wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: .01rem 1rem;
+
 }
 
 /*----------------------------Sign up---------------------------*/
