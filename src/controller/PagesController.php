@@ -41,15 +41,15 @@ class PagesController extends Controller {
           $seriesArray = $resultSeries->results;
           $moviesArray = $resultMovies->results;
           $resultList = array_merge($seriesArray, $moviesArray);
-          print_r($resultList);
-        /*
-        if($_POST['type'] == 'series'){
-          $content = file_get_contents($seriesArray);
-        } else if($_POST['type'] == 'movie'){
-          $content = file_get_contents($moviesArray);
-        }
-        */
 
+           if(empty($_POST['type'])){
+             $list = $resultList;
+          } else if($_POST['type'] == 'movie'){
+             $list = $moviesArray;
+          } else if($_POST['type'] == 'series'){
+              $list = $seriesArray;
+          }
+         $this->set('list', $list);
 
       }
    }
@@ -67,10 +67,10 @@ class PagesController extends Controller {
             $newWatch->movie = 1;
           }
         $newWatch->save();
-        }
+      }
+
     }
 
-    $this->set('resultList', $resultList);
     $this->set('title','My watchlist - Search');
   }
 

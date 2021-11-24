@@ -148,3 +148,7 @@ li {
 .form {
   color: red;
 }
+
+.hidden {
+  display: none;
+}

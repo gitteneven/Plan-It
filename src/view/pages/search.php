@@ -1,5 +1,5 @@
 <article class="search">
-<form id="form" class="form" method="post" action="index.php?page=search">
+<form id="form" class="form" method="post" action="index.php?page=search" enctype="multipart/form-data" >
   <input type="hidden" name="action" value="searchWatchlist">
 
   <label class="type input" for="series"> series
@@ -16,36 +16,28 @@
   <a class="reset button" href="index.php?page=search">Reset</a>
   </div>
 </form>
+<?php if(isset($_POST['action'])): ?>
 <ul class="search__list">
-<?php foreach ($resultList as $movie): ?>
-   <form class="add__button" method="post">
+<?php
+
+?>
+<?php foreach ($list as $movie): ?>
+   <form class="add__button" method="post" enctype="multipart/form-data" >
       <input type="hidden" name="action" value="addWatchlist">
       <li class="search__list--item">
         <?php
-          /*
-          if($movie->name){
-            echo($movie->name);
-          } else{
-            echo($movie->title);
-          }
-          */
-          echo '<input type="hidden" name="watch__name" value="'. $movie->name . '">';
-          echo '<input type="hidden" name="watch__type" value="series">';
-        ?>
-        <?php
-      /*
-        if($_POST['type'] == 'series'){
-         echo($title = $movie->name);
-          echo '<input type="hidden" name="watch__name" value="'. $movie->name . '">';
-          echo '<input type="hidden" name="watch__type" value="series">';
-        } else if($_POST['type'] == 'movie'){
-          echo($title = $movie->title);
-           echo '<input type="hidden" name="watch__name" value="'. $movie->title . '">';
-            echo '<input type="hidden" name="watch__type" value="movie">';
-        }*/
-        ?>
-        <input type="hidden" name="watch__id" value="<?php echo $movie->id?>">
+          if(array_key_exists('name', $movie)){
+            echo $movie->name;
+            echo '<input type="hidden" name="watch__name" value="'. $movie->name . '">';
+            echo '<input type="hidden" name="watch__type" value="series">';
 
+          }else if(array_key_exists('title', $movie)){
+            echo $movie->title;
+            echo '<input type="hidden" name="watch__name" value="'. $movie->title . '">';
+            echo '<input type="hidden" name="watch__type" value="movie">';
+          }?>
+
+        <input type="hidden" name="watch__id" value="<?php echo $movie->id?>">
         <input type="submit" name="add" value="add"/>
 
       </form>
@@ -54,5 +46,6 @@
 
 
   </ul>
+  <?php endif; ?>
 
 </section>
