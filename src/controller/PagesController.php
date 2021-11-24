@@ -25,6 +25,7 @@ class PagesController extends Controller {
     $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
 
     $this->set('watchlist', $watchlist);
+    $this->set('title','My watchlist');
   }
 
   public function search() {
@@ -60,6 +61,7 @@ class PagesController extends Controller {
     }
 
     $this->set('movies',$movies);
+    $this->set('title','My watchlist - Search');
   }
 
   public function signup() {
@@ -113,7 +115,7 @@ class PagesController extends Controller {
     $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "UK","USA","Venezuela","Vietnam");
     $this->set('countries', $countries);
 
-    $this->set('title','Sign up');
+    $this->set('title','Sign up Watcho');
 
   }
 
@@ -155,7 +157,7 @@ class PagesController extends Controller {
 
         $newUser->save();
         //$part1=true;
-        header('Location:index.php?');
+        header('Location:index.php?page=overview');
           exit();
       }
 
@@ -163,7 +165,7 @@ class PagesController extends Controller {
     $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "UK","USA","Venezuela","Vietnam");
     $this->set('countries', $countries);
 
-    $this->set('title','Sign up');
+    $this->set('title','Sign up Watcho');
   }
 
    public function login() {
@@ -191,7 +193,7 @@ class PagesController extends Controller {
       }}
       $userLogin= User::find(1);
     $this->set('userLogin', $userLogin);
-
+      $this->set('title','Log in Watcho');
   }
 
   public function logout() {
