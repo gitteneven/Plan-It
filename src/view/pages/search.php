@@ -22,18 +22,11 @@
       <input type="hidden" name="action" value="addWatchlist">
       <li class="search__list--item">
         <?php
-        
+          /*
           if($movie->name){
             echo($movie->name);
-          } else if($movie->title){
+          } else{
             echo($movie->title);
-          }
-          /*
-          switch($movie){
-            case $movie->name;
-              echo($movie->name);
-              break;
-            case $movie->title;
           }
           */
           echo '<input type="hidden" name="watch__name" value="'. $movie->name . '">';
