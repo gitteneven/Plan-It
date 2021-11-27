@@ -29,6 +29,20 @@ class PagesController extends Controller {
         $this->set('watchItem', $watchItem);
         // $this->set('itemArray', $itemArray);
       }
+      if(!empty($_GET['week'])){
+        $currentWeek = $_GET['week'];
+      }else{
+        $currentWeek=0;
+      }
+       if(!empty($_GET['week'])){
+      $day=strtotime('monday');
+      $monday=strtotime($_GET['week'] ."week", $day);
+      }else{
+      $monday=strtotime('monday');
+      }
+
+      $this->set('monday',$monday);
+      $this->set('currentWeek',$currentWeek);
 
       $this->set('planning', $planning);
     }

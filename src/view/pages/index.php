@@ -16,9 +16,9 @@
 <?php if(!empty($_SESSION['id'])){?>
   <section class="planner">
     <div class="planner__nav">
-      <a class="button--weeks"><</a>
-      <p class="planner__week">29/11 - 1/12</p>
-      <a class="button--weeks">></a>
+      <a href="index.php?page=home&week=<?php echo $currentWeek-1; ?>" class="button--weeks"></a>
+      <p class="planner__week"><?php echo date("d/m", $monday) . ' - ' . date("d/m", strtotime('+6 day', $monday)); ?></p>
+      <a href="index.php?page=home&week=<?php echo $currentWeek+1; ?>" class="button--weeks weeks--flipped"></a>
     </div>
     <a class="button button--add">Add timeslot</a>
 
@@ -32,19 +32,22 @@
 // echo ' -- ' . $LastDay;
 // ?><br>
    <?php
-    $monday=strtotime('monday');
+  //  if(!empty($_GET['week'])){
+  //     $day=strtotime('monday');
+  //     $monday=strtotime($_GET['week'] ."week", $day);
+  //  }else{
+  //    $monday=strtotime('monday');
+  //  }
 //   echo $watchItem;
 // ?><br>
 
   <ul class="planner__columns">
     <li class="border planner__column"><h3>Monday <?php echo date("d/m", $monday);?></h3>
-      <?php foreach($planning as $item){if($item->date == '29/11/2021'){
-        echo $item->title;
-      }} ?>
+
   </li>
     <li class="border planner__column"><h3>Tuesday <?php echo date("d/m", strtotime('+1 day', $monday));?></h3>
     <ul class="column__cards">
-        <?php foreach($planning as $item){if($item->date == '2021-11-30'){?>
+        <?php foreach($planning as $item){if($item->date == date("Y-m-d", strtotime('+1 day', $monday))){?>
           <li class="card">
         <p class="card__title"><?php echo ucfirst($item->title);?></p>
         <p>S<?php echo $watchItem->current_ses?> Ep<?php echo $watchItem->current_ep?></p>
