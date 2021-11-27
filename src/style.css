@@ -328,3 +328,15 @@ input:focus {
 .planner__week {
   margin-top: .9rem;
 }
+
+.passed {
+  background-image: radial-gradient(circle at 100% 100%, transparent 9px, #9c9c9c 9px, #9c9c9c 14px, transparent 14px), linear-gradient(to right, #9c9c9c, #454545), radial-gradient(circle at 0% 100%, transparent 9px, #454545 9px, #454545 14px, transparent 14px), linear-gradient(to bottom, #454545, #3d3d3d), radial-gradient(circle at 0% 0%, transparent 9px, #3d3d3d 9px, #3d3d3d 14px, transparent 14px), linear-gradient(to left, #3d3d3d, #454545), radial-gradient(circle at 100% 0%, transparent 9px, #454545 9px, #454545 14px, transparent 14px), linear-gradient(to top, #454545, #9c9c9c);
+}
+
+.series {
+  background-color: var(--colorDarkblue);
+}
+
+.movie {
+  background-color: var(--colorPurple);
+}

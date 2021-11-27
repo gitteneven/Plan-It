@@ -15,9 +15,15 @@ class PagesController extends Controller {
     $userLogin= User::where('id', $_SESSION['id'])->first();
     $this->set('userLogin', $userLogin);
 
-      $planning= Planner::all();
+      $planning= Planner::where('user_id', '=', $_SESSION['id'])->get();
       foreach($planning as $item){
-        $watchItem=Series::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
+        if($item->series == 1){
+          $watchItem=Series::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
+          $this->set('watchItem', $watchItem);
+         }
+        //elseif($item->movie == 1){
+        //   $watchItem=Movie::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
+        // }
 
         // $watchItems= Watch_list::where('user_id', '=', $_SESSION['id'])->where('title', '=', $item->title)->get();
         // foreach($watchItems as $watchItem){
@@ -26,7 +32,7 @@ class PagesController extends Controller {
         //   $itemArray = $findItem;
 
         // }
-        $this->set('watchItem', $watchItem);
+
         // $this->set('itemArray', $itemArray);
       }
       if(!empty($_GET['week'])){
