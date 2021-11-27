@@ -21,8 +21,8 @@
       <a class="button--weeks">></a>
     </div>
     <a class="button button--add">Add timeslot</a>
-    <!-- <?php echo $planning ?> -->
-    <?php
+
+<?php
 // Return current date from the remote server
 // $date = date('d-m-y h:i:s');
 // echo $date;
@@ -32,17 +32,17 @@
 // echo ' -- ' . $LastDay;
 // ?><br>
    <?php
-
+    $monday=strtotime('monday');
 //   echo $watchItem;
 // ?><br>
 
   <ul class="planner__columns">
-    <li class="border planner__column"><h3>Monday 29/11</h3>
+    <li class="border planner__column"><h3>Monday <?php echo date("d/m", $monday);?></h3>
       <?php foreach($planning as $item){if($item->date == '29/11/2021'){
         echo $item->title;
       }} ?>
   </li>
-    <li class="border planner__column"><h3>Tuesday 30/11</h3>
+    <li class="border planner__column"><h3>Tuesday <?php echo date("d/m", strtotime('+1 day', $monday));?></h3>
     <ul class="column__cards">
         <?php foreach($planning as $item){if($item->date == '2021-11-30'){?>
           <li class="card">
@@ -53,11 +53,11 @@
       <?php }} ?>
       </ul>
   </li>
-    <li class="border planner__column"><h3>Wednesday 1/12</h3> </li>
-    <li class="border planner__column"><h3>Wednesday 1/12</h3> </li>
-    <li class="border planner__column"><h3>Wednesday 1/12</h3> </li>
-    <li class="border planner__column"><h3>Wednesday 1/12</h3> </li>
-    <li class="border planner__column"><h3>Wednesday 1/12</h3> </li>
+    <li class="border planner__column"><h3>Wednesday <?php echo date("d/m", strtotime('+2 day', $monday));?></h3> </li>
+    <li class="border planner__column"><h3>Thursday <?php echo date("d/m", strtotime('+3 day', $monday));?></h3> </li>
+    <li class="border planner__column"><h3>Friday <?php echo date("d/m", strtotime('+4 day', $monday));?></h3> </li>
+    <li class="border planner__column"><h3>Saturday <?php echo date("d/m", strtotime('+5 day', $monday));?></h3> </li>
+    <li class="border planner__column"><h3>Sunday <?php echo date("d/m", strtotime('+6 day', $monday));?></h3> </li>
   </ul>
   </section>
 <?php } ?>
