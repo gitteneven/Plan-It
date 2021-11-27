@@ -96,6 +96,32 @@ li {
   background-color: var(--colorDarkblue);
 }
 
+.nav {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 2rem;
+  margin-top: 1rem;
+}
+
+.nav__item {
+  font-family: 'bronx_reg', sans-serif;
+  color: white;
+  text-decoration: none;
+  list-style: none;
+  font-size: 1.2rem;
+  margin-left: 3rem;
+}
+
+.nav__item:hover {
+  color: var(--colorPink);
+}
+
+.selected {
+  color: var(--colorBlue);
+  text-decoration: underline;
+}
+
 /*---------------------------------intro------------------------------------*/
 
 .intro__text {
