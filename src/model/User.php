@@ -37,6 +37,9 @@ class User extends Model {
   public function stream_services(){
     return $this->hasMany(Stream_service::class);
   }
+  public function planners(){
+    return $this->hasMany(Planner::class);
+  }
 
 
 

@@ -4,17 +4,19 @@ require_once __DIR__ . '/Controller.php';
 require_once __DIR__ . '/../model/User.php';
 require_once __DIR__ . '/../model/Watch_list.php';
 require_once __DIR__ . '/../model/Stream_service.php';
+require_once __DIR__ . '/../model/Planner.php';
 
 class PagesController extends Controller {
 
   public function index() {
-    // this should refer to a database query, a hard-coded object is used for demo purposes
-   // $demos = Demo::all();
 
-     if(isset($_SESSION['id'])){
+    if(isset($_SESSION['id'])){
     $userLogin= User::where('id', $_SESSION['id'])->first();
     $this->set('userLogin', $userLogin);
-     }
+
+      $planning= Planner::all();
+      $this->set('planning', $planning);
+    }
 
     $this->set('title','Home');
 

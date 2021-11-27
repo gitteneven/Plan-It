@@ -19,8 +19,8 @@
 
 </header>
   <div class="container">
-      <header><h1 class="pagetitle <?php if($_GET['page'] !== 'home') {echo 'logotitle';}?> dropshadow">Watcho</h1></header>
-      <?php if($_GET['page'] !== 'home') {echo '<div class="line dropshadow logoline"></div>';}?>
+      <header><h1 class="pagetitle <?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo 'logotitle';}?> dropshadow">Watcho</h1></header>
+      <?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo '<div class="line dropshadow logoline"></div>';}?>
 
       <?php echo $content;?>
   </div>
