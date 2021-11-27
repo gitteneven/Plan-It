@@ -40,9 +40,11 @@ class PagesController extends Controller {
       }else{
       $monday=strtotime('monday');
       }
+      $daysOfWeekArray=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
       $this->set('monday',$monday);
       $this->set('currentWeek',$currentWeek);
+      $this->set('daysOfWeekArray',$daysOfWeekArray);
 
       $this->set('planning', $planning);
     }
