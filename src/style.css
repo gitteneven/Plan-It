@@ -95,10 +95,11 @@ li {
   color: white;
   background-color: var(--colorPink);
   padding: .6rem 1.1rem;
-  font-size: 1.6rem;
-  border-radius: .8rem;
+  font-size: 1.4rem;
   text-decoration: none;
   font-family: 'bronx_reg', sans-serif;
+  border-radius: .8rem;
+  border-color: transparent;
 }
 
 .button:hover {
@@ -201,15 +202,62 @@ li {
 
 /*---------------------------------------login----------------------*/
 
-.login__form {
+.login {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
+  width: 60rem;
+  margin-top: 3rem;
+}
+
+.login__form, .signup__form {
   display: flex;
   flex-direction: column;
-  width: 30rem;
+  width: 17rem;
+  margin: 1rem 18rem;
 }
 
 .login__wrap {
-  padding: 2rem;
+  padding: 4rem;
   /* border-radius: .8rem; */
   /* border: .5rem solid white; */
   /* border-color: linear-gradient(145deg, rgba(255, 0, 107, 1) 0%, rgba(65, 23, 128, .7) 100%); */
+}
+
+.login__label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.form__text {
+  margin-bottom: .3rem;
+}
+
+.signup--link {
+  color: var(--colorPink);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.signup--link:hover {
+  color: var(--colorBlue);
+}
+
+.button--login {
+  width: 8rem;
+  text-align: center;
+  height: 2.5rem;
+  margin: .01rem 4.5rem;
+}
+
+input {
+  height: 2rem;
+  border-radius: .6rem;
+  border-color: var(--colorPink);
+}
+
+input:focus {
+  border-color: var(--colorBlue);
 }

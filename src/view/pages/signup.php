@@ -1,9 +1,9 @@
 <article class="signup">
 
- <h1 class="signup__title">Sign up</h1>
- <section class="">
+ <h1 class="signup__title subtitle">Sign up</h1>
+ <section class="border">
 
-     <form class="signup__form " method="post" action="index.php?page=signup" enctype="multipart/form-data" <?php if(!empty($part1) && $part1==false) {echo 'style="display: none;"';} ?>>
+     <form class="signup__form" method="post" action="index.php?page=signup" enctype="multipart/form-data" <?php if(!empty($part1) && $part1==false) {echo 'style="display: none;"';} ?>>
          <input type="hidden" name="action" value="signup">
 
          <label class="signup__label c1">
@@ -46,7 +46,7 @@
 
 </form>
 
-<?php if(!empty($part1) && $part1==false){ ?>
+<!-- <?php if(!empty($part1) && $part1==false){ ?>
    <form class="signup__form" method="post" action="index.php?page=signup" enctype="multipart/form-data">
       <input type="hidden" name="action" value="streaming">
       <h2 class=subtitle>Choose your streaming services:</h2>
@@ -73,7 +73,7 @@
   </form>
   <?php
 } ?>
-</section>
+</section> -->
 
  <!-- <script src="js/validate.js"></script> -->
 </article>
