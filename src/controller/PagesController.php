@@ -5,6 +5,7 @@ require_once __DIR__ . '/../model/User.php';
 require_once __DIR__ . '/../model/Watch_list.php';
 require_once __DIR__ . '/../model/Stream_service.php';
 require_once __DIR__ . '/../model/Planner.php';
+require_once __DIR__ . '/../model/Series.php';
 
 class PagesController extends Controller {
 
@@ -15,6 +16,20 @@ class PagesController extends Controller {
     $this->set('userLogin', $userLogin);
 
       $planning= Planner::all();
+      foreach($planning as $item){
+        $watchItem=Series::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
+
+        // $watchItems= Watch_list::where('user_id', '=', $_SESSION['id'])->where('title', '=', $item->title)->get();
+        // foreach($watchItems as $watchItem){
+        //   $findItem= 'https://api.themoviedb.org/3/tv/'.$watchItem->watch_id.'?api_key=662c8478635d4f25ee66abbe201e121d' ;
+        //   $findItem = file_get_contents($findItem);
+        //   $itemArray = $findItem;
+
+        // }
+        $this->set('watchItem', $watchItem);
+        // $this->set('itemArray', $itemArray);
+      }
+
       $this->set('planning', $planning);
     }
 

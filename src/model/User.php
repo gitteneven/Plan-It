@@ -40,6 +40,9 @@ class User extends Model {
   public function planners(){
     return $this->hasMany(Planner::class);
   }
+  public function series(){
+    return $this->hasMany(Series::class);
+  }
 
 
 

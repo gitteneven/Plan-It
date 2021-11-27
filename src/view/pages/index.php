@@ -21,7 +21,21 @@
       <a class="button--weeks">></a>
     </div>
     <a class="button button--add">Add timeslot</a>
-    <?php echo $planning ?>
+    <!-- <?php echo $planning ?> -->
+    <?php
+// Return current date from the remote server
+// $date = date('d-m-y h:i:s');
+// echo $date;
+// $FirstDay = date("Y-m-d", strtotime('sunday last week'));
+// $LastDay = date("Y-m-d", strtotime('sunday this week'));
+// echo ' -- ' . $FirstDay;
+// echo ' -- ' . $LastDay;
+// ?><br>
+   <?php
+
+//   echo $watchItem;
+// ?><br>
+
   <ul class="planner__columns">
     <li class="border planner__column"><h3>Monday 29/11</h3>
       <?php foreach($planning as $item){if($item->date == '29/11/2021'){
@@ -29,9 +43,15 @@
       }} ?>
   </li>
     <li class="border planner__column"><h3>Tuesday 30/11</h3>
-        <?php foreach($planning as $item){if($item->date == '2021-11-30'){
-        echo $item->title;
-      }} ?>
+    <ul class="column__cards">
+        <?php foreach($planning as $item){if($item->date == '2021-11-30'){?>
+          <li class="card">
+        <p class="card__title"><?php echo ucfirst($item->title);?></p>
+        <p>S<?php echo $watchItem->current_ses?> Ep<?php echo $watchItem->current_ep?></p>
+        <p class="card__time"><?php echo $item->time;?></p>
+      </li>
+      <?php }} ?>
+      </ul>
   </li>
     <li class="border planner__column"><h3>Wednesday 1/12</h3> </li>
     <li class="border planner__column"><h3>Wednesday 1/12</h3> </li>
