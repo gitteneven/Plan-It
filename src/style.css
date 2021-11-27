@@ -53,6 +53,13 @@ li {
   color: var(--colorBlue);
 }
 
+.logotitle {
+  font-size: 2.7rem;
+  position: absolute;
+  left: 2rem;
+  top: 1rem;
+}
+
 .subtitle {
   font-family: 'bronx_reg', sans-serif;
   font-size: 1.75rem;
@@ -70,7 +77,13 @@ li {
   /* position: absolute; */
   margin-right: auto;
   margin-left: auto;
+}
 
+.logoline {
+  width: 10rem;
+  position: absolute;
+  left: 2.5rem;
+  top: 3.7rem;
 }
 
 .error {
@@ -96,12 +109,19 @@ li {
   background-color: var(--colorDarkblue);
 }
 
+.border {
+  background-image: radial-gradient(circle at 100% 100%, transparent 9px, #ff006b 9px, #ff006b 14px, transparent 14px), linear-gradient(to right, #ff006b, #790c5b), radial-gradient(circle at 0% 100%, transparent 9px, #790c5b 9px, #790c5b 14px, transparent 14px), linear-gradient(to bottom, #790c5b, #1e0741), radial-gradient(circle at 0% 0%, transparent 9px, #1e0741 9px, #1e0741 14px, transparent 14px), linear-gradient(to left, #1e0741, #790c5c), radial-gradient(circle at 100% 0%, transparent 9px, #790c5c 9px, #790c5c 14px, transparent 14px), linear-gradient(to top, #790c5c, #ff006b);
+  background-size: 14px 14px, calc(100% - 28px) 5px, 14px 14px, 5px calc(100% - 28px);
+  background-position: top left, top center, top right, center right, bottom right, bottom center, bottom left, center left;
+  background-repeat: no-repeat;
+}
+
 .nav {
   list-style: none;
   display: flex;
   justify-content: flex-end;
   margin-right: 2rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .nav__item {
@@ -177,4 +197,19 @@ li {
 
 .hidden {
   display: none;
+}
+
+/*---------------------------------------login----------------------*/
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  width: 30rem;
+}
+
+.login__wrap {
+  padding: 2rem;
+  /* border-radius: .8rem; */
+  /* border: .5rem solid white; */
+  /* border-color: linear-gradient(145deg, rgba(255, 0, 107, 1) 0%, rgba(65, 23, 128, .7) 100%); */
 }

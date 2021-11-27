@@ -1,7 +1,7 @@
 <article class="login">
 
- <h1 class="login__title">Log In</h1>
- <section class="">
+ <h1 class="login__title subtitle">Log In</h1>
+ <section class="login__wrap border">
      <form class="login__form" method="post" action="index.php?page=login" >
          <input type="hidden" name="action" value="login">
       <span class="error"><?php if(!empty($errorLogin)){ echo $errorLogin;} ?></span>
@@ -16,7 +16,7 @@
             <input type="password" name="password" class="login__input" required>
         </label>
         <a class="signup--link" href="index.php?page=signup">No account yet? Sign up!</a>
-        <input type="submit" class="login__button" value="LOG IN">
+        <input type="submit" class="button" value="LOG IN">
 </form>
 </section>
 </article>

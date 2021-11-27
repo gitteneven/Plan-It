@@ -19,7 +19,9 @@
 
 </header>
   <div class="container">
-      <header><h1 class="pagetitle dropshadow">Watcho</h1></header>
+      <header><h1 class="pagetitle <?php if($_GET['page'] !== 'home') {echo 'logotitle';}?> dropshadow">Watcho</h1></header>
+      <?php if($_GET['page'] !== 'home') {echo '<div class="line dropshadow logoline"></div>';}?>
+
       <?php echo $content;?>
   </div>
   <?php echo $js; ?>
