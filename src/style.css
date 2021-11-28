@@ -116,6 +116,13 @@ li {
   background-repeat: no-repeat;
 }
 
+.border--blue {
+  background-image: radial-gradient(circle at 100% 100%, transparent 9px, #00ffe0 9px, #00ffe0 14px, transparent 14px), linear-gradient(to right, #00ffe0, #2c5f9e), radial-gradient(circle at 0% 100%, transparent 9px, #2c5f9e 9px, #2c5f9e 14px, transparent 14px), linear-gradient(to bottom, #2c5f9e, #1e0741), radial-gradient(circle at 0% 0%, transparent 9px, #1e0741 9px, #1e0741 14px, transparent 14px), linear-gradient(to left, #1e0741, #2c5f9e), radial-gradient(circle at 100% 0%, transparent 9px, #2c5f9e 9px, #2c5f9e 14px, transparent 14px), linear-gradient(to top, #2c5f9e, #00ffe0);
+  background-size: 14px 14px, calc(100% - 28px) 5px, 14px 14px, 5px calc(100% - 28px);
+  background-position: top left, top center, top right, center right, bottom right, bottom center, bottom left, center left;
+  background-repeat: no-repeat;
+}
+
 .nav {
   list-style: none;
   display: flex;
@@ -212,4 +219,11 @@ li {
   /* border-radius: .8rem; */
   /* border: .5rem solid white; */
   /* border-color: linear-gradient(145deg, rgba(255, 0, 107, 1) 0%, rgba(65, 23, 128, .7) 100%); */
+}
+
+/*---------------------------------------watchlist----------------------*/
+
+.overview__list--item {
+  width: 10rem;
+  height: 10rem;
 }

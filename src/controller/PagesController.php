@@ -23,7 +23,6 @@ class PagesController extends Controller {
   public function overview() {
    // $user = User::where('id', '=', $_SESSION['id'])->first();
     $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
-
     $this->set('watchlist', $watchlist);
     $this->set('title','My watchlist');
   }
