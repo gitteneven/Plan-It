@@ -4,17 +4,56 @@ require_once __DIR__ . '/Controller.php';
 require_once __DIR__ . '/../model/User.php';
 require_once __DIR__ . '/../model/Watch_list.php';
 require_once __DIR__ . '/../model/Stream_service.php';
+require_once __DIR__ . '/../model/Planner.php';
+require_once __DIR__ . '/../model/Series.php';
 
 class PagesController extends Controller {
 
   public function index() {
-    // this should refer to a database query, a hard-coded object is used for demo purposes
-   // $demos = Demo::all();
 
-     if(isset($_SESSION['id'])){
+    if(isset($_SESSION['id'])){
     $userLogin= User::where('id', $_SESSION['id'])->first();
     $this->set('userLogin', $userLogin);
-     }
+
+      $planning= Planner::where('user_id', '=', $_SESSION['id'])->get();
+      foreach($planning as $item){
+        if($item->series == 1){
+          $watchItem=Series::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
+          $this->set('watchItem', $watchItem);
+         }
+        //elseif($item->movie == 1){
+        //   $watchItem=Movie::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
+        // }
+
+        // $watchItems= Watch_list::where('user_id', '=', $_SESSION['id'])->where('title', '=', $item->title)->get();
+        // foreach($watchItems as $watchItem){
+        //   $findItem= 'https://api.themoviedb.org/3/tv/'.$watchItem->watch_id.'?api_key=662c8478635d4f25ee66abbe201e121d' ;
+        //   $findItem = file_get_contents($findItem);
+        //   $itemArray = $findItem;
+
+        // }
+
+        // $this->set('itemArray', $itemArray);
+      }
+      if(!empty($_GET['week'])){
+        $currentWeek = $_GET['week'];
+      }else{
+        $currentWeek=0;
+      }
+       if(!empty($_GET['week'])){
+      $day=strtotime('monday');
+      $monday=strtotime($_GET['week'] ."week", $day);
+      }else{
+      $monday=strtotime('monday');
+      }
+      $daysOfWeekArray=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+      $this->set('monday',$monday);
+      $this->set('currentWeek',$currentWeek);
+      $this->set('daysOfWeekArray',$daysOfWeekArray);
+
+      $this->set('planning', $planning);
+    }
 
     $this->set('title','Home');
 
@@ -23,6 +62,9 @@ class PagesController extends Controller {
   public function overview() {
    // $user = User::where('id', '=', $_SESSION['id'])->first();
     $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
+    $currentEpisodes = Series::where('user_id', '=', $_SESSION['id'])->get();
+
+    $this->set('currentEpisodes', $currentEpisodes);
     $this->set('watchlist', $watchlist);
     $this->set('title','My watchlist');
   }
