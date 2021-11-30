@@ -155,8 +155,8 @@ li {
 .intro__text {
   margin-top: 2.4rem;
   font-size: 1.3rem;
-  width: 30rem;
-  /* font-weight: bold; */
+  width: 35rem;
+  font-weight: bold;
 }
 
 .intro__text2 {
@@ -357,7 +357,7 @@ input:focus {
 .overview__list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: auto;
   grid-gap: var(--spacerBig);
 
 }
@@ -365,12 +365,17 @@ input:focus {
 .overview__list--item {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  padding: var(--spacerSmall);
+  grid-template-rows: repeat(5, 2rem);
+  padding: var(--spacerRegular);
+  font-family: var(--font);
 }
 
 .overview__list--img {
   grid-row: 1/span4;
   width: 8.5rem;
-  margin: var(--spacerSmall);
+  margin-right: var(--spacerSmall);
+}
+
+.overview__list--title {
+  font-weight: bold;
 }

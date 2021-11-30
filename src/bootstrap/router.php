@@ -5,7 +5,7 @@ $routes = array(
     'controller' => 'Pages',
     'action' => 'index'
   ),
-  
+
   'overview' => array(
     'controller' => 'Pages',
     'action' => 'overview'
@@ -14,6 +14,11 @@ $routes = array(
      'search' => array(
     'controller' => 'Pages',
     'action' => 'search'
+  ),
+
+  'api-search' => array(
+    'controller' => 'Pages',
+    'action' => 'apiSearch'
   ),
 
   'signup' => array(

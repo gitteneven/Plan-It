@@ -69,8 +69,76 @@ class PagesController extends Controller {
     $this->set('title','My watchlist');
   }
 
+
   public function search() {
+
+      if(!empty($_POST['action'])) {
+      if($_POST['action']== 'searchWatchlist'){
+          $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
+          $titleClean =str_replace(' ', '%20', $_POST['title']);
+          $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
+          $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
+          $seriesCode = file_get_contents($seriesSearch);
+          $moviesCode = file_get_contents($moviesSearch);
+          $resultSeries = json_decode($seriesCode);
+          $resultMovies = json_decode($moviesCode);
+          $seriesArray = $resultSeries->results;
+          $moviesArray = $resultMovies->results;
+          $resultList = array_merge($seriesArray, $moviesArray);
+
+           if(empty($_POST['type'])){
+             $list = $resultList;
+          } else if($_POST['type'] == 'movie'){
+             $list = $moviesArray;
+          } else if($_POST['type'] == 'series'){
+              $list = $seriesArray;
+          }
+         $this->set('list', $list);
+          $this->set('exists', $exists);
+
+
+      }
+   }
+
+
     if(!empty($_POST['action'])) {
+      if($_POST['action'] == 'addWatchlist'){
+        $newWatch = new Watch_list;
+        $newWatch->user_id = $_SESSION['id'];
+        $newWatch->watch_id = $_POST['watch__id'];
+        $newWatch->title = $_POST['watch__name'];
+          if($_POST['watch__type']=='series'){
+            $newWatch->series = 1;
+          }
+          if($_POST['watch__type']=='movie'){
+            $newWatch->movie = 1;
+          }
+        $newWatch->save();
+      }
+
+    }
+    if(!empty($_POST['action'])) {
+      if($_POST['action'] == 'addWatchlist'){
+        if($_POST['watch__type']=='series'){
+            $newSeries = new Series;
+            $newSeries->user_id = $_SESSION['id'];
+            $newSeries->watch_id = $_POST['watch__id'];
+            $newSeries->title = $_POST['watch__name'];
+            $newSeries->current_ep = 1;
+            $newSeries->current_ses = 1;
+
+            $newSeries->save();
+          }
+
+      }
+
+    }
+
+    $this->set('title','My watchlist - Search');
+  }
+
+  public function apiSearch() {
+     if(!empty($_POST['action'])) {
       if($_POST['action']== 'searchWatchlist'){
           $titleClean =str_replace(' ', '%20', $_POST['title']);
           $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
@@ -111,8 +179,23 @@ class PagesController extends Controller {
       }
 
     }
+    if(!empty($_POST['action'])) {
+      if($_POST['action'] == 'addWatchlist'){
+        if($_POST['watch__type']=='series'){
+            $newSeries = new Series;
+            $newSeries->user_id = $_SESSION['id'];
+            $newSeries->watch_id = $_POST['watch__id'];
+            $newSeries->title = $_POST['watch__name'];
+            $newSeries->current_ep = 1;
+            $newSeries->current_ses = 1;
+          }
+        $newSeries->save();
+      }
 
-    $this->set('title','My watchlist - Search');
+    }
+    $result = $resultList->limit(100)->get();
+    echo $result->toJson();
+    exit();
   }
 
   public function signup() {

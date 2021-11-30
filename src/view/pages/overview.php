@@ -22,15 +22,19 @@
         $itemApi = 'https://api.themoviedb.org/3/movie/'. $item->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
-         $date = date( 'Y', strtotime($itemInfo->release_date));
+        $date = date( 'Y', strtotime($itemInfo->release_date));
         $runtime= $itemInfo->runtime;
+        $itemCurrent='';
       }
       $language = $itemInfo->spoken_languages;
       $runtime;
       echo ('<h2 class="overview__list--title">' . $item->title . '</h2>
-            <p class="overview__list--date">(' .  $date . ')</p>
-            <p class="overview__list--current">S'. $itemCurrent->current_ses . '- Ep' . $itemCurrent->current_ep . '</p>
-            <p class="overview__list--language">' .  $language['0']->name  . '</p>
+            <p class="overview__list--date">(' .  $date . ')</p>');
+      if($item->series == 1){
+         echo '<p class="overview__list--current">S'. $itemCurrent->current_ses . '- Ep' . $itemCurrent->current_ep . '</p>';
+      }
+      echo(
+            '<p class="overview__list--language">' .  $language['0']->name  . '</p>
             <p class="overview__list--runtime">' .  $runtime  . 'min </p>
             <img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">');?>
 
