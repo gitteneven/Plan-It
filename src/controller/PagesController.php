@@ -40,17 +40,24 @@ class PagesController extends Controller {
       }else{
         $currentWeek=0;
       }
-       if(!empty($_GET['week'])){
       $day=strtotime('monday');
+       if(!empty($_GET['week'])){
+
+
       $monday=strtotime($_GET['week'] ."week", $day);
       }else{
       $monday=strtotime('monday');
+        if(strtotime('today') != $monday){
+          $monday=strtotime("-1 week", $day);
+        }
       }
       $daysOfWeekArray=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
       $this->set('monday',$monday);
       $this->set('currentWeek',$currentWeek);
       $this->set('daysOfWeekArray',$daysOfWeekArray);
+
+
 
       $this->set('planning', $planning);
     }

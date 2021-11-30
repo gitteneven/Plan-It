@@ -5,7 +5,7 @@ const handleSubmitForm = e => {
   submitWithJS();
 };
 
-const handleInputField = e => {
+const handleInputField = () => {
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
     submitWithJS();
@@ -50,4 +50,3 @@ export const init = async () => {
   document.querySelector('.filter-form').addEventListener('submit', handleSubmitForm);
 
 };
-
