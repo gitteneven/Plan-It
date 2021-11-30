@@ -51,7 +51,8 @@
             if(!empty($language)){
              echo  '<p class="overview__list--language">' .  $language['0']->name  . '</p>';
           }
-            echo   '<p class="overview__list--runtime">' .  $runtime  . 'min </p>
+            echo   '<input type="hidden" name="runtime" value="'. $runtime . '">
+            <p class="overview__list--runtime">' .  $runtime  . 'min </p>
                   <img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
       }else if(array_key_exists('title', $item)){
             echo '<h2 class="overview__list--title">' . $item->title . '</h2>
@@ -61,7 +62,8 @@
           if(!empty($language)){
              echo  '<p class="overview__list--language">' .  $language['0']->name  . '</p>';
           }
-              echo '<p class="overview__list--runtime">' .  $runtime  . 'min </p>
+              echo '<input type="hidden" name="runtime" value="'. $runtime . '">
+              <p class="overview__list--runtime">' .  $runtime  . 'min </p>
                   <img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
           }
         ?>
