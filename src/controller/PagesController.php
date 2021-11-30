@@ -71,11 +71,10 @@ class PagesController extends Controller {
 
 
   public function search() {
-
       if(!empty($_POST['action'])) {
       if($_POST['action']== 'searchWatchlist'){
           $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
-          $titleClean =str_replace(' ', '%20', $_POST['title']);
+          $titleClean = str_replace(' ', '%20', $_POST['title']);
           $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
           $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
           $seriesCode = file_get_contents($seriesSearch);
@@ -99,8 +98,7 @@ class PagesController extends Controller {
 
       }
    }
-
-
+   
     if(!empty($_POST['action'])) {
       if($_POST['action'] == 'addWatchlist'){
         $newWatch = new Watch_list;

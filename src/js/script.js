@@ -37,11 +37,11 @@ const updateList = list => {
   }
   $list.innerHTML += listInner;
 };
-*/
+
 
 export const init = async () => {
-/* document.documentElement.classList.add('has-js');
+ document.documentElement.classList.add('has-js');
   document.querySelectorAll('.filter__field').forEach($field => $field.addEventListener('input', handleInputField));
   document.querySelector('.filter-form').addEventListener('submit', handleSubmitForm);
-*/
+
 };

@@ -68,6 +68,8 @@
           }
         ?>
 
+        
+
         <input type="hidden" name="watch__id" value="<?php echo $item->id?>">
         <?php if($item->id != $exists['watch_id']){
           echo '<input type="submit" class="button" name="add" value="add to watchlist"/>';
