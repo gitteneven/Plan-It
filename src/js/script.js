@@ -1,12 +1,15 @@
-//let timeoutID;
-/*
+let timeoutID;
+
 const handleSubmitForm = e => {
   e.preventDefault();
   submitWithJS();
 };
 
 const handleInputField = e => {
-  submitWithJS();
+  clearTimeout(timeoutID);
+  timeoutID = setTimeout(() => {
+    submitWithJS();
+  }, 500);
 };
 
 const submitWithJS = async () => {
@@ -29,6 +32,7 @@ const submitWithJS = async () => {
 let listInner = '<li>';
 const updateList = list => {
   const $list = document.querySelector('.overview__list');
+  console.log(document);
   console.log(list);
   for (let i = 0;i < list.length;i ++) {
     console.log(list[i].name);
@@ -36,12 +40,14 @@ const updateList = list => {
 
   }
   $list.innerHTML += listInner;
+
 };
 
 
 export const init = async () => {
- document.documentElement.classList.add('has-js');
+  document.documentElement.classList.add('has-js');
   document.querySelectorAll('.filter__field').forEach($field => $field.addEventListener('input', handleInputField));
   document.querySelector('.filter-form').addEventListener('submit', handleSubmitForm);
 
 };
+

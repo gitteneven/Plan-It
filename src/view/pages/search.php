@@ -16,7 +16,6 @@
   <a class="reset button" href="index.php?page=search">Reset</a>
   </div>
 </form>
-<?php if(isset($_POST['action'])): ?>
 <ul class="overview__list">
 <?php foreach ($list as $item): ?>
     <form class="add__button" method="post" enctype="multipart/form-data" >
@@ -28,7 +27,6 @@
             echo('border');
           }; ?>">
         <?php
-        echo($exists['title']);
       if(array_key_exists('name', $item)){
         $itemApi = 'https://api.themoviedb.org/3/tv/'. $item->id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $itemCode = file_get_contents($itemApi);
@@ -68,14 +66,17 @@
           }
         ?>
 
-        
-
         <input type="hidden" name="watch__id" value="<?php echo $item->id?>">
-        <?php if($item->id != $exists['watch_id']){
+
+        <?php
+        if(!in_array($item->id, (array)$exists)){
           echo '<input type="submit" class="button" name="add" value="add to watchlist"/>';
-        } else if($item->id == $exists['watch_id']){
+        } else if(!in_array($item->id, (array)$exists)) {
           echo '<input type="submit" class="button added"name="add" value="added to watchlist"/>';
-        } ?>
+        }
+
+
+        ?>
 
             </form>
 
@@ -84,6 +85,6 @@
 
 
   </ul>
-  <?php endif; ?>
+
 
 </section>

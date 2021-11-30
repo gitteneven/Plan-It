@@ -98,7 +98,7 @@ class PagesController extends Controller {
 
       }
    }
-   
+
     if(!empty($_POST['action'])) {
       if($_POST['action'] == 'addWatchlist'){
         $newWatch = new Watch_list;
@@ -115,6 +115,7 @@ class PagesController extends Controller {
       }
 
     }
+
     if(!empty($_POST['action'])) {
       if($_POST['action'] == 'addWatchlist'){
         if($_POST['watch__type']=='series'){
@@ -127,11 +128,8 @@ class PagesController extends Controller {
 
             $newSeries->save();
           }
-
       }
-
     }
-
     $this->set('title','My watchlist - Search');
   }
 
