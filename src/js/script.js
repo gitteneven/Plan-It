@@ -1,15 +1,15 @@
-let timeoutID;
+/*let timeoutID;
 
 const handleSubmitForm = e => {
   e.preventDefault();
   submitWithJS();
 };
 
-const handleInputField = e => {
+const handleInputField = () => {
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
-  submitWithJS();
-    }, 500)
+    submitWithJS();
+  }, 500);
 };
 
 const submitWithJS = async () => {
@@ -48,3 +48,4 @@ export const init = async () => {
   document.querySelector('.filter-form').addEventListener('submit', handleSubmitForm);
 
 };
+*/
