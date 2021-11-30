@@ -51,6 +51,7 @@ li {
   font-size: 7rem;
   font-family: 'bronx_twolines', sans-serif;
   color: var(--colorBlue);
+  margin-top: 6rem;
 }
 
 .logotitle {
@@ -58,6 +59,7 @@ li {
   position: absolute;
   left: 2rem;
   top: 1rem;
+  margin-top: .01rem;
 }
 
 .subtitle {
