@@ -1,4 +1,4 @@
-/*let timeoutID;
+let timeoutID;
 
 const handleSubmitForm = e => {
   e.preventDefault();
@@ -25,7 +25,6 @@ const submitWithJS = async () => {
   const response = await fetch(url);
   const list = await response.json();
   const resultList = list.results;
-  console.log(typeof resultList);
   updateList(resultList);
 };
 
@@ -50,4 +49,4 @@ export const init = async () => {
   document.querySelector('.filter-form').addEventListener('submit', handleSubmitForm);
 
 };
-*/
+
