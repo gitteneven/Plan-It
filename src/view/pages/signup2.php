@@ -24,13 +24,13 @@
     <li ><label>
     <input type="checkbox" id="disney+" name="strOption[]" value="disney" class="option str_disney" >
     </label></li>
-    <li>
+    <li><label>
     <input type="checkbox" id="amazonPrime" name="strOption[]" value="amazon_prime" class="option str_prime" >
     </label></li>
-    <li>
+    <li><label>
     <input type="checkbox" id="hbomax" name="strOption[]" value="hbo_max" class="option str_hbo" >
     </label></li>
-    <li>
+    <li><label>
     <input type="checkbox" id="hulu" name="strOption[]" value="hulu" class="option str_hulu" >
     </label></li>
 

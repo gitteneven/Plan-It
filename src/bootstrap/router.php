@@ -36,6 +36,10 @@ $routes = array(
   'logout' => array(
     'controller' => 'Pages',
     'action' => 'logout'
+  ),
+  'timeslot' => array(
+    'controller' => 'Pages',
+    'action' => 'timeslot'
   )
 );
 

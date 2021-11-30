@@ -338,4 +338,64 @@ class PagesController extends Controller {
     header("Location: index.php?");
 
    }
+
+  public function timeslot() {
+    if(!empty($_POST['action'])) {
+    if ($_POST['action'] == 'timeslot') {
+      $startDateAndTime=$_POST['timeslot--start'];
+      $endDateAndTime=$_POST['timeslot--end'];
+
+      // $startDateNonFormat = new DateTime($startDateAndTime);
+      // $endDateNonFormat = new DateTime($endDateAndTime);
+
+      // $startDate = $startDateNonFormat->format('d-m-Y');
+      // //$startTime = $startDateNonFormat->format('H:i:s');
+      // $startTime = strtotime($startDateNonFormat->format('H:i:s'));
+      // $endDate = $endDateNonFormat->format('d-m-Y');
+      // // $endTime = $endDateNonFormat->format('H:i:s');
+      // $endTime = strtotime($endDateNonFormat->format('H:i:s'));
+
+      // $availableTimeNonFormat=$endTime-$startTime;
+      //  $availableTime=$availableTimeNonFormat->format('H:i:s');
+
+      $startDateNonFormat = new DateTime($startDateAndTime);
+      $endDateNonFormat = new DateTime($endDateAndTime);
+
+      $startDate = $startDateNonFormat->format('d-m-Y');
+      //$startTime = $startDateNonFormat->format('H:i:s');
+      $startTime = strtotime($startDateNonFormat->format('H:i:s'));
+      $endDate = $endDateNonFormat->format('d-m-Y');
+      // $endTime = $endDateNonFormat->format('H:i:s');
+      $endTime = strtotime($endDateNonFormat->format('H:i:s'));
+
+      $availableTimeNonFormat=$endTime-$startTime;
+      $availableTime=$availableTimeNonFormat;
+
+      $watchSuggestions= Watch_list::where('user_id', '=', $_SESSION['id'])->where('duration', '<=', $availableTime)->get();
+
+
+      $this->set('startDate', $startDate);
+      $this->set('startTime', $startTime);
+      $this->set('endDate', $endDate);
+      $this->set('endTime', $endTime);
+      $this->set('availableTime', $availableTime);
+      $this->set('watchSuggestions', $watchSuggestions);
+    }
+  }
+  if(!empty($_POST['action'])) {
+    if ($_POST['action'] == 'addWatchItem') {
+      $watchArray= array();
+      foreach($_POST['watchItem'] as $watchItem){
+        $watchListItem= Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem)->first();
+        array_push($watchArray, $watchListItem);
+        //$this->set('selectedWatchItem', $selectedWatchItem);
+
+      }
+      $this->set('watchArray', $watchArray);
+    }
+  }
+
+  $this->set('title','Add a timeslot');
+  }
+
 }
