@@ -16,6 +16,11 @@ $routes = array(
     'action' => 'search'
   ),
 
+  'api-search' => array(
+    'controller' => 'Pages',
+    'action' => 'apiSearch'
+  ),
+
   'signup' => array(
     'controller' => 'Pages',
     'action' => 'signup'

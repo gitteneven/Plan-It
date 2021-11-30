@@ -4,17 +4,63 @@ require_once __DIR__ . '/Controller.php';
 require_once __DIR__ . '/../model/User.php';
 require_once __DIR__ . '/../model/Watch_list.php';
 require_once __DIR__ . '/../model/Stream_service.php';
+require_once __DIR__ . '/../model/Planner.php';
+require_once __DIR__ . '/../model/Series.php';
 
 class PagesController extends Controller {
 
   public function index() {
-    // this should refer to a database query, a hard-coded object is used for demo purposes
-   // $demos = Demo::all();
 
-     if(isset($_SESSION['id'])){
+    if(isset($_SESSION['id'])){
     $userLogin= User::where('id', $_SESSION['id'])->first();
     $this->set('userLogin', $userLogin);
-     }
+
+      $planning= Planner::where('user_id', '=', $_SESSION['id'])->get();
+      foreach($planning as $item){
+        if($item->series == 1){
+          $watchItem=Series::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
+          $this->set('watchItem', $watchItem);
+         }
+        //elseif($item->movie == 1){
+        //   $watchItem=Movie::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
+        // }
+
+        // $watchItems= Watch_list::where('user_id', '=', $_SESSION['id'])->where('title', '=', $item->title)->get();
+        // foreach($watchItems as $watchItem){
+        //   $findItem= 'https://api.themoviedb.org/3/tv/'.$watchItem->watch_id.'?api_key=662c8478635d4f25ee66abbe201e121d' ;
+        //   $findItem = file_get_contents($findItem);
+        //   $itemArray = $findItem;
+
+        // }
+
+        // $this->set('itemArray', $itemArray);
+      }
+      if(!empty($_GET['week'])){
+        $currentWeek = $_GET['week'];
+      }else{
+        $currentWeek=0;
+      }
+      $day=strtotime('monday');
+       if(!empty($_GET['week'])){
+
+
+      $monday=strtotime($_GET['week'] ."week", $day);
+      }else{
+      $monday=strtotime('monday');
+        if(strtotime('today') != $monday){
+          $monday=strtotime("-1 week", $day);
+        }
+      }
+      $daysOfWeekArray=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+      $this->set('monday',$monday);
+      $this->set('currentWeek',$currentWeek);
+      $this->set('daysOfWeekArray',$daysOfWeekArray);
+
+
+
+      $this->set('planning', $planning);
+    }
 
     $this->set('title','Home');
 
@@ -23,22 +69,100 @@ class PagesController extends Controller {
   public function overview() {
    // $user = User::where('id', '=', $_SESSION['id'])->first();
     $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
+    $currentEpisodes = Series::where('user_id', '=', $_SESSION['id'])->get();
 
+    $this->set('currentEpisodes', $currentEpisodes);
     $this->set('watchlist', $watchlist);
+    $this->set('title','My watchlist');
   }
 
+
   public function search() {
-    if(!empty($_POST['action'])) {
+      if(!empty($_POST['action'])) {
       if($_POST['action']== 'searchWatchlist'){
-          $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . '%' . $_POST['title'] . '%';
-          $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . '%' . $_POST['title'] . '%';
-        if($_POST['type'] == 'series'){
-          $content = file_get_contents($seriesSearch);
-        } else if($_POST['type'] == 'movie'){
-          $content = file_get_contents($moviesSearch);
-        }
-        $result = json_decode($content);
-        $movies = $result->results;
+          $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
+          $titleClean = str_replace(' ', '%20', $_POST['title']);
+          $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
+          $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
+          $seriesCode = file_get_contents($seriesSearch);
+          $moviesCode = file_get_contents($moviesSearch);
+          $resultSeries = json_decode($seriesCode);
+          $resultMovies = json_decode($moviesCode);
+          $seriesArray = $resultSeries->results;
+          $moviesArray = $resultMovies->results;
+          $resultList = array_merge($seriesArray, $moviesArray);
+
+           if(empty($_POST['type'])){
+             $list = $resultList;
+          } else if($_POST['type'] == 'movie'){
+             $list = $moviesArray;
+          } else if($_POST['type'] == 'series'){
+              $list = $seriesArray;
+          }
+         $this->set('list', $list);
+          $this->set('exists', $exists);
+
+
+      }
+   }
+
+    if(!empty($_POST['action'])) {
+      if($_POST['action'] == 'addWatchlist'){
+        $newWatch = new Watch_list;
+        $newWatch->user_id = $_SESSION['id'];
+        $newWatch->watch_id = $_POST['watch__id'];
+        $newWatch->title = $_POST['watch__name'];
+        $newWatch->duration = $_POST['runtime']; 
+          if($_POST['watch__type']=='series'){
+            $newWatch->series = 1;
+          }
+          if($_POST['watch__type']=='movie'){
+            $newWatch->movie = 1;
+          }
+        $newWatch->save();
+      }
+
+    }
+
+    if(!empty($_POST['action'])) {
+      if($_POST['action'] == 'addWatchlist'){
+        if($_POST['watch__type']=='series'){
+            $newSeries = new Series;
+            $newSeries->user_id = $_SESSION['id'];
+            $newSeries->watch_id = $_POST['watch__id'];
+            $newSeries->title = $_POST['watch__name'];
+            $newSeries->current_ep = 1;
+            $newSeries->current_ses = 1;
+
+            $newSeries->save();
+          }
+      }
+    }
+    $this->set('title','My watchlist - Search');
+  }
+
+  public function apiSearch() {
+     if(!empty($_POST['action'])) {
+      if($_POST['action']== 'searchWatchlist'){
+          $titleClean =str_replace(' ', '%20', $_POST['title']);
+          $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
+          $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
+          $seriesCode = file_get_contents($seriesSearch);
+          $moviesCode = file_get_contents($moviesSearch);
+          $resultSeries = json_decode($seriesCode);
+          $resultMovies = json_decode($moviesCode);
+          $seriesArray = $resultSeries->results;
+          $moviesArray = $resultMovies->results;
+          $resultList = array_merge($seriesArray, $moviesArray);
+
+           if(empty($_POST['type'])){
+             $list = $resultList;
+          } else if($_POST['type'] == 'movie'){
+             $list = $moviesArray;
+          } else if($_POST['type'] == 'series'){
+              $list = $seriesArray;
+          }
+         $this->set('list', $list);
 
       }
    }
@@ -56,10 +180,26 @@ class PagesController extends Controller {
             $newWatch->movie = 1;
           }
         $newWatch->save();
-        }
-    }
+      }
 
-    $this->set('movies',$movies);
+    }
+    if(!empty($_POST['action'])) {
+      if($_POST['action'] == 'addWatchlist'){
+        if($_POST['watch__type']=='series'){
+            $newSeries = new Series;
+            $newSeries->user_id = $_SESSION['id'];
+            $newSeries->watch_id = $_POST['watch__id'];
+            $newSeries->title = $_POST['watch__name'];
+            $newSeries->current_ep = 1;
+            $newSeries->current_ses = 1;
+          }
+        $newSeries->save();
+      }
+
+    }
+    $result = $resultList->limit(100)->get();
+    echo $result->toJson();
+    exit();
   }
 
   public function signup() {
@@ -113,7 +253,7 @@ class PagesController extends Controller {
     $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "UK","USA","Venezuela","Vietnam");
     $this->set('countries', $countries);
 
-    $this->set('title','Sign up');
+    $this->set('title','Sign up Watcho');
 
   }
 
@@ -155,7 +295,7 @@ class PagesController extends Controller {
 
         $newUser->save();
         //$part1=true;
-        header('Location:index.php?');
+        header('Location:index.php?page=overview');
           exit();
       }
 
@@ -163,7 +303,7 @@ class PagesController extends Controller {
     $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "UK","USA","Venezuela","Vietnam");
     $this->set('countries', $countries);
 
-    $this->set('title','Sign up');
+    $this->set('title','Sign up Watcho');
   }
 
    public function login() {
@@ -191,7 +331,7 @@ class PagesController extends Controller {
       }}
       $userLogin= User::find(1);
     $this->set('userLogin', $userLogin);
-
+      $this->set('title','Log in Watcho');
   }
 
   public function logout() {

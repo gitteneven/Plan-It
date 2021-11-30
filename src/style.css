@@ -15,6 +15,9 @@ html {
 
 body {
   font-family: var(--font);
+  background-color: black;
+  color: white;
+  line-height: 1.2;
 }
 
 li {
@@ -29,8 +32,60 @@ li {
   align-items: center;
 }
 
+@font-face {
+  font-family: 'bronx_reg';
+  src: url(./assets/fonts/Bronx.woff2);
+}
+
+@font-face {
+  font-family: 'bronx_inline';
+  src: url(./assets/fonts/Bronx-Inline.woff2);
+}
+
+@font-face {
+  font-family: 'bronx_twolines';
+  src: url(./assets/fonts/Bronx-TwoLines.woff2);
+}
+
 .pagetitle {
-  font-size: var(--fontBig);
+  font-size: 7rem;
+  font-family: 'bronx_twolines', sans-serif;
+  color: var(--colorBlue);
+  margin-top: 6rem;
+}
+
+.logotitle {
+  font-size: 2.7rem;
+  position: absolute;
+  left: 2rem;
+  top: 1rem;
+  margin-top: .01rem;
+}
+
+.subtitle {
+  font-family: 'bronx_reg', sans-serif;
+  font-size: 1.75rem;
+  margin-top: .4rem;
+}
+
+.dropshadow {
+  filter: drop-shadow(.25rem .3rem .2rem var(--colorBlue));
+}
+
+.line {
+  width: 24.7rem;
+  height: .7rem;
+  border-bottom: .3rem solid var(--colorBlue);
+  /* position: absolute; */
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.logoline {
+  width: 10rem;
+  position: absolute;
+  left: 2.5rem;
+  top: 3.7rem;
 }
 
 .error {
@@ -38,15 +93,109 @@ li {
   font-size: .9rem;
 }
 
+.button {
+  color: white;
+  background-color: var(--colorPink);
+  padding: .6rem 1.1rem;
+  font-size: 1.2rem;
+  text-decoration: none;
+  font-family: 'bronx_reg', sans-serif;
+  border-radius: .8rem;
+  border-color: transparent;
+}
+
+.button:hover {
+  background-color: var(--colorPurple);
+}
+
+.button--signup {
+  background-color: var(--colorDarkblue);
+}
+
+.border {
+  background-image: radial-gradient(circle at 100% 100%, transparent 9px, #ff006b 9px, #ff006b 14px, transparent 14px), linear-gradient(to right, #ff006b, #790c5b), radial-gradient(circle at 0% 100%, transparent 9px, #790c5b 9px, #790c5b 14px, transparent 14px), linear-gradient(to bottom, #790c5b, #1e0741), radial-gradient(circle at 0% 0%, transparent 9px, #1e0741 9px, #1e0741 14px, transparent 14px), linear-gradient(to left, #1e0741, #790c5c), radial-gradient(circle at 100% 0%, transparent 9px, #790c5c 9px, #790c5c 14px, transparent 14px), linear-gradient(to top, #790c5c, #ff006b);
+  background-size: 14px 14px, calc(100% - 28px) 5px, 14px 14px, 5px calc(100% - 28px);
+  background-position: top left, top center, top right, center right, bottom right, bottom center, bottom left, center left;
+  background-repeat: no-repeat;
+}
+
+.border--blue {
+  background-image: radial-gradient(circle at 100% 100%, transparent 9px, #00ffe0 9px, #00ffe0 14px, transparent 14px), linear-gradient(to right, #00ffe0, #2c5f9e), radial-gradient(circle at 0% 100%, transparent 9px, #2c5f9e 9px, #2c5f9e 14px, transparent 14px), linear-gradient(to bottom, #2c5f9e, #1e0741), radial-gradient(circle at 0% 0%, transparent 9px, #1e0741 9px, #1e0741 14px, transparent 14px), linear-gradient(to left, #1e0741, #2c5f9e), radial-gradient(circle at 100% 0%, transparent 9px, #2c5f9e 9px, #2c5f9e 14px, transparent 14px), linear-gradient(to top, #2c5f9e, #00ffe0);
+  background-size: 14px 14px, calc(100% - 28px) 5px, 14px 14px, 5px calc(100% - 28px);
+  background-position: top left, top center, top right, center right, bottom right, bottom center, bottom left, center left;
+  background-repeat: no-repeat;
+}
+
+.nav {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 2rem;
+  margin-top: 1.5rem;
+}
+
+.nav__item {
+  font-family: 'bronx_reg', sans-serif;
+  color: white;
+  text-decoration: none;
+  list-style: none;
+  font-size: 1.2rem;
+  margin-left: 3rem;
+}
+
+.nav__item:hover {
+  color: var(--colorPink);
+}
+
+.selected {
+  color: var(--colorBlue);
+  text-decoration: underline;
+}
+
+/*---------------------------------intro------------------------------------*/
+
+.intro__text {
+  margin-top: 2.4rem;
+  font-size: 1.3rem;
+  width: 35rem;
+  font-weight: bold;
+}
+
+.intro__text2 {
+  margin-top: 1rem;
+  font-weight: 100;
+  margin-bottom: 1.5rem;
+}
+
+.intro {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.button--wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: .01rem 1rem;
+
+}
+
+.hidden {
+  display: none;
+}
 /*----------------------------Sign up---------------------------*/
 
 .signup__form {
-  /* display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto; */
-  display: flex;
-  flex-direction: column;
-  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  /* display: flex;
+  flex-direction: column; */
+  width: 35rem;
+  gap: .2rem 5rem;
+  margin: 1rem 7rem;
 }
 
 .signup__title {
@@ -57,6 +206,178 @@ li {
   margin-bottom: 1rem;
 }
 
-.form {
+/* .form {
   color: red;
+} */
+
+.signup--button {
+  font-size: 1rem;
+  height: 2.2rem;
+  /* margin: .01rem 8.5rem; */
+}
+
+.size1 {
+  width: 13rem;
+}
+/*---------------------------------------login----------------------*/
+
+.login, .signup {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
+  width: 60rem;
+  margin-top: 3rem;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  width: 17rem;
+  margin: 1rem 18rem;
+}
+
+.login__wrap {
+  padding: 4rem;
+  /* border-radius: .8rem; */
+  /* border: .5rem solid white; */
+  /* border-color: linear-gradient(145deg, rgba(255, 0, 107, 1) 0%, rgba(65, 23, 128, .7) 100%); */
+}
+
+.login__label, .signup__label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.form__text {
+  margin-bottom: .3rem;
+}
+
+.signup--link {
+  color: var(--colorPink);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.signup--link:hover {
+  color: var(--colorBlue);
+}
+
+.button--login {
+  width: 8rem;
+  text-align: center;
+  height: 2.5rem;
+  margin: .01rem 4.5rem;
+}
+
+input {
+  height: 2rem;
+  border-radius: .6rem;
+  border-color: var(--colorPink);
+}
+
+input:focus {
+  border-color: var(--colorBlue);
+}
+
+/*------------------------planner-----------------------------------*/
+
+.planner__columns {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.planner__column {
+  height: 60vh;
+  margin: 2rem .7rem;
+  width: 11rem;
+  text-align: center;
+  font-family: 'bronx_reg', sans-serif;
+  padding: 1rem .3rem;
+}
+
+.planner__nav {
+  display: flex;
+  margin-top: 2.5rem;
+}
+
+.button--add {
+  position: absolute;
+  right: 2rem;
+  top: 7rem;
+}
+
+.card {
+  background-color: var(--colorDarkblue);
+  margin: .5rem;
+  border-radius: .7rem;
+  font-family: var(--font);
+  padding: .5rem;
+}
+
+.card__title {
+  font-weight: bold;
+  margin-bottom: -.5rem;
+}
+
+.button--weeks {
+  background-image: url(./assets/arrowButton.svg);
+  background-repeat: no-repeat;
+  background-size: 3rem;
+  padding: 1.5rem;
+  margin-right: .5rem;
+  margin-left: .5rem;
+}
+
+.weeks--flipped {
+  transform: scaleX(-1);
+}
+
+.planner__week {
+  margin-top: .9rem;
+}
+
+.passed {
+  background-image: radial-gradient(circle at 100% 100%, transparent 9px, #9c9c9c 9px, #9c9c9c 14px, transparent 14px), linear-gradient(to right, #9c9c9c, #454545), radial-gradient(circle at 0% 100%, transparent 9px, #454545 9px, #454545 14px, transparent 14px), linear-gradient(to bottom, #454545, #3d3d3d), radial-gradient(circle at 0% 0%, transparent 9px, #3d3d3d 9px, #3d3d3d 14px, transparent 14px), linear-gradient(to left, #3d3d3d, #454545), radial-gradient(circle at 100% 0%, transparent 9px, #454545 9px, #454545 14px, transparent 14px), linear-gradient(to top, #454545, #9c9c9c);
+}
+
+.series {
+  background-color: var(--colorDarkblue);
+}
+
+.movie {
+  background-color: var(--colorPurple);
+}
+
+/*---------------------------------------watchlist----------------------*/
+
+.overview {
+  width: 70rem;
+}
+
+.overview__list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-gap: var(--spacerBig);
+
+}
+
+.overview__list--item {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, 2rem);
+  padding: var(--spacerRegular);
+  font-family: var(--font);
+}
+
+.overview__list--img {
+  grid-row: 1/span4;
+  width: 8.5rem;
+  margin-right: var(--spacerSmall);
+}
+
+.overview__list--title {
+  font-weight: bold;
 }
