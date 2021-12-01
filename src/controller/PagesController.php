@@ -99,13 +99,19 @@ class PagesController extends Controller {
           } else if($_POST['type'] == 'series'){
               $list = $seriesArray;
           }
+
+          $titleSearch = $_POST['title'];
+
          $this->set('list', $list);
           $this->set('exists', $exists);
 
 
       }
    }
-   
+   if(!empty($_POST['title'])){
+   $this->set('titleSearch', $titleSearch);
+   }
+
    if(!empty($_POST['action'])) {
       if($_POST['action'] == 'addWatchlist'){
         if($_POST['watch__type']=='series'){
@@ -129,7 +135,7 @@ class PagesController extends Controller {
         $newWatch->user_id = $_SESSION['id'];
         $newWatch->watch_id = $_POST['watch__id'];
         $newWatch->title = $_POST['watch__name'];
-        $newWatch->duration = $_POST['runtime'];
+        $newWatch->duration = intval($_POST['runtime']) * 60;
           if($_POST['watch__type']=='series'){
             $newWatch->series = 1;
           }
@@ -137,14 +143,41 @@ class PagesController extends Controller {
             $newWatch->movie = 1;
           }
         $newWatch->save();
-        header('Location:index.php?page=overview');
-        exit();
+
+        $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
+
+        $titleClean = str_replace(' ', '%20', $_POST['title__search']);
+        $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
+        $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
+          $seriesCode = file_get_contents($seriesSearch);
+          $moviesCode = file_get_contents($moviesSearch);
+          $resultSeries = json_decode($seriesCode);
+          $resultMovies = json_decode($moviesCode);
+          $seriesArray = $resultSeries->results;
+          $moviesArray = $resultMovies->results;
+          $resultList = array_merge($seriesArray, $moviesArray);
+
+        if(empty($_POST['type'])){
+             $list = $resultList;
+          } else if($_POST['type'] == 'movie'){
+             $list = $moviesArray;
+          } else if($_POST['type'] == 'series'){
+              $list = $seriesArray;
+          }
+
+        // $titleSearch = $_POST['title'];
+         $this->set('titleSearch', $titleClean);
+       $this->set('list', $list);
+        $this->set('exists', $exists);
+        // header('Location:index.php?page=overview');
+        // exit();
       }
 
     }
 
 
     $this->set('title','My watchlist - Search');
+
   }
 
   public function apiSearch() {

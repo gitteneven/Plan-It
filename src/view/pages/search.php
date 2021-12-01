@@ -20,7 +20,10 @@
 <ul class="overview__list">
 <?php if(!empty($_POST['action'])):  ?>
 <?php foreach ($list as $item): ?>
-    <form class="add__button" method="post" <?php // echo('action="index.php?page=search&title='. $_POST['title'] . '"')?>  action="index.php?page=search" enctype="multipart/form-data"  >
+    <!-- <form class="add__button" method="post" <?php echo('action="index.php?page=search&title='. $_POST['title'] . '"')?>  action="index.php?page=search" enctype="multipart/form-data" > -->
+    <form class="add__button" method="post" <?php echo('action="index.php?page=search&title='. $titleSearch . '"')?>   enctype="multipart/form-data">
+     <?php //echo ('<input type="hidden" name="filled__title" value="'. $filledTitle . '">') ?>
+     <?php echo ('<input type="hidden" name="title__search" value="'. $titleSearch . '">') ?>
     <input type="hidden" name="action" value="addWatchlist">
         <li class="overview__list--item
          <?php if(array_key_exists('name', $item)){
@@ -89,13 +92,13 @@
 
         foreach($exists as $existing){
           if($item->id == $existing->watch_id){
-            $bestaat= $item->id;
+            $idExists= $item->id;
           }
         }
 
-          if(!isset($bestaat) || $bestaat != $item->id){
+          if(!isset($idExists) || $idExists != $item->id){
             echo '<input type="submit" class="button" name="add" value="add to watchlist"/>';
-          } else if($bestaat = $item->id) {
+          } else if($idExists = $item->id) {
             echo '<p class="button">Added to watchlist</p>';
           }
 
