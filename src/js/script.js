@@ -1,4 +1,4 @@
-let timeoutID;
+/*let timeoutID;
 
 const handleSubmitForm = e => {
   e.preventDefault();
@@ -50,3 +50,4 @@ export const init = async () => {
 
 };
 
+*/
