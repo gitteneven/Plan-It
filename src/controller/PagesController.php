@@ -105,26 +105,8 @@ class PagesController extends Controller {
 
       }
    }
-
-    if(!empty($_POST['action'])) {
-      if($_POST['action'] == 'addWatchlist'){
-        $newWatch = new Watch_list;
-        $newWatch->user_id = $_SESSION['id'];
-        $newWatch->watch_id = $_POST['watch__id'];
-        $newWatch->title = $_POST['watch__name'];
-        $newWatch->duration = $_POST['runtime']; 
-          if($_POST['watch__type']=='series'){
-            $newWatch->series = 1;
-          }
-          if($_POST['watch__type']=='movie'){
-            $newWatch->movie = 1;
-          }
-        $newWatch->save();
-      }
-
-    }
-
-    if(!empty($_POST['action'])) {
+   
+   if(!empty($_POST['action'])) {
       if($_POST['action'] == 'addWatchlist'){
         if($_POST['watch__type']=='series'){
             $newSeries = new Series;
@@ -135,9 +117,33 @@ class PagesController extends Controller {
             $newSeries->current_ses = 1;
 
             $newSeries->save();
+
           }
       }
+
     }
+
+    if(!empty($_POST['action'])) {
+      if($_POST['action'] == 'addWatchlist'){
+        $newWatch = new Watch_list;
+        $newWatch->user_id = $_SESSION['id'];
+        $newWatch->watch_id = $_POST['watch__id'];
+        $newWatch->title = $_POST['watch__name'];
+        $newWatch->duration = $_POST['runtime'];
+          if($_POST['watch__type']=='series'){
+            $newWatch->series = 1;
+          }
+          if($_POST['watch__type']=='movie'){
+            $newWatch->movie = 1;
+          }
+        $newWatch->save();
+        header('Location:index.php?page=overview');
+        exit();
+      }
+
+    }
+
+
     $this->set('title','My watchlist - Search');
   }
 
