@@ -40,21 +40,21 @@
         if(!empty($itemInfo->episode_run_time)){
            $runtime= $itemInfo->episode_run_time[0];
         }else{
-          $runtime='';
+          $runtime=45;
         }
       } else if(array_key_exists('title', $item)){
         $itemApi = 'https://api.themoviedb.org/3/movie/'. $item->id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
         $date = date( 'Y', strtotime($itemInfo->release_date));
-        if(!empty($itemInfo->episode_run_time)){
+        if(!empty($itemInfo->runtime)){
            $runtime= $itemInfo->runtime;
         }else{
-          $runtime='';
+          $runtime=125;
         }
       }
+
       $language = $itemInfo->spoken_languages;
-      $runtime;
 
       if(array_key_exists('name', $item)){
             echo '<h2 class="overview__list--title">' . $item->name . '</h2>
@@ -65,24 +65,21 @@
 ;
             if(!empty($language)){
              echo  '<p class="overview__list--language">' .  $language['0']->name  . '</p>';
-          }
-          if(!empty($runtime)){
-              echo '<input type="hidden" name="runtime" value="'. $runtime . '">
-              <p class="overview__list--runtime">' .  $runtime  . 'min </p>';
-          }
+            }
+            echo '<input type="hidden" name="runtime" value="'. $runtime . '">
+            <p class="overview__list--runtime">' .  $runtime  . 'min </p>';
       }else if(array_key_exists('title', $item)){
             echo '<h2 class="overview__list--title">' . $item->title . '</h2>
                   <input type="hidden" name="watch__name" value="'. $item->title . '">
                   <input type="hidden" name="watch__type" value="movie">
                   <p class="overview__list--date">(' .  $date . ')</p>
-                  <img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
+                  <img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">
+                  <input type="hidden" name="runtime" value="'. $runtime . '">
+                  <p class="overview__list--runtime">' .  $runtime  . 'min </p>';
           if(!empty($language)){
              echo  '<p class="overview__list--language">' .  $language['0']->name  . '</p>';
           }
-             if(!empty($runtime)){
-              echo '<input type="hidden" name="runtime" value="'. $runtime . '">
-              <p class="overview__list--runtime">' .  $runtime  . 'min </p>';
-          }
+
         }
         ?>
 
