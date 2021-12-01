@@ -1,5 +1,5 @@
 
-/*
+
 let timeoutID;
 
 const handleInputField = () => {
@@ -52,5 +52,3 @@ export const init = async () => {
 
 };
 
-
-*/
