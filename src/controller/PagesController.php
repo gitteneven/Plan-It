@@ -99,31 +99,20 @@ class PagesController extends Controller {
           } else if($_POST['type'] == 'series'){
               $list = $seriesArray;
           }
+
+          $titleSearch = $_POST['title'];
+
          $this->set('list', $list);
           $this->set('exists', $exists);
 
 
       }
    }
+   if(!empty($_POST['title'])){
+   $this->set('titleSearch', $titleSearch);
+   }
 
-    if(!empty($_POST['action'])) {
-      if($_POST['action'] == 'addWatchlist'){
-        $newWatch = new Watch_list;
-        $newWatch->user_id = $_SESSION['id'];
-        $newWatch->watch_id = $_POST['watch__id'];
-        $newWatch->title = $_POST['watch__name'];
-          if($_POST['watch__type']=='series'){
-            $newWatch->series = 1;
-          }
-          if($_POST['watch__type']=='movie'){
-            $newWatch->movie = 1;
-          }
-        $newWatch->save();
-      }
-
-    }
-
-    if(!empty($_POST['action'])) {
+   if(!empty($_POST['action'])) {
       if($_POST['action'] == 'addWatchlist'){
         if($_POST['watch__type']=='series'){
             $newSeries = new Series;
@@ -134,10 +123,61 @@ class PagesController extends Controller {
             $newSeries->current_ses = 1;
 
             $newSeries->save();
+
           }
       }
+
     }
+
+    if(!empty($_POST['action'])) {
+      if($_POST['action'] == 'addWatchlist'){
+        $newWatch = new Watch_list;
+        $newWatch->user_id = $_SESSION['id'];
+        $newWatch->watch_id = $_POST['watch__id'];
+        $newWatch->title = $_POST['watch__name'];
+        $newWatch->duration = intval($_POST['runtime']) * 60;
+          if($_POST['watch__type']=='series'){
+            $newWatch->series = 1;
+          }
+          if($_POST['watch__type']=='movie'){
+            $newWatch->movie = 1;
+          }
+        $newWatch->save();
+
+        $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
+
+        $titleClean = str_replace(' ', '%20', $_POST['title__search']);
+        $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
+        $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
+          $seriesCode = file_get_contents($seriesSearch);
+          $moviesCode = file_get_contents($moviesSearch);
+          $resultSeries = json_decode($seriesCode);
+          $resultMovies = json_decode($moviesCode);
+          $seriesArray = $resultSeries->results;
+          $moviesArray = $resultMovies->results;
+          $resultList = array_merge($seriesArray, $moviesArray);
+
+        if(empty($_POST['type'])){
+             $list = $resultList;
+          } else if($_POST['type'] == 'movie'){
+             $list = $moviesArray;
+          } else if($_POST['type'] == 'series'){
+              $list = $seriesArray;
+          }
+
+        // $titleSearch = $_POST['title'];
+         $this->set('titleSearch', $titleClean);
+       $this->set('list', $list);
+        $this->set('exists', $exists);
+        // header('Location:index.php?page=overview');
+        // exit();
+      }
+
+    }
+
+
     $this->set('title','My watchlist - Search');
+
   }
 
   public function apiSearch() {
@@ -345,6 +385,25 @@ class PagesController extends Controller {
       $startDateAndTime=$_POST['timeslot--start'];
       $endDateAndTime=$_POST['timeslot--end'];
 
+      $startDateNonFormat = strtotime($startDateAndTime);
+      $endDateNonFormat = strtotime($endDateAndTime);
+      $this->set('startDateNonFormat', $startDateNonFormat);
+      $this->set('endDateNonFormat', $endDateNonFormat);
+      // $startDate = $startDateNonFormat->format('d-m-Y');
+      // //$startTime = $startDateNonFormat->format('H:i:s');
+      // $startTime = strtotime($startDateNonFormat->format('H:i:s'));
+      // $endDate = $endDateNonFormat->format('d-m-Y');
+      // // $endTime = $endDateNonFormat->format('H:i:s');
+      // $endTime = strtotime($endDateNonFormat->format('H:i:s'));
+
+       $availableTimeNonFormat=$endDateNonFormat-$startDateNonFormat;
+       $availableTime=date($availableTimeNonFormat);
+       $_SESSION['availableTime']=$availableTime;
+
+        // $availableTime=date("Y-m-d, H:i:s", strtotime($availableTimeNonFormat));
+        //  $availableTime=$availableTimeNonFormat->format("Y-m-d H:i:s");
+         //$availableTime=new DateTime($availableTimeNonFormat);
+
       // $startDateNonFormat = new DateTime($startDateAndTime);
       // $endDateNonFormat = new DateTime($endDateAndTime);
 
@@ -356,29 +415,16 @@ class PagesController extends Controller {
       // $endTime = strtotime($endDateNonFormat->format('H:i:s'));
 
       // $availableTimeNonFormat=$endTime-$startTime;
-      //  $availableTime=$availableTimeNonFormat->format('H:i:s');
-
-      $startDateNonFormat = new DateTime($startDateAndTime);
-      $endDateNonFormat = new DateTime($endDateAndTime);
-
-      $startDate = $startDateNonFormat->format('d-m-Y');
-      //$startTime = $startDateNonFormat->format('H:i:s');
-      $startTime = strtotime($startDateNonFormat->format('H:i:s'));
-      $endDate = $endDateNonFormat->format('d-m-Y');
-      // $endTime = $endDateNonFormat->format('H:i:s');
-      $endTime = strtotime($endDateNonFormat->format('H:i:s'));
-
-      $availableTimeNonFormat=$endTime-$startTime;
-      $availableTime=$availableTimeNonFormat;
+      // $availableTime=$availableTimeNonFormat;
 
       $watchSuggestions= Watch_list::where('user_id', '=', $_SESSION['id'])->where('duration', '<=', $availableTime)->get();
 
 
-      $this->set('startDate', $startDate);
-      $this->set('startTime', $startTime);
-      $this->set('endDate', $endDate);
-      $this->set('endTime', $endTime);
-      $this->set('availableTime', $availableTime);
+      // $this->set('startDate', $startDate);
+      // $this->set('startTime', $startTime);
+      // $this->set('endDate', $endDate);
+      // $this->set('endTime', $endTime);
+       $this->set('availableTime', $availableTime);
       $this->set('watchSuggestions', $watchSuggestions);
     }
   }
@@ -389,10 +435,18 @@ class PagesController extends Controller {
         $watchListItem= Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem)->first();
         array_push($watchArray, $watchListItem);
         //$this->set('selectedWatchItem', $selectedWatchItem);
-
+        $newAvailableTime=$_SESSION['availableTime']-$watchListItem->duration;
+        $this->set('newAvailableTime', $newAvailableTime);
       }
       $this->set('watchArray', $watchArray);
     }
+  }
+
+  if(!empty($_SESSION['availableTime'])){
+    $availableTime=$_SESSION['availableTime'];
+    $this->set('availableTime', $availableTime);
+    $watchSuggestions= Watch_list::where('user_id', '=', $_SESSION['id'])->where('duration', '<=', $availableTime)->get();
+    $this->set('watchSuggestions', $watchSuggestions);
   }
 
   $this->set('title','Add a timeslot');

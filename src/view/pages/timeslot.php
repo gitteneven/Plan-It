@@ -22,14 +22,18 @@
 
         <input type="submit" class="signup--button button" value="CREATE SUGGESTIONS">
   </form>
-<?php echo $startDate . ' - ' . $startTime; ?><br>
-<?php echo $endDate . ' - ' . $endTime; ?><br>
+<?php //echo $startDate . ' - ' . $startTime; ?><br>
+<?php //echo $endDate . ' - ' . $endTime; ?><br>
 <?php echo $availableTime; ?><br>
-<?php //echo $watchSuggestions ?>
+<?php echo $startDateNonFormat . ' - ' . $endDateNonFormat; ?><br>
+<?php echo $newAvailableTime; ?><br>
 
   <form class="timeslot__form" method="post" action="index.php?page=timeslot" enctype="multipart/form-data">
       <input type="hidden" name="action" value="addWatchItem">
+      <ul>
 <?php foreach($watchSuggestions as $sugg){?>
+
+        <li>
     <h3><?php echo $sugg->title ?></h3>
     <?php if($sugg->series == 1){
         $suggApi = 'https://api.themoviedb.org/3/tv/'. $sugg->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
@@ -41,7 +45,9 @@
         $runtime= $suggInfo->episode_run_time[0];
         echo '<p>'.$runtime.' min </p>';
         // echo '<input type="submit" class="add--button button" value="ADD">';
-        echo '<label>ADD<input type="checkbox" id="'.$sugg->watch_id.'" name="watchItem[]" value="'.$sugg->watch_id.'" class=" " ></label>';
+        ?>
+        <label>ADD<input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class=" " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
+        <?php
       }else if($sugg->movie == 1){
         $suggApi = 'https://api.themoviedb.org/3/movie/'. $sugg->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $suggCode = file_get_contents($suggApi);
@@ -49,10 +55,15 @@
         $suggDate = date( 'Y', strtotime($suggInfo->release_date));
         echo '<p>'.$suggDate.'</p>';
         $runtime= $suggInfo->runtime;
-        echo '<p>'.$runtime.' min </p>';
+        echo '<p>'.$runtime.' min </p>';?>
+        <label>ADD<input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class=" " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
+        <?php
       } ?>
+      </li><br>
 <?php
 } ?>
+
+<ul>
 <input type="submit" class="add--button button" value="make timeslot">
 </form>
 <?php //echo $selectedWatchItem;?><br>

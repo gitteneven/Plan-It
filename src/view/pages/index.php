@@ -20,7 +20,7 @@
       <p class="planner__week"><?php echo date("d/m", $monday) . ' - ' . date("d/m", strtotime('+6 day', $monday)); ?></p>
       <a href="index.php?page=home&week=<?php echo $currentWeek+1; ?>" class="button--weeks weeks--flipped"></a>
     </div>
-    <a class="button button--add">Add timeslot</a>
+    <a class="button button--add" href="index.php?page=timeslot">Add timeslot</a>
 
 
   <ul class="planner__columns">
