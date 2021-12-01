@@ -36,60 +36,65 @@
         $itemApi = 'https://api.themoviedb.org/3/tv/'. $item->id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
+        $title = $item->name;
         $date = date( 'Y', strtotime($itemInfo->first_air_date));
         if(!empty($itemInfo->episode_run_time)){
            $runtime= $itemInfo->episode_run_time[0];
         }else{
-          $runtime='';
+          $runtime=45;
         }
       } else if(array_key_exists('title', $item)){
         $itemApi = 'https://api.themoviedb.org/3/movie/'. $item->id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
+        $title = $item->title;
         $date = date( 'Y', strtotime($itemInfo->release_date));
-        if(!empty($itemInfo->episode_run_time)){
+        if(!empty($itemInfo->runtime)){
            $runtime= $itemInfo->runtime;
         }else{
-          $runtime='';
+          $runtime=125;
         }
       }
+
       $language = $itemInfo->spoken_languages;
-      $runtime;
 
       if(array_key_exists('name', $item)){
-            echo '<h2 class="overview__list--title">' . $item->name . '</h2>
-                  <input type="hidden" name="watch__name" value="'. $item->name . '">
+            echo '<h2 class="overview__list--title">' . $title . '</h2>
+                  <input type="hidden" name="watch__name" value="'. $title . '">
                   <input type="hidden" name="watch__type" value="series">
-                  <p class="overview__list--date">(' .  $date . ')</p>
-                  <img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
-;
+                  <p class="overview__list--date">(' .  $date . ')</p>';
+          if(!empty($itemInfo->poster_path)){
+              echo '<img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
+            } else {
+              echo '<p class="overview__list--img img__notfound dropshadow" > W </p>';
+            }
             if(!empty($language)){
              echo  '<p class="overview__list--language">' .  $language['0']->name  . '</p>';
-          }
-          if(!empty($runtime)){
-              echo '<input type="hidden" name="runtime" value="'. $runtime . '">
-              <p class="overview__list--runtime">' .  $runtime  . 'min </p>';
-          }
+            }
+            echo '<input type="hidden" name="runtime" value="'. $runtime . '">
+            <p class="overview__list--runtime">' .  $runtime  . 'min </p>';
       }else if(array_key_exists('title', $item)){
             echo '<h2 class="overview__list--title">' . $item->title . '</h2>
                   <input type="hidden" name="watch__name" value="'. $item->title . '">
                   <input type="hidden" name="watch__type" value="movie">
                   <p class="overview__list--date">(' .  $date . ')</p>
-                  <img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
-          if(!empty($language)){
-             echo  '<p class="overview__list--language">' .  $language['0']->name  . '</p>';
-          }
-             if(!empty($runtime)){
-              echo '<input type="hidden" name="runtime" value="'. $runtime . '">
-              <p class="overview__list--runtime">' .  $runtime  . 'min </p>';
-          }
+                  <input type="hidden" name="runtime" value="'. $runtime . '">
+                  <p class="overview__list--runtime">' .  $runtime  . 'min </p>';
+            if(!empty($itemInfo->poster_path)){
+                 echo '<img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
+            } else {
+                 echo '<p class="overview__list--img img__notfound dropshadow" > W </p>';
+
+             }
+            if(!empty($language)){
+                  echo  '<p class="overview__list--language">' .  $language['0']->name  . '</p>';
+             }
+
         }
         ?>
-
         <input type="hidden" name="watch__id" value="<?php echo $item->id?>">
 
         <?php
-
         foreach($exists as $existing){
           if($item->id == $existing->watch_id){
             $idExists= $item->id;
@@ -97,7 +102,7 @@
         }
 
           if(!isset($idExists) || $idExists != $item->id){
-            echo '<input type="submit" class="button" name="add" value="add to watchlist"/>';
+              echo '<input type="submit" class="button" name="add" value="add to watchlist"/>';
           } else if($idExists = $item->id) {
             echo '<p class="button">Added to watchlist</p>';
           }

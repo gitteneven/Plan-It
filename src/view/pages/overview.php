@@ -17,13 +17,21 @@
         $itemInfo= json_decode($itemCode);
         $date = date( 'Y', strtotime($itemInfo->first_air_date));
         $itemCurrent = $currentEpisodes->where('watch_id', '=', $item->watch_id)->first();
-        $runtime= $itemInfo->episode_run_time[0];
+        if(!empty($itemInfo->episode_run_time)){
+           $runtime= $itemInfo->episode_run_time[0];
+        }else{
+          $runtime=45;
+        }
       } else if($item->movie == 1){
         $itemApi = 'https://api.themoviedb.org/3/movie/'. $item->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
         $date = date( 'Y', strtotime($itemInfo->release_date));
-        $runtime= $itemInfo->runtime;
+        if(!empty($itemInfo->runtime)){
+           $runtime= $itemInfo->runtime;
+        }else{
+          $runtime=125;
+        }
         $itemCurrent='';
       }
       $language = $itemInfo->spoken_languages;
@@ -35,9 +43,13 @@
       }
       echo(
             '<p class="overview__list--language">' .  $language['0']->name  . '</p>
-            <p class="overview__list--runtime">' .  $runtime  . 'min </p>
-            <img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">');?>
-
+            <p class="overview__list--runtime">' .  $runtime  . 'min </p>');
+      if(!empty($itemInfo->poster_path)){
+        echo '<img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
+      } else {
+          echo '<p class="overview__list--img img__notfound dropshadow" > W </p>';
+       }?>
+       
         </li>
   <?php endforeach ?>
     </ul>
