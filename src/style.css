@@ -381,3 +381,12 @@ input:focus {
 .overview__list--title {
   font-weight: bold;
 }
+
+.img__notfound {
+  font-family: 'bronx_twolines', sans-serif;
+  color: var(--colorBlue);
+  text-align: center;
+  align-self: center;
+  font-size: 5rem;
+  padding: 2rem 0;
+}

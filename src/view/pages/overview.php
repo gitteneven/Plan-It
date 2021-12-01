@@ -43,9 +43,13 @@
       }
       echo(
             '<p class="overview__list--language">' .  $language['0']->name  . '</p>
-            <p class="overview__list--runtime">' .  $runtime  . 'min </p>
-            <img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">');?>
-
+            <p class="overview__list--runtime">' .  $runtime  . 'min </p>');
+      if(!empty($itemInfo->poster_path)){
+        echo '<img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
+      } else {
+          echo '<p class="overview__list--img img__notfound dropshadow" > W </p>';
+       }?>
+       
         </li>
   <?php endforeach ?>
     </ul>
