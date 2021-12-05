@@ -20,19 +20,21 @@
 <ul class="overview__list">
 <?php if(!empty($_POST['action'])):  ?>
 <?php foreach ($list as $item): ?>
+  <?php $itemArray = (array)$item;?>
     <!-- <form class="add__button" method="post" <?php echo('action="index.php?page=search&title='. $_POST['title'] . '"')?>  action="index.php?page=search" enctype="multipart/form-data" > -->
     <form class="add__button" method="post" <?php echo('action="index.php?page=search&title='. $titleSearch . '"')?>   enctype="multipart/form-data">
      <?php //echo ('<input type="hidden" name="filled__title" value="'. $filledTitle . '">') ?>
      <?php echo ('<input type="hidden" name="title__search" value="'. $titleSearch . '">') ?>
     <input type="hidden" name="action" value="addWatchlist">
         <li class="overview__list--item
-         <?php if(array_key_exists('name', $item)){
+         <?php if(array_key_exists('name', $itemArray)){
             echo('border--blue');
-          }else if(array_key_exists('title', $item)){
+          }else if(array_key_exists('title', $itemArray)){
             echo('border');
           }; ?>">
         <?php
-      if(array_key_exists('name', $item)){
+
+      if(array_key_exists('name', $itemArray)){
         $itemApi = 'https://api.themoviedb.org/3/tv/'. $item->id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
@@ -43,7 +45,7 @@
         }else{
           $runtime=45;
         }
-      } else if(array_key_exists('title', $item)){
+      } else if(array_key_exists('title', $itemArray)){
         $itemApi = 'https://api.themoviedb.org/3/movie/'. $item->id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
@@ -58,7 +60,7 @@
 
       $language = $itemInfo->spoken_languages;
 
-      if(array_key_exists('name', $item)){
+      if(array_key_exists('name', $itemArray)){
             echo '<h2 class="overview__list--title">' . $title . '</h2>
                   <input type="hidden" name="watch__name" value="'. $title . '">
                   <input type="hidden" name="watch__type" value="series">
@@ -73,7 +75,7 @@
             }
             echo '<input type="hidden" name="runtime" value="'. $runtime . '">
             <p class="overview__list--runtime">' .  $runtime  . 'min </p>';
-      }else if(array_key_exists('title', $item)){
+      }else if(array_key_exists('title', $itemArray)){
             echo '<h2 class="overview__list--title">' . $item->title . '</h2>
                   <input type="hidden" name="watch__name" value="'. $item->title . '">
                   <input type="hidden" name="watch__type" value="movie">
