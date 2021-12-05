@@ -65,7 +65,7 @@ li {
 .subtitle {
   font-family: 'bronx_reg', sans-serif;
   font-size: 1.75rem;
-  margin-top: .4rem;
+  margin-top: .1rem;
 }
 
 .dropshadow {
@@ -218,6 +218,53 @@ li {
 
 .size1 {
   width: 13rem;
+}
+
+.country {
+  border-radius: .8rem;
+  border-color: var(--colorPink);
+  margin-bottom: 3rem;
+  margin-top: .5rem;
+}
+
+.strList {
+  display: flex;
+  justify-content: space-between;
+  width: 37rem;
+  margin-bottom: 6rem;
+  margin-top: 1rem;
+}
+
+.option::before {
+  content: '';
+  display: inline-block;
+  width: 7.2rem;
+  height: 7rem;
+  background-image: url(./assets/netflix.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: .2rem solid var(--colorPink);
+  border-radius: .8rem;
+}
+
+.option:checked::before {
+  border-color: var(--colorBlue);
+}
+
+.str_disney::before {
+  background-image: url(./assets/disney.svg);
+}
+
+.str_prime::before {
+  background-image: url(./assets/prime.svg);
+}
+
+.str_hbo::before {
+  background-image: url(./assets/hbo.svg);
+}
+
+.str_hulu::before {
+  background-image: url(./assets/hulu.svg);
 }
 /*---------------------------------------login----------------------*/
 
