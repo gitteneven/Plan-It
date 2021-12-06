@@ -18,7 +18,7 @@ class PagesController extends Controller {
       $planning= Planner::where('user_id', '=', $_SESSION['id'])->get();
       foreach($planning as $item){
         if($item->series == 1){
-          $watchItem=Series::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
+          $watchItem=Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
           $this->set('watchItem', $watchItem);
          }
         //elseif($item->movie == 1){
@@ -398,6 +398,9 @@ class PagesController extends Controller {
         $newTimeslot->time= date("H:i:s", $_SESSION['startTime']);
         $_SESSION['startTime']=$plannedTime;
         $newTimeslot->save();
+        unset($watchArray);
+        header('Location:index.php?page=home');
+          exit();
       }
       }}else if ($watchDuration > $_SESSION['availableTime']){
         foreach($watchArray as $watchItem){
