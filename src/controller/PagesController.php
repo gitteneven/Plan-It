@@ -373,7 +373,7 @@ class PagesController extends Controller {
     if ($_POST['action'] == 'addWatchItem') {
       $watchArray= array();
       $watchTimes=array();
-
+      $overdueTimes=array();
       foreach($_POST['watchItem'] as $watchItem){
 
         $watchListItem= Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem)->first();
@@ -412,9 +412,13 @@ class PagesController extends Controller {
         $newTimeslot->time= date("H:i:s", $_SESSION['startTime']);
         $_SESSION['startTime']=$plannedTime;
         $newTimeslot->save();
-      }}
+      }else if($_SESSION['startTime'] > $_SESSION['endTime']){
+        array_push($overdueTimes, $watchItem);
+      }
+    }
       $this->set('watchArray', $watchArray);
       $this->set('watchTimes', $watchTimes);
+      $this->set('overdueTimes', $overdueTimes);
     }
   }
 
