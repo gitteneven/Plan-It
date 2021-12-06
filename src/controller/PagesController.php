@@ -103,7 +103,7 @@ class PagesController extends Controller {
           }
 
           $titleSearch = $_POST['title'];
-          $typeSearch = $_POST['type']; 
+          $typeSearch = $_POST['type'];
 
          $this->set('list', $list);
           $this->set('exists', $exists);
@@ -115,22 +115,22 @@ class PagesController extends Controller {
    $this->set('titleSearch', $titleSearch);
    }
 
-   if(!empty($_POST['action'])) {
-      if($_POST['action'] == 'addWatchlist'){
-        if($_POST['watch__type']=='series'){
-            $newSeries = new Series;
-            $newSeries->user_id = $_SESSION['id'];
-            $newSeries->watch_id = $_POST['watch__id'];
-            $newSeries->title = $_POST['watch__name'];
-            $newSeries->current_ep = 1;
-            $newSeries->current_ses = 1;
+  //  if(!empty($_POST['action'])) {
+  //     if($_POST['action'] == 'addWatchlist'){
+  //       if($_POST['watch__type']=='series'){
+  //           $newSeries = new Series;
+  //           $newSeries->user_id = $_SESSION['id'];
+  //           $newSeries->watch_id = $_POST['watch__id'];
+  //           $newSeries->title = $_POST['watch__name'];
+  //           $newSeries->current_ep = 1;
+  //           $newSeries->current_ses = 1;
 
-            $newSeries->save();
+  //           $newSeries->save();
 
-          }
-      }
+  //         }
+  //     }
 
-    }
+  //   }
 
     if(!empty($_POST['action'])) {
       if($_POST['action'] == 'addWatchlist'){
@@ -141,10 +141,13 @@ class PagesController extends Controller {
         $newWatch->duration = intval($_POST['runtime']) * 60;
           if($_POST['watch__type']=='series'){
             $newWatch->series = 1;
+            $newWatch->current_ep = 1;
+            $newWatch->current_ses = 1;
           }
           if($_POST['watch__type']=='movie'){
             $newWatch->movie = 1;
           }
+
         $newWatch->save();
 
         $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
