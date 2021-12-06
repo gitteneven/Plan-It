@@ -16,7 +16,8 @@
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
         $date = date( 'Y', strtotime($itemInfo->first_air_date));
-        $itemCurrent = $currentEpisodes->where('watch_id', '=', $item->watch_id)->first();
+        $itemCurrentSes = $item->current_ses;
+        $itemCurrentEp = $item->current_ep;
         if(!empty($itemInfo->episode_run_time)){
            $runtime= $itemInfo->episode_run_time[0];
         }else{
@@ -39,7 +40,7 @@
       echo ('<h2 class="overview__list--title">' . $item->title . '</h2>
             <p class="overview__list--date">(' .  $date . ')</p>');
       if($item->series == 1){
-         echo '<p class="overview__list--current">S'. $itemCurrent->current_ses . '- Ep' . $itemCurrent->current_ep . '</p>';
+         echo '<p class="overview__list--current">S'. $itemCurrentSes . '- Ep' . $itemCurrentEp . '</p>';
       }
       echo(
             '<p class="overview__list--language">' .  $language['0']->name  . '</p>
@@ -49,7 +50,7 @@
       } else {
           echo '<p class="overview__list--img img__notfound dropshadow" > W </p>';
        }?>
-       
+
         </li>
   <?php endforeach ?>
     </ul>

@@ -5,7 +5,6 @@ require_once __DIR__ . '/../model/User.php';
 require_once __DIR__ . '/../model/Watch_list.php';
 require_once __DIR__ . '/../model/Stream_service.php';
 require_once __DIR__ . '/../model/Planner.php';
-require_once __DIR__ . '/../model/Series.php';
 
 class PagesController extends Controller {
 
@@ -17,10 +16,10 @@ class PagesController extends Controller {
 
       $planning= Planner::where('user_id', '=', $_SESSION['id'])->get();
       foreach($planning as $item){
-        if($item->series == 1){
-          $watchItem=Series::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
-          $this->set('watchItem', $watchItem);
-         }
+        // if($item->series == 1){
+        //   $watchItem=Series::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
+        //   $this->set('watchItem', $watchItem);
+        //  }
         //elseif($item->movie == 1){
         //   $watchItem=Movie::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
         // }
@@ -69,9 +68,6 @@ class PagesController extends Controller {
   public function overview() {
    // $user = User::where('id', '=', $_SESSION['id'])->first();
     $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
-    $currentEpisodes = Series::where('user_id', '=', $_SESSION['id'])->get();
-
-    $this->set('currentEpisodes', $currentEpisodes);
     $this->set('watchlist', $watchlist);
     $this->set('title','My watchlist');
   }
@@ -104,7 +100,7 @@ class PagesController extends Controller {
 
           $titleSearch = $_POST['title'];
           $typeSearch = $_POST['type'];
-
+     
          $this->set('list', $list);
           $this->set('exists', $exists);
 
@@ -114,23 +110,6 @@ class PagesController extends Controller {
    if(!empty($_POST['title'])){
    $this->set('titleSearch', $titleSearch);
    }
-
-  //  if(!empty($_POST['action'])) {
-  //     if($_POST['action'] == 'addWatchlist'){
-  //       if($_POST['watch__type']=='series'){
-  //           $newSeries = new Series;
-  //           $newSeries->user_id = $_SESSION['id'];
-  //           $newSeries->watch_id = $_POST['watch__id'];
-  //           $newSeries->title = $_POST['watch__name'];
-  //           $newSeries->current_ep = 1;
-  //           $newSeries->current_ses = 1;
-
-  //           $newSeries->save();
-
-  //         }
-  //     }
-
-  //   }
 
     if(!empty($_POST['action'])) {
       if($_POST['action'] == 'addWatchlist'){

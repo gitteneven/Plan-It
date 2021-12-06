@@ -1,4 +1,5 @@
 <article class="search">
+   <h1 class="search__title subtitle">Watchlist - Add Movie/series</h1>
   <a href="index.php?page=overview">Back to watchlist</a>
 <form id="form" class="form filter-form" method="post" action="index.php?page=search" enctype="multipart/form-data" >
   <input type="hidden" name="action" value="searchWatchlist">
@@ -6,11 +7,12 @@
   <label class="title input" for="title"> Keyword for the movie title:
   <input type="text" class="title filter__field" name="title" id="title" placeholder="example: story" value="<?php if(!empty($_GET['title'])){ echo $_GET['title'];} ?>" size="45">
 
-  <label class="type input" for="series"> series
-  <input type="checkbox" class="type filter__field" name="type" id="type" value="series">
-
-  <label class="type input" for="series"> movie
-  <input type="checkbox" class="type filter__field" name="type" id="type" value="movie">
+  <label class="type input" for="type-select"> Filter on type</label>
+  <select name="type" id="type" class="type filter__field">
+    <option value="movie/series">Movie/series</option>
+    <option value="series">series</option>
+    <option value="movie">movie</option>
+  </select>
 
   <div class="buttons">
   <input type="submit" name="submit" value="search" class="search button">

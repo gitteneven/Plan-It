@@ -12,7 +12,6 @@ const submitWithJS = async () => {
   const $form = document.querySelector('.filter-form');
   const data = new FormData($form);
   const entries = [...data.entries()];
-  console.log(entries);
   const qs = entries[1][1];
   const urlSeries = `https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=${qs}`;
   const urlMovies = `https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=${qs}`;
@@ -22,25 +21,23 @@ const submitWithJS = async () => {
   const responseMovie = await fetch(urlMovies);
   const listMovie = await responseMovie.json();
   const resultListMovie = listMovie.results;
-  const resultList = resultListSeries.concat(resultListMovie);
+  let resultList;
+
+  console.log(entries);
+
+  console.log(entries[2][1]);
+  if (entries[2][1] !== '') {
+    const type = entries[2][1];
+    //const typeCombo = entries[3][1];
+    if (type === 'series') {
+      resultList = resultListSeries;
+    } else if (type === 'movie') {
+      resultList = resultListMovie;
+    } else if (type === 'movie/series') {
+      resultList = resultListSeries.concat(resultListMovie);
+    }
+  }
   updateList(resultList);
-  //const type = entries[2][1];
-  // if (type === 'undefined') {
-  //   if (type === 'series') {
-  //     const resultList = resultListSeries;
-  //     updateList(resultList);
-  //   } else if (type === 'movie') {
-  //     const resultList = resultListMovie;
-  //     updateList(resultList);
-  //   } else if (type === 'undefined') {
-  //     const resultList = resultListSeries.concat(resultListMovie);
-  //     updateList(resultList);
-  //   }
-  // } else {
-  //   const resultList = resultListSeries.concat(resultListMovie);
-  //   updateList(resultList);
-  // }
-  // console.log(type);
 
 };
 
@@ -54,11 +51,11 @@ const updateList = async list => {
   const entries = [...data.entries()];
   const qs = entries[1][1];
 
-  console.log('querystring', qs);
+  // console.log('querystring', qs);
   const languageNames = new Intl.DisplayNames(['en'], {type: 'language'});
 
   for (let i = 0;i < list.length;i ++) {
-    console.log(list[i].name);
+    // console.log(list[i].name);
 
     let poster;
     let language;
