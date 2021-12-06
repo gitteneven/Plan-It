@@ -64,11 +64,15 @@
 } ?>
 
 <ul>
+<input type="submit" class="add--button button" value="check time">
 <input type="submit" class="add--button button" value="make timeslot">
 </form>
 <?php //echo $selectedWatchItem;?><br>
 <?php foreach($watchArray as $item){
-  echo $item .' ';
+  echo $item .' ' ;
+};?>
+<?php foreach($watchTimes as $time){
+  echo $time .' ';
 };?>
 </section>
 </article>
