@@ -344,6 +344,8 @@ class PagesController extends Controller {
        $availableTimeNonFormat=$endDateNonFormat-$startDateNonFormat;
        $availableTime=date($availableTimeNonFormat);
        $_SESSION['availableTime']=$availableTime;
+       $_SESSION['startTime']=$startDateNonFormat;
+       $_SESSION['endTime']=$endDateNonFormat;
 
         // $availableTime=date("Y-m-d, H:i:s", strtotime($availableTimeNonFormat));
         //  $availableTime=$availableTimeNonFormat->format("Y-m-d H:i:s");
@@ -376,14 +378,53 @@ class PagesController extends Controller {
   if(!empty($_POST['action'])) {
     if ($_POST['action'] == 'addWatchItem') {
       $watchArray= array();
+      $watchTimes=array();
+      $overdueTimes=array();
       foreach($_POST['watchItem'] as $watchItem){
+
         $watchListItem= Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem)->first();
         array_push($watchArray, $watchListItem);
+        // $watchArray['10']=$watchListItem;
+        // array_push($watchArray, ['10'=>$watchListItem]);
+
         //$this->set('selectedWatchItem', $selectedWatchItem);
         $newAvailableTime=$_SESSION['availableTime']-$watchListItem->duration;
         $this->set('newAvailableTime', $newAvailableTime);
+
+
+
+
+        // $newTimeslot = new Planner;
+        // $newTimeslot->user_id = $_SESSION['id'];
+        // $newTimeslot->watch_id=$watchItem;
+        // $newTimeslot->save();
+
       }
+
+      foreach($watchArray as $watchItem){
+        if($_SESSION['startTime'] < $_SESSION['endTime']){
+        $newTimeslot = new Planner;
+        $newTimeslot->user_id = $_SESSION['id'];
+        $newTimeslot->watch_id=$watchItem->watch_id;
+        $newTimeslot->title=$watchItem->title;
+        if($watchItem->series==1){
+          $newTimeslot->series=1;
+        }else if($watchItem->movie==1){
+          $newTimeslot->movie=1;
+        }
+        $plannedTime=$_SESSION['startTime']+$watchItem->duration;
+        array_push($watchTimes, $_SESSION['startTime']);
+        $newTimeslot->date= date("Y-m-d", $_SESSION['startTime']);
+        $newTimeslot->time= date("H:i:s", $_SESSION['startTime']);
+        $_SESSION['startTime']=$plannedTime;
+        $newTimeslot->save();
+      }else if($_SESSION['startTime'] > $_SESSION['endTime']){
+        array_push($overdueTimes, $watchItem);
+      }
+    }
       $this->set('watchArray', $watchArray);
+      $this->set('watchTimes', $watchTimes);
+      $this->set('overdueTimes', $overdueTimes);
     }
   }
 

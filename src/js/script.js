@@ -14,8 +14,6 @@ const submitWithJS = async () => {
   const entries = [...data.entries()];
   console.log(entries);
   const qs = entries[1][1];
-  const type = entries[2][1];
-  console.log(type);
   const urlSeries = `https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=${qs}`;
   const urlMovies = `https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=${qs}`;
   const responseSeries = await fetch(urlSeries);
@@ -24,21 +22,25 @@ const submitWithJS = async () => {
   const responseMovie = await fetch(urlMovies);
   const listMovie = await responseMovie.json();
   const resultListMovie = listMovie.results;
-  if (type !== '') {
-    if (type === 'series') {
-      const resultList = resultListSeries;
-      updateList(resultList);
-    } else if (type === 'movie') {
-      const resultList = resultListMovie;
-      updateList(resultList);
-    } else {
-      const resultList = resultListSeries.concat(resultListMovie);
-      updateList(resultList);
-    }
-  } else {
-    const resultList = resultListSeries.concat(resultListMovie);
-    updateList(resultList);
-  }
+  const resultList = resultListSeries.concat(resultListMovie);
+  updateList(resultList);
+  //const type = entries[2][1];
+  // if (type === 'undefined') {
+  //   if (type === 'series') {
+  //     const resultList = resultListSeries;
+  //     updateList(resultList);
+  //   } else if (type === 'movie') {
+  //     const resultList = resultListMovie;
+  //     updateList(resultList);
+  //   } else if (type === 'undefined') {
+  //     const resultList = resultListSeries.concat(resultListMovie);
+  //     updateList(resultList);
+  //   }
+  // } else {
+  //   const resultList = resultListSeries.concat(resultListMovie);
+  //   updateList(resultList);
+  // }
+  // console.log(type);
 
 };
 

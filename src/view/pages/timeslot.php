@@ -1,7 +1,7 @@
 <article class="timeslotPlanner">
 
  <h1 class="subtitle">Add a timeslot</h1>
- <section class="border login__wrap">
+ <section class="border login__wrap timeslot__wrap">
    <form class="timeslot__form" method="post" action="index.php?page=timeslot" enctype="multipart/form-data">
       <input type="hidden" name="action" value="timeslot">
 
@@ -24,39 +24,42 @@
   </form>
 <?php //echo $startDate . ' - ' . $startTime; ?><br>
 <?php //echo $endDate . ' - ' . $endTime; ?><br>
-<?php echo $availableTime; ?><br>
-<?php echo $startDateNonFormat . ' - ' . $endDateNonFormat; ?><br>
-<?php echo $newAvailableTime; ?><br>
+<?php //echo $availableTime; ?><br>
+<?php //echo $startDateNonFormat . ' - ' . $endDateNonFormat; ?><br>
+<?php //echo $newAvailableTime; ?><br>
 
-  <form class="timeslot__form" method="post" action="index.php?page=timeslot" enctype="multipart/form-data">
+  <form class="timeslot__form--items" method="post" action="index.php?page=timeslot" enctype="multipart/form-data">
       <input type="hidden" name="action" value="addWatchItem">
       <ul>
 <?php foreach($watchSuggestions as $sugg){?>
 
-        <li>
+        <li class="timeslot__sugg <?php if($sugg->movie == 1)echo 'sugg--movie';?>">
     <h3><?php echo $sugg->title ?></h3>
     <?php if($sugg->series == 1){
         $suggApi = 'https://api.themoviedb.org/3/tv/'. $sugg->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $suggCode = file_get_contents($suggApi);
-        $suggInfo= json_decode($suggCode);
-        $suggDate = date( 'Y', strtotime($suggInfo->first_air_date));
+        $suggInfo= json_decode($suggCode);?>
+        <img class="sugg__img" src="https://image.tmdb.org/t/p/w500/<?php echo $suggInfo->poster_path?>" alt="">
+       <?php $suggDate = date( 'Y', strtotime($suggInfo->first_air_date));
         echo '<p>'.$suggDate.'</p>';
         // $suggCurrent = $currentEpisodes->where('watch_id', '=', $sugg->watch_id)->first();
         $runtime= $suggInfo->episode_run_time[0];
         echo '<p>'.$runtime.' min </p>';
         // echo '<input type="submit" class="add--button button" value="ADD">';
         ?>
-        <label>ADD<input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class=" " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
+        <label><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
         <?php
       }else if($sugg->movie == 1){
         $suggApi = 'https://api.themoviedb.org/3/movie/'. $sugg->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $suggCode = file_get_contents($suggApi);
-        $suggInfo= json_decode($suggCode);
+        $suggInfo= json_decode($suggCode);?>
+        <img class="sugg__img" src="https://image.tmdb.org/t/p/w500/<?php echo $suggInfo->poster_path?>" alt="">
+       <?php
         $suggDate = date( 'Y', strtotime($suggInfo->release_date));
         echo '<p>'.$suggDate.'</p>';
         $runtime= $suggInfo->runtime;
         echo '<p>'.$runtime.' min </p>';?>
-        <label>ADD<input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class=" " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
+        <label><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
         <?php
       } ?>
       </li><br>
@@ -64,11 +67,20 @@
 } ?>
 
 <ul>
+<input type="submit" class="add--button button" value="check time">
 <input type="submit" class="add--button button" value="make timeslot">
 </form>
 <?php //echo $selectedWatchItem;?><br>
-<?php foreach($watchArray as $item){
-  echo $item .' ';
-};?>
+<?php //foreach($watchArray as $item){
+  //echo $item .' ' ;
+//};?>
+<?php //foreach($watchTimes as $time){
+  //echo $time .' ';
+//};
+if(!empty($overdueTimes)){
+?><p>overdue:</p>
+<?php foreach($overdueTimes as $time){
+  echo $time .' ';
+};}?>
 </section>
 </article>
