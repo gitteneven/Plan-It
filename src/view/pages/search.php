@@ -7,10 +7,10 @@
   <input type="text" class="title filter__field" name="title" id="title" placeholder="example: story" value="<?php if(!empty($_GET['title'])){ echo $_GET['title'];} ?>" size="45">
 
   <label class="type input" for="series"> series
-  <input type="radio" class="type filter__field" name="type" id="type" value="series">
+  <input type="checkbox" class="type filter__field" name="type" id="type" value="series">
 
   <label class="type input" for="series"> movie
-  <input type="radio" class="type filter__field" name="type" id="type" value="movie">
+  <input type="checkbox" class="type filter__field" name="type" id="type" value="movie">
 
   <div class="buttons">
   <input type="submit" name="submit" value="search" class="search button">

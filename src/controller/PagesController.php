@@ -91,16 +91,19 @@ class PagesController extends Controller {
           $seriesArray = $resultSeries->results;
           $moviesArray = $resultMovies->results;
           $resultList = array_merge($seriesArray, $moviesArray);
-      
+
            if(empty($_POST['type'])){
              $list = $resultList;
           } else if($_POST['type'] == 'movie'){
              $list = $moviesArray;
           } else if($_POST['type'] == 'series'){
               $list = $seriesArray;
+          } else if($_POST['type'] == 'series' && $_POST['type'] == 'movie'){
+              $list = $resultList;
           }
 
           $titleSearch = $_POST['title'];
+          $typeSearch = $_POST['type']; 
 
          $this->set('list', $list);
           $this->set('exists', $exists);
@@ -163,11 +166,14 @@ class PagesController extends Controller {
              $list = $moviesArray;
           } else if($_POST['type'] == 'series'){
               $list = $seriesArray;
+          } else if($_POST['type'] == 'series' && $_POST['type'] == 'movie'){
+              $list = $resultList;
           }
 
-        // $titleSearch = $_POST['title'];
-         $this->set('titleSearch', $titleClean);
-       $this->set('list', $list);
+
+          $titleSearch = $_POST['title'];
+        $this->set('titleSearch', $titleClean);
+        $this->set('list', $list);
         $this->set('exists', $exists);
         // header('Location:index.php?page=overview');
         // exit();
