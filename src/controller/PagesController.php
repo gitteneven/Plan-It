@@ -328,12 +328,6 @@ class PagesController extends Controller {
       $endDateNonFormat = strtotime($endDateAndTime);
       $this->set('startDateNonFormat', $startDateNonFormat);
       $this->set('endDateNonFormat', $endDateNonFormat);
-      // $startDate = $startDateNonFormat->format('d-m-Y');
-      // //$startTime = $startDateNonFormat->format('H:i:s');
-      // $startTime = strtotime($startDateNonFormat->format('H:i:s'));
-      // $endDate = $endDateNonFormat->format('d-m-Y');
-      // // $endTime = $endDateNonFormat->format('H:i:s');
-      // $endTime = strtotime($endDateNonFormat->format('H:i:s'));
 
        $availableTimeNonFormat=$endDateNonFormat-$startDateNonFormat;
        $availableTime=date($availableTimeNonFormat);
@@ -359,14 +353,18 @@ class PagesController extends Controller {
       // $availableTime=$availableTimeNonFormat;
 
       $watchSuggestions= Watch_list::where('user_id', '=', $_SESSION['id'])->where('duration', '<=', $availableTime)->get();
-
-
+      $currentStatusArray=array();
+      foreach($watchSuggestions as $watchItem){
+        $suggestionCurrentStatus= Series::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem->watch_id)->first();
+        array_push($currentStatusArray, $suggestionCurrentStatus);
+      }
       // $this->set('startDate', $startDate);
       // $this->set('startTime', $startTime);
       // $this->set('endDate', $endDate);
       // $this->set('endTime', $endTime);
-       $this->set('availableTime', $availableTime);
+      $this->set('availableTime', $availableTime);
       $this->set('watchSuggestions', $watchSuggestions);
+      $this->set('currentStatusArray', $currentStatusArray);
     }
   }
   if(!empty($_POST['action'])) {

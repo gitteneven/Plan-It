@@ -443,8 +443,10 @@ input:focus {
 .timeslot__form {
   display: flex;
   flex-direction: column;
-  width: 30rem;
-  margin-right: 4rem;
+  width: 29rem;
+  margin-right: 2rem;
+  border-right: solid var(--colorPink);
+  padding-right: 2rem;
 }
 
 .timeslot__form--items {
@@ -461,6 +463,11 @@ input:focus {
   background-color: var(--colorDarkblue);
   padding: 1rem;
   border-radius: .8rem;
+  display: grid;
+  grid-template-areas:
+    'img title . .'
+    'img ep . button'
+    'img duration . button';
 }
 
 .sugg--movie {
@@ -468,7 +475,52 @@ input:focus {
 }
 
 .sugg__img {
-  width: 5rem;
+  width: 5.7rem;
+  grid-area: img;
+  margin-top: -1rem;
+  margin-bottom: -1rem;
+  padding-bottom: -1rem;
+  margin-left: .5rem;
+}
+
+.sugg__title {
+  grid-area: title;
+  font-weight: bold;
+  font-size: 1.2rem;
+  max-width: 13rem;
+}
+
+em {
+  font-weight: normal;
+  font-size: .9rem;
+}
+
+.sugg__year {
+  grid-area: year;
+}
+
+.sugg__duration {
+  grid-area: duration;
+  background-color: var(--colorPurple);
+  width: 4.5rem;
+  height: 2rem;
+  border-radius: .9rem;
+  padding: .1rem .4rem;
+  text-align: center;
+}
+
+.duration--movie {
+  background-color: var(--colorDarkblue);
+}
+
+.sugg__ep {
+  grid-area: ep;
+  margin-top: -1rem;
+}
+
+.sugg__add--label {
+  grid-area: button;
+  margin-top: -1rem;
 }
 
 .sugg__add::before {
@@ -476,8 +528,12 @@ input:focus {
   display: inline-block;
   background-color: var(--colorPink);
   color: white;
-  padding: .6rem;
+  padding: 1rem .6rem;
   border-radius: .8rem;
+  height: 3rem;
+  font-family: 'bronx_reg', sans-serif;
+  font-size: 1.1rem;
+
 }
 
 .sugg__add:hover::before {
@@ -487,7 +543,12 @@ input:focus {
 
 .sugg__add:checked::before {
   content: 'ADDED';
-  background-color: var(--colorBlue);
-  color: var(--colorPink);
-  border: var(--colorPink) solid .15rem;
+  background-color: var(--colorGreen);
+  color: var(--colorPurple);
+  border: var(--colorPurple) solid .15rem;
+}
+
+.sugg__add:checked {
+  margin-right: 2rem;
+  margin-left: -1.6rem;
 }

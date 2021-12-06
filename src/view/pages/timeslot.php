@@ -34,20 +34,23 @@
 <?php foreach($watchSuggestions as $sugg){?>
 
         <li class="timeslot__sugg <?php if($sugg->movie == 1)echo 'sugg--movie';?>">
-    <h3><?php echo $sugg->title ?></h3>
+
     <?php if($sugg->series == 1){
         $suggApi = 'https://api.themoviedb.org/3/tv/'. $sugg->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $suggCode = file_get_contents($suggApi);
         $suggInfo= json_decode($suggCode);?>
         <img class="sugg__img" src="https://image.tmdb.org/t/p/w500/<?php echo $suggInfo->poster_path?>" alt="">
        <?php $suggDate = date( 'Y', strtotime($suggInfo->first_air_date));
-        echo '<p>'.$suggDate.'</p>';
+        ?>
+        <h3 class="sugg__title"><?php echo $sugg->title . ' <em>('. $suggDate .')</em>' ?></h3>
+        <p class="sugg__ep">Se <?php foreach($currentStatusArray as $status){ if($sugg->watch_id == $status['watch_id']){echo $status->current_ses . ' ' . 'Ep' . ' ' . $status->current_ep;}} ?></p>
+        <?php
         // $suggCurrent = $currentEpisodes->where('watch_id', '=', $sugg->watch_id)->first();
         $runtime= $suggInfo->episode_run_time[0];
-        echo '<p>'.$runtime.' min </p>';
+        echo '<p class="sugg__duration">'.$runtime.' min </p>';
         // echo '<input type="submit" class="add--button button" value="ADD">';
         ?>
-        <label><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
+        <label class="sugg__add--label"><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
         <?php
       }else if($sugg->movie == 1){
         $suggApi = 'https://api.themoviedb.org/3/movie/'. $sugg->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
@@ -55,11 +58,12 @@
         $suggInfo= json_decode($suggCode);?>
         <img class="sugg__img" src="https://image.tmdb.org/t/p/w500/<?php echo $suggInfo->poster_path?>" alt="">
        <?php
-        $suggDate = date( 'Y', strtotime($suggInfo->release_date));
-        echo '<p>'.$suggDate.'</p>';
+        $suggDate = date( 'Y', strtotime($suggInfo->release_date));?>
+        <h3 class="sugg__title"><?php echo $sugg->title . ' <em>('. $suggDate .')</em>' ?></h3>
+        <?php
         $runtime= $suggInfo->runtime;
-        echo '<p>'.$runtime.' min </p>';?>
-        <label><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
+        echo '<p class="sugg__duration duration--movie">'.$runtime.' min </p>';?>
+        <label class="sugg__add--label"><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
         <?php
       } ?>
       </li><br>
