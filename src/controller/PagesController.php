@@ -353,18 +353,10 @@ class PagesController extends Controller {
       // $availableTime=$availableTimeNonFormat;
 
       $watchSuggestions= Watch_list::where('user_id', '=', $_SESSION['id'])->where('duration', '<=', $availableTime)->get();
-      $currentStatusArray=array();
-      foreach($watchSuggestions as $watchItem){
-        $suggestionCurrentStatus= Series::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem->watch_id)->first();
-        array_push($currentStatusArray, $suggestionCurrentStatus);
-      }
-      // $this->set('startDate', $startDate);
-      // $this->set('startTime', $startTime);
-      // $this->set('endDate', $endDate);
-      // $this->set('endTime', $endTime);
+
       $this->set('availableTime', $availableTime);
       $this->set('watchSuggestions', $watchSuggestions);
-      $this->set('currentStatusArray', $currentStatusArray);
+
     }
   }
   if(!empty($_POST['action'])) {
@@ -372,27 +364,23 @@ class PagesController extends Controller {
       $watchArray= array();
       $watchTimes=array();
       $overdueTimes=array();
+      $possibleTimes=array();
       foreach($_POST['watchItem'] as $watchItem){
 
         $watchListItem= Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem)->first();
         array_push($watchArray, $watchListItem);
-        // $watchArray['10']=$watchListItem;
-        // array_push($watchArray, ['10'=>$watchListItem]);
 
         //$this->set('selectedWatchItem', $selectedWatchItem);
         $newAvailableTime=$_SESSION['availableTime']-$watchListItem->duration;
         $this->set('newAvailableTime', $newAvailableTime);
 
-
-
-
-        // $newTimeslot = new Planner;
-        // $newTimeslot->user_id = $_SESSION['id'];
-        // $newTimeslot->watch_id=$watchItem;
-        // $newTimeslot->save();
-
       }
-
+      $watchDuration=0;
+      foreach($watchArray as $watchItem){
+        $watchDuration +=$watchItem->duration;
+      }
+      $this->set('watchDuration', $watchDuration);
+      if($watchDuration < $_SESSION['availableTime']){
       foreach($watchArray as $watchItem){
         if($_SESSION['startTime'] < $_SESSION['endTime']){
         $newTimeslot = new Planner;
@@ -410,13 +398,27 @@ class PagesController extends Controller {
         $newTimeslot->time= date("H:i:s", $_SESSION['startTime']);
         $_SESSION['startTime']=$plannedTime;
         $newTimeslot->save();
-      }else if($_SESSION['startTime'] > $_SESSION['endTime']){
-        array_push($overdueTimes, $watchItem);
       }
-    }
+      }}else if ($watchDuration > $_SESSION['availableTime']){
+        foreach($watchArray as $watchItem){
+          if($_SESSION['startTime']+$watchItem->duration < $_SESSION['endTime']){
+            array_push($possibleTimes, $watchItem);
+            $plannedTime=$_SESSION['startTime']+$watchItem->duration;
+            $_SESSION['startTime']=$plannedTime;
+          }else{
+            array_push($overdueTimes, $watchItem);
+          }
+        }
+
+      }
+      // else if($_SESSION['startTime'] > $_SESSION['endTime']){
+      //   array_push($overdueTimes, $watchItem);
+      // }
+
       $this->set('watchArray', $watchArray);
       $this->set('watchTimes', $watchTimes);
       $this->set('overdueTimes', $overdueTimes);
+      $this->set('possibleTimes', $possibleTimes);
     }
   }
 
@@ -426,7 +428,6 @@ class PagesController extends Controller {
     $watchSuggestions= Watch_list::where('user_id', '=', $_SESSION['id'])->where('duration', '<=', $availableTime)->get();
     $this->set('watchSuggestions', $watchSuggestions);
   }
-
   $this->set('title','Add a timeslot');
   }
 

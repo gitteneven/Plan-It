@@ -449,17 +449,45 @@ input:focus {
   padding-right: 2rem;
 }
 
+.timeslot__input {
+  margin: .4rem .1rem;
+}
+
 .timeslot__form--items {
   display: flex;
   flex-direction: column;
   width: 30rem;
 }
 
+.time__label {
+  display: inline-block;
+}
+
 .timeslot__wrap {
   display: flex;
 }
 
-.timeslot__sugg {
+.watchItemList {
+  height: 65vh;
+  overflow: scroll;
+  padding-right: 2rem;
+}
+
+.watchItemList::-webkit-scrollbar-thumb {
+  background-color: var(--colorPink);
+  border-radius: .8rem;
+  opacity: 70%;
+}
+
+.watchItemList::-webkit-scrollbar-track {
+  background-color: black;
+}
+
+.watchItemList::-webkit-scrollbar {
+  width: .5rem;
+}
+
+.timeslot__sugg, .possible__card, .overdue__card {
   background-color: var(--colorDarkblue);
   padding: 1rem;
   border-radius: .8rem;
@@ -468,6 +496,14 @@ input:focus {
     'img title . .'
     'img ep . button'
     'img duration . button';
+}
+
+.possible__card, .overdue__card {
+  margin: .5rem .1rem;
+}
+
+.overdue__card {
+  background-color: var(--colorPurple);
 }
 
 .sugg--movie {
@@ -539,6 +575,7 @@ em {
 .sugg__add:hover::before {
   background-color: var(--colorBlue);
   color: var(--colorPurple);
+  cursor: pointer;
 }
 
 .sugg__add:checked::before {
@@ -551,4 +588,10 @@ em {
 .sugg__add:checked {
   margin-right: 2rem;
   margin-left: -1.6rem;
+}
+
+.add--button {
+  height: 2.7rem;
+  width: 15rem;
+  margin: .5rem auto;
 }
