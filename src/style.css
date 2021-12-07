@@ -355,6 +355,11 @@ input:focus {
   top: 7rem;
 }
 
+.column__cards {
+  overflow: scroll;
+  height: 52.5vh;
+}
+
 .card {
   background-color: var(--colorDarkblue);
   margin: .5rem;
@@ -395,6 +400,10 @@ input:focus {
 
 .movie {
   background-color: var(--colorPurple);
+}
+
+.passed--card {
+  background-color: gray;
 }
 
 /*---------------------------------------watchlist----------------------*/
@@ -473,18 +482,24 @@ input:focus {
   padding-right: 2rem;
 }
 
-.watchItemList::-webkit-scrollbar-thumb {
+.watchItemList::-webkit-scrollbar-thumb, .column__cards::-webkit-scrollbar-thumb {
   background-color: var(--colorPink);
   border-radius: .8rem;
   opacity: 70%;
 }
 
-.watchItemList::-webkit-scrollbar-track {
+.watchItemList::-webkit-scrollbar-track, .column__cards::-webkit-scrollbar-track {
   background-color: black;
+  width: 6rem;
 }
 
-.watchItemList::-webkit-scrollbar {
-  width: .5rem;
+.watchItemList::-webkit-scrollbar-corner, .column__cards::-webkit-scrollbar-corner {
+  width: 6rem;
+  visibility: hidden;
+}
+
+.watchItemList::-webkit-scrollbar, .column__cards::-webkit-scrollbar {
+  width: .4rem;
 }
 
 .timeslot__sugg, .possible__card, .overdue__card {

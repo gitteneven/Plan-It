@@ -29,8 +29,8 @@
         <p>Selected Time: <?php echo round($watchDuration/60);?> min</p><?php } ?>
         <?php if(!empty($overdueTimes)){ ?><br>
           <p>You have selected too many items. Please select fewer items to fit in your timeslot</p>
-        <p>Selected items:</p><ul> <?php foreach($possibleTimes as $item)echo '<li class="possible__card"><p>' . $item->title .' : '.$item->duration.'<p></li>';?></ul>
-        <p>Overdue items: <?php foreach($overdueTimes as $item)echo '<li class="overdue__card"><p>' . $item->title .' : '.$item->duration.'<p></li>' ;?></p><?php } ?>
+        <p>Selected items:</p><ul> <?php foreach($possibleTimes as $item)echo '<li class="possible__card"><p>' . $item->title .' : '.$item->duration/60 .' min<p></li>';?></ul>
+        <p>Overdue items: <?php foreach($overdueTimes as $item)echo '<li class="overdue__card"><p>' . $item->title .' : '.$item->duration/60 .' min<p></li>' ;?></p><?php } ?>
   </form>
 <?php //echo $startDateNonFormat . ' - ' . $endDateNonFormat; ?><br>
 <?php //echo $newAvailableTime; ?><br>
