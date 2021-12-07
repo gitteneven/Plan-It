@@ -77,6 +77,9 @@ class PagesController extends Controller {
       if(!empty($_POST['action'])) {
       if($_POST['action']== 'searchWatchlist'){
           $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
+          $data = $_POST;
+          $errors = Watch_list::validate($data);
+          if(empty($errors)){
           $titleClean = str_replace(' ', '%20', $_POST['title']);
           $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
           $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
@@ -88,13 +91,11 @@ class PagesController extends Controller {
           $moviesArray = $resultMovies->results;
           $resultList = array_merge($seriesArray, $moviesArray);
 
-           if(empty($_POST['type'])){
-             $list = $resultList;
-          } else if($_POST['type'] == 'movie'){
+           if($_POST['type'] == 'movie'){
              $list = $moviesArray;
           } else if($_POST['type'] == 'series'){
               $list = $seriesArray;
-          } else if($_POST['type'] == 'series' && $_POST['type'] == 'movie'){
+          } else if($_POST['type'] == 'movie/series'){
               $list = $resultList;
           }
 
@@ -103,7 +104,11 @@ class PagesController extends Controller {
 
          $this->set('list', $list);
           $this->set('exists', $exists);
-
+        } else{
+          $list ='';
+          $this->set('list', $list);
+          $this->set('errors', $errors);
+        }
 
       }
    }
@@ -153,7 +158,7 @@ class PagesController extends Controller {
           }
 
 
-          $titleSearch = $_POST['title'];
+         // $titleSearch = $_POST['title__search'];
         $this->set('titleSearch', $titleClean);
         $this->set('list', $list);
         $this->set('exists', $exists);
