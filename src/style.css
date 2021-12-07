@@ -397,6 +397,77 @@ input:focus {
   background-color: var(--colorPurple);
 }
 
+/*---------------------------------------search----------------------*/
+
+.search {
+  margin-top: 2rem;
+  width: 71rem;
+}
+
+.search__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.search__back {
+  font-family: var(--font);
+  font-weight: bold;
+  color: var(--colorBlue);
+  margin-bottom: .5rem;
+  display: flex;
+  text-decoration: none;
+  font-size: 1.3rem;
+}
+
+.search__arrow {
+  width: 1rem;
+}
+
+.form__title {
+  display: flex;
+  flex-direction: row;
+}
+
+.form__title--text {
+  height: 5rem;
+  background-color: transparent;
+  color: var(--colorPink);
+  font-size: 2rem;
+  font-family: 'bronx_twolines', sans-serif;
+  padding-left: 1rem;
+  text-align: center;
+}
+
+.buttons {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.search__button {
+  display: inline-block;
+  background-image: url(./assets/search.svg);
+  background-size: 3rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 5rem;
+  color: transparent;
+}
+
+.button__added {
+  content: 'ADDED';
+  background-color: var(--colorPurple);
+  color: white;
+  width: 13.5rem;
+  border: var(--colorBlue) solid .15rem;
+  text-align: center;
+  font-size: 1.2rem;
+  text-decoration: none;
+  font-family: 'bronx_reg', sans-serif;
+  border-radius: .8rem;
+  z-index: 2;
+  justify-content: center;
+  align-items: center;
+}
 /*---------------------------------------watchlist----------------------*/
 
 .overview {
@@ -404,23 +475,31 @@ input:focus {
 }
 
 .overview__list {
+  width: 70rem;
+  justify-content: center;
+  margin: 3rem auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
   grid-gap: var(--spacerBig);
-
 }
 
 .overview__list--item {
+  display: flex;
+  flex-direction: column;
+}
+
+.overview__list--link {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, 2rem);
+  grid-template-rows: auto;
   padding: var(--spacerRegular);
   font-family: var(--font);
+  z-index: -1;
 }
 
 .overview__list--img {
-  grid-row: 1/span4;
+  grid-row: 1/span 6;
   width: 8.5rem;
   margin-right: var(--spacerSmall);
 }

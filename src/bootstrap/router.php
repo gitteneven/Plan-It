@@ -40,6 +40,10 @@ $routes = array(
   'timeslot' => array(
     'controller' => 'Pages',
     'action' => 'timeslot'
+  ),
+  'detail' => array(
+    'controller' => 'Pages',
+    'action' => 'detail'
   )
 );
 

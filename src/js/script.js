@@ -13,7 +13,7 @@ const submitWithJS = async () => {
   const $form = document.querySelector('.filter-form');
   const data = new FormData($form);
   const entries = [...data.entries()];
-  const qs = entries[1][1];
+  const qs = entries[2][1];
   const urlSeries = `https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=${qs}`;
   const urlMovies = `https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=${qs}`;
   const responseSeries = await fetch(urlSeries);
@@ -26,8 +26,9 @@ const submitWithJS = async () => {
 
   console.log(entries);
 
-  console.log(entries[2][1]);
-  const type = entries[2][1];
+  console.log(entries[1][1]);
+  const type = entries[1][1];
+  console.log(type);
   //const typeCombo = entries[3][1];
   if (type === 'series') {
     resultList = resultListSeries;
@@ -40,10 +41,7 @@ const submitWithJS = async () => {
   } else if (type === 'movie/series') {
     resultList = resultListSeries.concat(resultListMovie);
     updateList(resultList);
-
   }
-
-
 };
 
 
