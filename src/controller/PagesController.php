@@ -381,7 +381,7 @@ class PagesController extends Controller {
       }
       $this->set('watchDuration', $watchDuration);
 
-      if($watchDuration < $_SESSION['availableTime'] || $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
+      if($watchDuration < $_SESSION['availableTime'] /*|| $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']*/){
       foreach($watchArray as $watchItem){
         if($_SESSION['startTime'] < $_SESSION['endTime']){
         $newTimeslot = new Planner;
@@ -405,9 +405,9 @@ class PagesController extends Controller {
       // unset($watchArray);
         header('Location:index.php?page=home');
           exit();
-    }else if ($watchDuration > $_SESSION['availableTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] > $_SESSION['endTime']){
+    }else if ($watchDuration > $_SESSION['availableTime'] /*|| $_SESSION['overtime']==true && $_SESSION['startTime'] > $_SESSION['endTime']*/){
         foreach($watchArray as $watchItem){
-          if($_SESSION['startTime']+$watchItem->duration < $_SESSION['endTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
+          if($_SESSION['startTime']+$watchItem->duration < $_SESSION['endTime']/*|| $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']*/){
             array_push($possibleTimes, $watchItem);
             $plannedTime=$_SESSION['startTime']+$watchItem->duration;
             $_SESSION['startTime']=$plannedTime;

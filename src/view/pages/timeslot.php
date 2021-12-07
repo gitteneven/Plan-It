@@ -20,7 +20,7 @@
             <div class="timeslot__radio">
             <label class="radio__wrap"><input type="radio" name="limit__radio" value=true >Yes!</label>
             <label class="radio__wrap"><input type="radio" name="limit__radio" value=false >No!</label></div>
-        </label><?php echo $overtime ?>
+        </label>
         <label class="timeslot__label ">
             <span class="form__text">Do you have a preference?</span>
         </label>
