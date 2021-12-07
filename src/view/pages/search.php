@@ -5,12 +5,12 @@
 <form id="form" class="form filter-form" method="post" action="index.php?page=search" enctype="multipart/form-data" >
   <input type="hidden" name="action" value="searchWatchlist">
 
-  <div class="form__filter">
-  <label class="form__type input form__filter" for="type-select"> Filter on:</label>
-  <select name="form__type" id="form__type" class="form__type filter__field">
+  <div class="form__filter--select">
+  <label class="form__type input form__filter--label" for="type-select"> Filter on:</label>
+  <select name="form__type" id="form__type" class="form__type form__type--select filter__field">
     <option value="movie/series">Movie/series</option>
-    <option value="series">series</option>
-    <option value="movie">movie</option>
+    <option value="series">Series</option>
+    <option value="movie">Movie</option>
   </select>
   </div>
 

@@ -477,6 +477,30 @@ input:focus {
   align-items: center;
 }
 
+.form__filter--select {
+  margin: -2rem 7rem 1rem .5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form__filter--label {
+  font-size: 1.2rem;
+  padding-right: 2rem;
+}
+
+.form__type--select {
+  overflow: hidden;
+  width: 10rem;
+  color: var(--colorBlue);
+  background: transparent;
+  font-family: var(--font);
+  font-size: 1.2rem;
+  text-align: center;
+  border: var(--colorBlue) solid .15rem;
+  border-radius: .8rem;
+  justify-content: left;
+}
+
 /*---------------------------------------watchlist----------------------*/
 
 .overview {
