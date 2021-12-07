@@ -41,7 +41,9 @@
   <form class="timeslot__form--items" method="post" action="index.php?page=timeslot" enctype="multipart/form-data">
       <input type="hidden" name="action" value="addWatchItem">
       <ul class="watchItemList">
-<?php foreach($watchSuggestions as $sugg){?>
+<?php
+if(!empty($watchSuggestions)){
+  foreach($watchSuggestions as $sugg){?>
 
       <li class="timeslot__sugg <?php if($sugg->movie == 1)echo 'sugg--movie';?>">
 
@@ -78,6 +80,7 @@
       } ?>
       </li><br>
 <?php
+}
 } ?>
 </ul>
 <input type="submit" class="add--button button" value="make timeslot">
