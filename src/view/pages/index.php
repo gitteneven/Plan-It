@@ -24,22 +24,12 @@
 
 
   <ul class="planner__columns">
-    <!-- <li class="border planner__column"><h3>Tuesday <?php echo date("d/m", strtotime('+1 day', $monday));?></h3>
-    <ul class="column__cards">
-        <?php foreach($planning as $item){if($item->date == date("Y-m-d", strtotime('+1 day', $monday))){?>
-          <li class="card">
-        <p class="card__title"><?php echo ucfirst($item->title);?></p>
-        <p>S<?php echo $watchItem->current_ses?> Ep<?php echo $watchItem->current_ep?></p>
-        <p class="card__time"><?php echo $item->time;?></p>
-      </li>
-      <?php }} ?>
-      </ul>
-  </li>  -->
+
   <?php for ($i=0; $i < 7; $i++) {?>
     <li class="border planner__column <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed';} ?>"><h3><?php echo $daysOfWeekArray[$i]; ?> <?php echo date("d/m", strtotime('+'.$i . 'day', $monday));?></h3>
        <ul class="column__cards">
         <?php foreach($planning as $item){if($item->date == date("Y-m-d", strtotime('+'.$i . 'day', $monday))){?>
-          <li class="card <?php if($item->series == 1){echo "series";} elseif($item->movie == 1){echo "movie";} ?>">
+          <li class="card <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed--card';} ?> <?php if($item->series == 1){echo "series";} elseif($item->movie == 1){echo "movie";} ?>">
         <p class="card__title"><?php echo ucfirst($item->title);?></p>
         <?php if($item->series == 1){ ?><p>S<?php echo $watchItem->current_ses?> Ep<?php echo $watchItem->current_ep?></p><?php } ?>
         <p class="card__time"><?php echo $item->time;?></p>
