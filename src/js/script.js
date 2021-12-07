@@ -1,11 +1,12 @@
 let timeoutID;
 
+
 const handleInputField = () => {
   submitWithJS();
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
     submitWithJS();
-  }, 500);
+  }, 1000);
 };
 
 const submitWithJS = async () => {
@@ -26,18 +27,22 @@ const submitWithJS = async () => {
   console.log(entries);
 
   console.log(entries[2][1]);
-  if (entries[2][1] !== '') {
-    const type = entries[2][1];
-    //const typeCombo = entries[3][1];
-    if (type === 'series') {
-      resultList = resultListSeries;
-    } else if (type === 'movie') {
-      resultList = resultListMovie;
-    } else if (type === 'movie/series') {
-      resultList = resultListSeries.concat(resultListMovie);
-    }
+  const type = entries[2][1];
+  //const typeCombo = entries[3][1];
+  if (type === 'series') {
+    resultList = resultListSeries;
+    updateList(resultList);
+
+  } else if (type === 'movie') {
+    resultList = resultListMovie;
+    updateList(resultList);
+
+  } else if (type === 'movie/series') {
+    resultList = resultListSeries.concat(resultListMovie);
+    updateList(resultList);
+
   }
-  updateList(resultList);
+
 
 };
 
@@ -51,7 +56,9 @@ const updateList = async list => {
   const entries = [...data.entries()];
   const qs = entries[1][1];
 
-  // console.log('querystring', qs);
+  console.log('querystring', qs);
+
+
   const languageNames = new Intl.DisplayNames(['en'], {type: 'language'});
 
   for (let i = 0;i < list.length;i ++) {

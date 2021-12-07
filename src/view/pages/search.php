@@ -5,6 +5,7 @@
   <input type="hidden" name="action" value="searchWatchlist">
 
   <label class="title input" for="title"> Keyword for the movie title:
+  <span class="error"><?php if(!empty($errors['text'])){ echo $errors['text'];} ?></span>
   <input type="text" class="title filter__field" name="title" id="title" placeholder="example: story" value="<?php if(!empty($_GET['title'])){ echo $_GET['title'];} ?>" size="45">
 
   <label class="type input" for="type-select"> Filter on type</label>
@@ -19,13 +20,12 @@
   <a class="reset button" href="index.php?page=search">Reset</a>
   </div>
 </form>
-<ul class="overview__list">
-<?php if(!empty($_POST['action'])):  ?>
+<ul class="overview__list ">
+<?php  if(!empty($_POST['action'])):  ?>
+<?php  if(!empty($_POST['title'])):  ?>
 <?php foreach ($list as $item): ?>
   <?php $itemArray = (array)$item;?>
-    <!-- <form class="add__button" method="post" <?php echo('action="index.php?page=search&title='. $_POST['title'] . '"')?>  action="index.php?page=search" enctype="multipart/form-data" > -->
     <form class="add__button" method="post" <?php echo('action="index.php?page=search&title='. $titleSearch . '"')?>   enctype="multipart/form-data">
-     <?php //echo ('<input type="hidden" name="filled__title" value="'. $filledTitle . '">') ?>
      <?php echo ('<input type="hidden" name="title__search" value="'. $titleSearch . '">') ?>
     <input type="hidden" name="action" value="addWatchlist">
         <li class="overview__list--item
@@ -118,7 +118,8 @@
         </li>
   <?php endforeach ?>
 
-   <?php endif; ?>
+  <?php endif; ?>
+  <?php endif; ?>
   </ul>
 
 

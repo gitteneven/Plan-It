@@ -610,3 +610,18 @@ em {
   width: 15rem;
   margin: .5rem auto;
 }
+
+.timeslot__radio {
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+}
+
+.radio__wrap {
+  display: flex;
+  align-items: center;
+}
+
+.timeslot__label {
+  margin: 1rem auto;
+}

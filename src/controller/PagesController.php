@@ -77,6 +77,9 @@ class PagesController extends Controller {
       if(!empty($_POST['action'])) {
       if($_POST['action']== 'searchWatchlist'){
           $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
+          $data = $_POST;
+          $errors = Watch_list::validate($data);
+          if(empty($errors)){
           $titleClean = str_replace(' ', '%20', $_POST['title']);
           $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
           $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
@@ -88,13 +91,11 @@ class PagesController extends Controller {
           $moviesArray = $resultMovies->results;
           $resultList = array_merge($seriesArray, $moviesArray);
 
-           if(empty($_POST['type'])){
-             $list = $resultList;
-          } else if($_POST['type'] == 'movie'){
+           if($_POST['type'] == 'movie'){
              $list = $moviesArray;
           } else if($_POST['type'] == 'series'){
               $list = $seriesArray;
-          } else if($_POST['type'] == 'series' && $_POST['type'] == 'movie'){
+          } else if($_POST['type'] == 'movie/series'){
               $list = $resultList;
           }
 
@@ -103,7 +104,11 @@ class PagesController extends Controller {
 
          $this->set('list', $list);
           $this->set('exists', $exists);
-
+        } else{
+          $list ='';
+          $this->set('list', $list);
+          $this->set('errors', $errors);
+        }
 
       }
    }
@@ -153,7 +158,7 @@ class PagesController extends Controller {
           }
 
 
-          $titleSearch = $_POST['title'];
+         // $titleSearch = $_POST['title__search'];
         $this->set('titleSearch', $titleClean);
         $this->set('list', $list);
         $this->set('exists', $exists);
@@ -344,6 +349,10 @@ class PagesController extends Controller {
 
       $watchSuggestions= Watch_list::where('user_id', '=', $_SESSION['id'])->where('duration', '<=', $availableTime)->get();
 
+      $overtime=$_POST['limit__radio'];
+      $_SESSION['overtime']=$overtime;
+      $this->set('overtime', $overtime);
+
       $this->set('availableTime', $availableTime);
       $this->set('watchSuggestions', $watchSuggestions);
 
@@ -371,7 +380,8 @@ class PagesController extends Controller {
         $watchDuration +=$watchItem->duration;
       }
       $this->set('watchDuration', $watchDuration);
-      if($watchDuration < $_SESSION['availableTime']){
+
+      if($watchDuration < $_SESSION['availableTime'] || $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
       foreach($watchArray as $watchItem){
         if($_SESSION['startTime'] < $_SESSION['endTime']){
         $newTimeslot = new Planner;
@@ -395,9 +405,9 @@ class PagesController extends Controller {
       // unset($watchArray);
         header('Location:index.php?page=home');
           exit();
-    }else if ($watchDuration > $_SESSION['availableTime']){
+    }else if ($watchDuration > $_SESSION['availableTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] > $_SESSION['endTime']){
         foreach($watchArray as $watchItem){
-          if($_SESSION['startTime']+$watchItem->duration < $_SESSION['endTime']){
+          if($_SESSION['startTime']+$watchItem->duration < $_SESSION['endTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
             array_push($possibleTimes, $watchItem);
             $plannedTime=$_SESSION['startTime']+$watchItem->duration;
             $_SESSION['startTime']=$plannedTime;
