@@ -6,7 +6,7 @@ const handleInputField = () => {
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
     submitWithJS();
-  }, 1000);
+  }, 100);
 };
 
 const submitWithJS = async () => {
@@ -24,24 +24,19 @@ const submitWithJS = async () => {
   const resultListMovie = listMovie.results;
   let resultList;
 
-  console.log(entries);
-
-  console.log(entries[1][1]);
   const type = entries[1][1];
-  console.log(type);
   //const typeCombo = entries[3][1];
   if (type === 'series') {
     resultList = resultListSeries;
-    updateList(resultList);
-
   } else if (type === 'movie') {
     resultList = resultListMovie;
-    updateList(resultList);
-
   } else if (type === 'movie/series') {
     resultList = resultListSeries.concat(resultListMovie);
-    updateList(resultList);
   }
+
+  //console.log(resultList);
+  updateList(resultList);
+
 };
 
 
@@ -61,9 +56,9 @@ const updateList = async list => {
 
   for (let i = 0;i < list.length;i ++) {
     // console.log(list[i].name);
-
     let poster;
     let language;
+    const id = list[i].id;
     const languageSearch = list[i].original_language;
     const languageFull = languageNames.of(languageSearch);
     if (list[i].poster_path) {
@@ -78,48 +73,83 @@ const updateList = async list => {
       language = ``;
     }
 
+
     if (Object.prototype.hasOwnProperty.call(list[i], 'name')) {
       const itemApi = `https://api.themoviedb.org/3/tv/${list[i].id}?api_key=662c8478635d4f25ee66abbe201e121d`;
       const apiCode = await fetch(itemApi);
       const apiJson = await apiCode.json();
       const resultApi = apiJson;
-      const runtime = resultApi.episode_run_time;
+      let runtime;
+      let yearItem;
+      const runtimeSearch = resultApi.episode_run_time;
+      if (runtimeSearch.length === 0) {
+        runtime = ` <input type="hidden" name="runtime" value="2700">
+                     <p class="overview__list--runtime"> 45min </p>`;
+      } else {
+        runtime = ` <input type="hidden" name="runtime" value="${runtimeSearch}">
+                     <p class="overview__list--runtime"> ${runtimeSearch}min </p>`;
+      }
       const date = list[i].first_air_date;
       const year = parseInt(date);
+      if (year) {
+        yearItem = year;
+      } else {
+        yearItem = ``;
+      }
 
       listInner += `<li class="overview__list--item border--blue">
-                    <h2 class="overview__list--title"> ${list[i].name}</h2>
+                     <a class="overview__list--link" href="index.php?page=detail&id=${id}">
+                    <h2 class="overview__list--title"> ${list[i].name} <em class="overview__list--date">${yearItem}</em></h2>
                    <input type="hidden" name="watch__name" value="${list[i].name}">
-                    <p class="overview__list--date">(${year})</p>
+                    <p class="overview__list--type"> Series </p>
+                   <input type="hidden" name="watch__type" value="series">
                     ${poster}
                     ${language}
-                    <input type="hidden" name="runtime" value="${runtime}">
-                    <p class="overview__list--runtime"> ${runtime}min </p></li>`;
+                    ${runtime}</a>
+                    <input type="submit" class="button button__add" name="add" value="add to watchlist"/></li>`;
     } else if (Object.prototype.hasOwnProperty.call(list[i], 'title')) {
       const itemApi = `https://api.themoviedb.org/3/movie/${list[i].id}?api_key=662c8478635d4f25ee66abbe201e121d`;
       const apiCode = await fetch(itemApi);
       const apiJson = await apiCode.json();
       const resultApi = apiJson;
-      const runtime = resultApi.runtime;
-
+      let yearItem;
+      let runtime;
       const date = list[i].release_date;
       const year = parseInt(date);
-
+      if (year) {
+        yearItem = year;
+      } else {
+        yearItem = ``;
+      }
+      const runtimeSearch = resultApi.runtime;
+      if (runtimeSearch == null || runtimeSearch === 0 || runtimeSearch.length === 0) {
+        runtime = ` <input type="hidden" name="runtime" value="7200">
+                     <p class="overview__list--runtime"> 45min </p>`;
+      } else {
+        runtime = ` <input type="hidden" name="runtime" value="${runtimeSearch}">
+                     <p class="overview__list--runtime"> ${runtimeSearch}min </p>`;
+      }
 
       listInner += `<li class="overview__list--item border">
-                    <h2 class="overview__list--title"> ${list[i].title}</h2>
+                    <a class="overview__list--link" href="index.php?page=detail&id=${id}">
+                    <h2 class="overview__list--title"> ${list[i].title}  <em class="overview__list--date">${yearItem}</em></h2>
                    <input type="hidden" name="watch__name" value="${list[i].title}">
-                    <p class="overview__list--date">(${year})</p>
+                      <p class="overview__list--type"> Movie </p>
+                   <input type="hidden" name="watch__type" value="movies">
                     ${poster}
                     ${language}
-                    <input type="hidden" name="runtime" value="${runtime}">
-                    <p class="overview__list--runtime"> ${runtime}min </p> </li>`;
+                    ${runtime} </a>
+                    <input type="submit" class="button button__add" name="add" value="add to watchlist"/></li>`;
     }
 
   }
+
   $list.innerHTML += listInner;
 
 };
+
+
+
 
 
 // foreach($exists as $existing){

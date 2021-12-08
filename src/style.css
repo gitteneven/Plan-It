@@ -325,7 +325,9 @@ input {
 }
 
 input:focus {
+  outline: none;
   border-color: var(--colorBlue);
+  box-shadow: 10px 10px 20px var(--colorPurple);
 }
 
 /*------------------------planner-----------------------------------*/
@@ -477,8 +479,18 @@ input:focus {
   align-items: center;
 }
 
+.button__add {
+  /* grid-column: 2;
+  grid-row: 2;
+  margin-bottom: 1.5rem;
+  margin-right: 1rem; */
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
 .form__filter--select {
-  margin: -2rem 7rem 1rem .5rem;
+  margin: -2rem 10rem 1rem .5rem;
   display: flex;
   justify-content: flex-end;
 }
@@ -501,6 +513,11 @@ input:focus {
   justify-content: left;
 }
 
+.form__type--select:focus {
+  outline: none;
+  box-shadow: 20px 15px 30px var(--colorPurple);
+}
+
 /*---------------------------------------watchlist----------------------*/
 
 .overview {
@@ -518,23 +535,34 @@ input:focus {
 }
 
 .overview__list--item {
-  display: flex;
-  flex-direction: column;
+  /* display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto; */
+  width: 25rem;
+  height: 15rem;
+  position: relative;
 }
 
 .overview__list--link {
+  /* grid-column: 1/span 2;
+  grid-row: 1/ span 2; */
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: auto 1fr;
   grid-template-rows: auto;
   padding: var(--spacerRegular);
   font-family: var(--font);
   z-index: -1;
+  text-decoration: none;
+  color: white;
+  height: 15rem;
 }
 
 .overview__list--img {
   grid-row: 1/span 6;
   width: 8.5rem;
   margin-right: var(--spacerSmall);
+  justify-content: center;
+  align-items: center;
 }
 
 .overview__list--title {

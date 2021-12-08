@@ -40,8 +40,7 @@ class PagesController extends Controller {
         $currentWeek=0;
       }
       $day=strtotime('monday');
-       if(!empty($_GET['week'])){
-
+      if(!empty($_GET['week'])){
 
       $monday=strtotime($_GET['week'] ."week", $day);
       }else{

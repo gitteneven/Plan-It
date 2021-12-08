@@ -47,7 +47,11 @@
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
         $title = $item->name;
-        $date = date( 'Y', strtotime($itemInfo->first_air_date));
+        if(!empty($itemInfo->first_air_date)){
+          $date = date( 'Y', strtotime($itemInfo->first_air_date));
+        }else{
+          $date='';
+        }
         if(!empty($itemInfo->episode_run_time)){
            $runtime= $itemInfo->episode_run_time[0];
         }else{
@@ -58,7 +62,11 @@
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
         $title = $item->title;
-        $date = date( 'Y', strtotime($itemInfo->release_date));
+        if(!empty($itemInfo->release_date)){
+          $date = date( 'Y', strtotime($itemInfo->release_date));
+        }else{
+          $date='/';
+        }
         if(!empty($itemInfo->runtime)){
            $runtime= $itemInfo->runtime;
         }else{
@@ -70,8 +78,9 @@
 
       if(array_key_exists('name', $itemArray)){
             echo '<a class="overview__list--link" href="index.php?page=detail&id='. $item->id .'">
-                  <h2 class="overview__list--title">' . $title . ' <em class="overview__list--date">(' . $date . ')</em></h2>
+                  <h2 class="overview__list--title">' . $title . ' <em class="overview__list--date">' . $date . '</em></h2>
                   <input type="hidden" name="watch__name" value="'. $title . '">
+                  <p class="overview__list--type"> Series </p>
                   <input type="hidden" name="watch__type" value="series">';
           if(!empty($itemInfo->poster_path)){
               echo '<img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
@@ -85,20 +94,21 @@
             <p class="overview__list--runtime">' .  $runtime  . 'min </p></a>';
       }else if(array_key_exists('title', $itemArray)){
             echo '<a class="overview__list--link" href="index.php?page=detail&id='. $item->id .'">
-                  <h2 class="overview__list--title">' . $item->title . '<em class="overview__list--date">(' . $date . ')</em></h2>
-                  <input type="hidden" name="watch__name" value="'. $item->title . '">
-                  <input type="hidden" name="watch__type" value="movie">
-                  <input type="hidden" name="runtime" value="'. $runtime . '">
-                  <p class="overview__list--runtime">' .  $runtime  . 'min </p> </a>';
+                  <h2 class="overview__list--title">' . $title . '<em class="overview__list--date">(' . $date . ')</em></h2>
+                  <input type="hidden" name="watch__name" value="'. $title . '">
+                  <p class="overview__list--type"> Movie </p>
+                  <input type="hidden" name="watch__type" value="movie">';
             if(!empty($itemInfo->poster_path)){
                  echo '<img class="overview__list--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
             } else {
                  echo '<p class="overview__list--img img__notfound dropshadow" > W </p>';
-
-             }
+            }
             if(!empty($language)){
                   echo  '<p class="overview__list--language">' .  $language['0']->name  . '</p>';
              }
+            echo ' <input type="hidden" name="runtime" value="'. $runtime . '">
+                  <p class="overview__list--runtime">' .  $runtime  . 'min </p> </a>';
+
 
         }
         ?>
@@ -114,7 +124,7 @@
           if(!isset($idExists) || $idExists != $item->id){
               echo '<input type="submit" class="button button__add" name="add" value="add to watchlist"/>';
           } else if($idExists = $item->id) {
-            echo '<p class="button__added">Added</p>';
+            echo '<p class="button__add button__added">Added</p>';
           }
 
         ?>
