@@ -40,11 +40,11 @@ class PagesController extends Controller {
         $monday=strtotime( $_GET['week']-1 ."week", $day);
       }
       else{
-        // $monday=strtotime('monday');
-        // if(strtotime('today') != $monday){
+        $monday=strtotime('monday');
+        if(strtotime('today') != $monday){
           $monday=strtotime("-1 week", $day);
 
-        // }
+        }
       }
       if(!empty($_GET['week'])){
         $currentWeek = $_GET['week'];
@@ -92,16 +92,16 @@ class PagesController extends Controller {
           $moviesArray = $resultMovies->results;
           $resultList = array_merge($seriesArray, $moviesArray);
 
-           if($_POST['type'] == 'movie'){
+           if($_POST['form__type'] == 'movie'){
              $list = $moviesArray;
-          } else if($_POST['type'] == 'series'){
+          } else if($_POST['form__type'] == 'series'){
               $list = $seriesArray;
-          } else if($_POST['type'] == 'movie/series'){
+          } else if($_POST['form__type'] == 'movie/series'){
               $list = $resultList;
           }
 
           $titleSearch = $_POST['title'];
-          $typeSearch = $_POST['type'];
+          $typeSearch = $_POST['form__type'];
 
          $this->set('list', $list);
           $this->set('exists', $exists);
@@ -148,13 +148,13 @@ class PagesController extends Controller {
           $moviesArray = $resultMovies->results;
           $resultList = array_merge($seriesArray, $moviesArray);
 
-        if(empty($_POST['type'])){
+        if(empty($_POST['form__type'])){
              $list = $resultList;
-          } else if($_POST['type'] == 'movie'){
+          } else if($_POST['form__type'] == 'movie'){
              $list = $moviesArray;
-          } else if($_POST['type'] == 'series'){
+          } else if($_POST['form__type'] == 'series'){
               $list = $seriesArray;
-          } else if($_POST['type'] == 'series' && $_POST['type'] == 'movie'){
+          } else if($_POST['form__type'] == 'movie/series'){
               $list = $resultList;
           }
 

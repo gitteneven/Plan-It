@@ -325,7 +325,9 @@ input {
 }
 
 input:focus {
+  outline: none;
   border-color: var(--colorBlue);
+  box-shadow: 10px 10px 20px var(--colorPurple);
 }
 
 /*------------------------planner-----------------------------------*/
@@ -405,6 +407,116 @@ input:focus {
 .passed--card {
   background-color: gray;
 }
+/*---------------------------------------search----------------------*/
+
+.search {
+  margin-top: 2rem;
+  width: 71rem;
+}
+
+.search__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.search__back {
+  font-family: var(--font);
+  font-weight: bold;
+  color: var(--colorBlue);
+  margin-bottom: .5rem;
+  display: flex;
+  text-decoration: none;
+  font-size: 1.3rem;
+}
+
+.search__arrow {
+  width: 1rem;
+}
+
+.form__title {
+  display: flex;
+  flex-direction: row;
+}
+
+.form__title--text {
+  height: 5rem;
+  background-color: transparent;
+  color: var(--colorPink);
+  font-size: 2rem;
+  font-family: 'bronx_twolines', sans-serif;
+  padding-left: 1rem;
+  text-align: center;
+}
+
+.buttons {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.search__button {
+  display: inline-block;
+  background-image: url(./assets/search.svg);
+  background-size: 3rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 5rem;
+  color: transparent;
+}
+
+.button__added {
+  content: 'ADDED';
+  background-color: var(--colorPurple);
+  color: white;
+  width: 13.5rem;
+  border: var(--colorBlue) solid .15rem;
+  text-align: center;
+  font-size: 1.2rem;
+  text-decoration: none;
+  font-family: 'bronx_reg', sans-serif;
+  border-radius: .8rem;
+  z-index: 2;
+  justify-content: center;
+  align-items: center;
+}
+
+.button__add {
+  /* grid-column: 2;
+  grid-row: 2;
+  margin-bottom: 1.5rem;
+  margin-right: 1rem; */
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.form__filter--select {
+  margin: -2rem 10rem 1rem .5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form__filter--label {
+  font-size: 1.2rem;
+  padding-right: 2rem;
+}
+
+.form__type--select {
+  overflow: hidden;
+  width: 10rem;
+  color: var(--colorBlue);
+  background: transparent;
+  font-family: var(--font);
+  font-size: 1.2rem;
+  text-align: center;
+  border: var(--colorBlue) solid .15rem;
+  border-radius: .8rem;
+  justify-content: left;
+}
+
+.form__type--select:focus {
+  outline: none;
+  box-shadow: 20px 15px 30px var(--colorPurple);
+}
 
 /*---------------------------------------watchlist----------------------*/
 
@@ -413,25 +525,44 @@ input:focus {
 }
 
 .overview__list {
+  width: 70rem;
+  justify-content: center;
+  margin: 3rem auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
   grid-gap: var(--spacerBig);
-
 }
 
 .overview__list--item {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, 2rem);
+  grid-template-rows: auto; */
+  width: 25rem;
+  height: 15rem;
+  position: relative;
+}
+
+.overview__list--link {
+  /* grid-column: 1/span 2;
+  grid-row: 1/ span 2; */
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto;
   padding: var(--spacerRegular);
   font-family: var(--font);
+  z-index: -1;
+  text-decoration: none;
+  color: white;
+  height: 15rem;
 }
 
 .overview__list--img {
-  grid-row: 1/span4;
+  grid-row: 1/span 6;
   width: 8.5rem;
   margin-right: var(--spacerSmall);
+  justify-content: center;
+  align-items: center;
 }
 
 .overview__list--title {
