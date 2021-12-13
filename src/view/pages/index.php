@@ -26,18 +26,24 @@
   <ul class="planner__columns">
 
   <?php for ($i=0; $i < 7; $i++) {?>
-    <li class="border planner__column <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed';} ?>"><h3><?php echo $daysOfWeekArray[$i]; ?> <?php echo date("d/m", strtotime('+'.$i . 'day', $monday));?></h3>
-       <ul class="column__cards">
+  <li class="border planner__column <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed';} ?>"><h3><?php echo $daysOfWeekArray[$i]; ?> <?php echo date("d/m", strtotime('+'.$i . 'day', $monday));?></h3>
+    <ul class="column__cards">
         <?php foreach($planning as $item){if($item->date == date("Y-m-d", strtotime('+'.$i . 'day', $monday))){?>
-          <li class="card <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed--card';} ?> <?php if($item->series == 1){echo "series";} elseif($item->movie == 1){echo "movie";} ?>">
+      <li class="card <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed--card';} ?> <?php if($item->series == 1){echo "series";} elseif($item->movie == 1){echo "movie";} ?>">
         <p class="card__title"><?php echo ucfirst($item->title);?></p>
-        <?php if($item->series == 1){ ?><p>S<?php echo $watchItem->current_ses?> Ep<?php echo $watchItem->current_ep?></p><?php } ?>
+        <?php if($item->series == 1){ ?><p>S<?php echo $item->current_ses?> Ep<?php echo $item->current_ep?></p><?php } ?>
         <p class="card__time"><?php echo $item->time;?></p>
+        <!-- <label class="sugg__add--label"><input type="checkbox" id="<?php echo $watchItem->watch_id ?>" name="plannedItem[]" value="<?php echo $watchItem->watch_id ?>" class="sugg__add "></label> -->
+        <form class="" method="post" action="index.php?page=home">
+          <input type="hidden" name="action" value="checkedTimeslot">
+          <input type="hidden" name="plannedItem" value="<?php echo $item->watch_id ?>">
+          <input  type="submit" class=" button" value="watched">
+        </form>
       </li>
       <?php }} ?>
-      </ul>
+    </ul>
   </li>
-  <?php } ?>
+  <?php } echo $checkedItem;?>
   </ul>
   </section>
 <?php } ?>
