@@ -72,6 +72,17 @@ class PagesController extends Controller {
     $this->set('watchlist', $watchlist);
     $this->set('title','My watchlist');
   }
+  public function detail() {
+     $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $_GET['id'])->get();
+     $idDetail = $_GET['id'];
+     $typeDetail = $_GET['watch_type'];
+     $titleDetail = $_GET['title'];
+     $this->set('watchlist', $watchlist);
+    $this->set('idDetail', $idDetail);
+    $this->set('typeDetail', $typeDetail);
+    $this->set('titleDetail', $titleDetail);
+    $this->set('title','detail – ' .$titleDetail.'');
+  }
 
 
   public function search() {
