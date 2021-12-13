@@ -18,7 +18,7 @@
         <label class="timeslot__label ">
             <span class="form__text">Do you want to stay within your planned limits?</span>
             <div class="timeslot__radio">
-            <label class="radio__wrap"><input type="radio" name="limit__radio" value=true >Yes!</label>
+            <label class="radio__wrap"><input type="radio" name="limit__radio" value=true checked>Yes!</label>
             <label class="radio__wrap"><input type="radio" name="limit__radio" value=false >No!</label></div>
         </label><?php echo $overtime ?>
         <label class="timeslot__label ">
@@ -41,7 +41,9 @@
   <form class="timeslot__form--items" method="post" action="index.php?page=timeslot" enctype="multipart/form-data">
       <input type="hidden" name="action" value="addWatchItem">
       <ul class="watchItemList">
-<?php foreach($watchSuggestions as $sugg){?>
+
+<?php if(!empty($watchSuggestions)){
+foreach($watchSuggestions as $sugg){?>
 
       <li class="timeslot__sugg <?php if($sugg->movie == 1)echo 'sugg--movie';?>">
 
@@ -78,7 +80,7 @@
       } ?>
       </li><br>
 <?php
-} ?>
+}} ?>
 </ul>
 <input type="submit" class="add--button button" value="make timeslot">
 </form>

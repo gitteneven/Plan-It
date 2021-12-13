@@ -622,6 +622,7 @@ input:focus {
 .watchItemList::-webkit-scrollbar-track, .column__cards::-webkit-scrollbar-track {
   background-color: black;
   width: 6rem;
+  visibility: hidden;
 }
 
 .watchItemList::-webkit-scrollbar-corner, .column__cards::-webkit-scrollbar-corner {
@@ -631,6 +632,7 @@ input:focus {
 
 .watchItemList::-webkit-scrollbar, .column__cards::-webkit-scrollbar {
   width: .4rem;
+  visibility: hidden;
 }
 
 .timeslot__sugg, .possible__card, .overdue__card {
