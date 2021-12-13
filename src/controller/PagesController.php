@@ -19,7 +19,11 @@ class PagesController extends Controller {
         if($item->series == 1){
           $watchItem=Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
           $this->set('watchItem', $watchItem);
-         }
+        }
+        //  $time = explode(":", $item->time);
+        //  $timeremoved = array_pop($time);
+        //  $timeMerged=implode(":", $timeremoved);
+        //  $item->time = $timeMerged;
         //elseif($item->movie == 1){
         //   $watchItem=Movie::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
         // }
@@ -31,8 +35,8 @@ class PagesController extends Controller {
         //   $itemArray = $findItem;
 
         // }
-
         // $this->set('itemArray', $itemArray);
+
       }
       $currentWeek= 0;
       $day=strtotime('monday');
@@ -53,11 +57,20 @@ class PagesController extends Controller {
       }
       $daysOfWeekArray=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
+      // foreach($_POST['plannedItem'] as $plannedItem){
+      //   $checkedItem=Planner::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $plannedItem->id)->first();
+      //   $this->set('checkedItem',$checkedItem);
+      // }
+      if(!empty($_POST['action'])) {
+      if($_POST['action']== 'checkedTimeslot'){
+        $checkedItem= $_POST['plannedItem'];
+        $this->set('checkedItem',$checkedItem);
+        }
+      }
+
       $this->set('monday',$monday);
       $this->set('currentWeek',$currentWeek);
       $this->set('daysOfWeekArray',$daysOfWeekArray);
-
-
 
       $this->set('planning', $planning);
     }
@@ -361,10 +374,12 @@ class PagesController extends Controller {
   if(!empty($_POST['action'])) {
 
     if ($_POST['action'] == 'addWatchItem') {
+      // unset($overdueTimes);
       $watchArray=array();
       $watchTimes=array();
       $overdueTimes=array();
       $possibleTimes=array();
+
       foreach($_POST['watchItem'] as $watchItem){
 
         $watchListItem= Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem)->first();
@@ -381,45 +396,53 @@ class PagesController extends Controller {
       }
       $this->set('watchDuration', $watchDuration);
 
-      if($_SESSION['overtime']==false && $watchDuration < $_SESSION['availableTime'] || $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
-      foreach($watchArray as $watchItem){
-        if($_SESSION['startTime'] < $_SESSION['endTime']){
-        $newTimeslot = new Planner;
-        $newTimeslot->user_id = $_SESSION['id'];
-        $newTimeslot->watch_id=$watchItem->watch_id;
-        $newTimeslot->title=$watchItem->title;
-        if($watchItem->series==1){
-          $newTimeslot->series=1;
-        }else if($watchItem->movie==1){
-          $newTimeslot->movie=1;
-        }
-        $plannedTime=$_SESSION['startTime']+$watchItem->duration;
-        array_push($watchTimes, $_SESSION['startTime']);
-        $newTimeslot->date= date("Y-m-d", $_SESSION['startTime']);
-        $newTimeslot->time= date("H:i", $_SESSION['startTime']);
-        $newTimeslot->current_ses=$watchItem->current_ses;
-        $newTimeslot->current_ep=$watchItem->current_ep;
-        $_SESSION['startTime']=$plannedTime;
-        $newTimeslot->save();
+      // if ($watchDuration > $_SESSION['availableTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] > $_SESSION['endTime']){
+        $currentTime=$_SESSION['startTime'];
+      // if(empty($overdueTimes)) {
+      // else if($_SESSION['overtime']==false && $watchDuration < $_SESSION['availableTime'] || $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
+      if($watchDuration < $_SESSION['availableTime'] ){
+        foreach($watchArray as $watchItem){
+          if($currentTime < $_SESSION['endTime']){
+          $newTimeslot = new Planner;
+          $newTimeslot->user_id = $_SESSION['id'];
+          $newTimeslot->watch_id=$watchItem->watch_id;
+          $newTimeslot->title=$watchItem->title;
+          if($watchItem->series==1){
+            $newTimeslot->series=1;
+          }else if($watchItem->movie==1){
+            $newTimeslot->movie=1;
+          }
+          $plannedTime=$currentTime+$watchItem->duration;
+          array_push($watchTimes, $currentTime);
+          $newTimeslot->date= date("Y-m-d", $currentTime);
+          $newTimeslot->time= date("H:i", $currentTime);
+          $newTimeslot->current_ses=$watchItem->current_ses;
+          $newTimeslot->current_ep=$watchItem->current_ep;
+          $currentTime=$plannedTime;
+          $newTimeslot->save();
 
-      }
-      }
-      $_SESSION['availableTime']='';
-      // unset($watchArray);
+        }
+        }
+      // if($watchDuration < $_SESSION['availableTime']){
+        $_SESSION['availableTime']='';
         header('Location:index.php?page=home');
           exit();
-    }else if ($watchDuration > $_SESSION['availableTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] > $_SESSION['endTime']){
+      // }
+
+      }else if($watchDuration > $_SESSION['availableTime']){
         foreach($watchArray as $watchItem){
-          if($_SESSION['startTime']+$watchItem->duration < $_SESSION['endTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
+          // if($_SESSION['startTime']+$watchItem->duration < $_SESSION['endTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
+          if($currentTime+$watchItem->duration < $_SESSION['endTime']){
             array_push($possibleTimes, $watchItem);
-            $plannedTime=$_SESSION['startTime']+$watchItem->duration;
-            $_SESSION['startTime']=$plannedTime;
+            $plannedTime=$currentTime+$watchItem->duration;
+            $currentTime=$plannedTime;
           }else{
             array_push($overdueTimes, $watchItem);
           }
         }
 
       }
+  // }
       // else if($_SESSION['startTime'] > $_SESSION['endTime']){
       //   array_push($overdueTimes, $watchItem);
       // }
