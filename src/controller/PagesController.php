@@ -187,6 +187,27 @@ class PagesController extends Controller {
 
   }
 
+    public function apiSearch() {
+    $shows = $this->_getFormSearchResults();
+    echo $shows->toJson();
+    exit();
+  }
+
+  private function _getFormSearchResults() {
+    $showsQuery = Show::query();
+    if(!empty($_GET['title'])){
+      $showsQuery = $showsQuery->where('title', 'LIKE', '%' . $_GET['title'] . '%');
+    }
+    if(!empty($_GET['rating'])){
+      $showsQuery = $showsQuery->where('rating', $_GET['rating']);
+    }
+    if(!empty($_GET['score'])){
+      $showsQuery = $showsQuery->where('score', '>=', $_GET['score']);
+    }
+    $shows = $showsQuery->limit(100)->get();
+    return $shows;
+  }
+
   public function signup() {
     if(!empty($_POST['action'])) {
       if ($_POST['action'] == 'signup') {

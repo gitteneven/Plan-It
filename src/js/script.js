@@ -36,9 +36,7 @@ const submitWithJS = async () => {
 
   //console.log(resultList);
   updateList(resultList);
-
 };
-
 
 const updateList = async list => {
   const $list = document.querySelector('.overview__list');
@@ -51,8 +49,8 @@ const updateList = async list => {
 
   console.log('querystring', qs);
 
-
   const languageNames = new Intl.DisplayNames(['en'], {type: 'language'});
+  console.log(Array.isArray(list));
 
   for (let i = 0;i < list.length;i ++) {
     // console.log(list[i].name);
@@ -144,24 +142,8 @@ const updateList = async list => {
 
   }
 
-  $list.innerHTML += listInner;
-
+  $list.innerHTML = listInner;
 };
-
-
-
-
-
-// foreach($exists as $existing){
-//           if($item->id == $existing->watch_id){
-//             $idExists= $item->id;
-//           }
-//         }
-//           if(!isset($idExists) || $idExists != $item->id){
-//               echo '<input type="submit" class="button" name="add" value="add to watchlist"/>';
-//           } else if($idExists = $item->id) {
-//             echo '<p class="button">Added to watchlist</p>';
-//           }
 
 
 export const init = async () => {
