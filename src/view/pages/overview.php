@@ -1,6 +1,6 @@
 <article class="overview">
   <h1 class="overview__title subtitle">Watchlist</h1>
-  <a class="button" href="index.php?page=search">Search</a>
+  <a class="button button--add button__search" href="index.php?page=search">Add movie/series</a>
   <section >
     <ul class="overview__list">
       <?php foreach ($watchlist as $item): ?>
