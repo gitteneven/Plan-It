@@ -145,15 +145,39 @@ const updateList = async list => {
   $list.innerHTML = listInner;
 };
 
-// const handleCheckPlannedItem = e => {
-//   // e.preventDefault();
-//   // e.currentTarget.parentElement.classList.add('passed');
-// };
+const handleCheckPlannedItem = async e => {
+  e.preventDefault();
+  const url = e.currentTarget.getAttribute('action');
+  const $form = e.currentTarget;
+  const $li = $form.parentElement;
+  $li.classList.add('passed--card');
+  const data = new FormData($form);
+  const obj = {};
+  data.forEach((value, key) => {
+    obj[key] = value;
+  });
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify(obj)
+  });
+
+  const returned = await response.json();
+  $li.innerHTML = `
+  <p class="card__title"> ${(returned.title)}</p>
+        <input  type="submit" class="button--bin" >
+        ${returned.series === 1 ? `<p>S${returned.current_ses} Ep ${returned.current_ep}</p>` : `` }
+        <p class="card__time">${returned.time.split(':')[0].padStart(2, '0')} : ${returned.time.split(':')[1].padStart(2, '0')} </p>
+  `;
+  // console.log(returned);
+};
 
 export const init = async () => {
   document.documentElement.classList.add('has-js');
   document.querySelectorAll('.filter__field').forEach($field => $field.addEventListener('input', handleInputField));
 
-  // if (document.querySelector('.planner')) {document.querySelectorAll('.checkButton').forEach($button => $button.addEventListener('click', handleCheckPlannedItem));}
+  if (document.querySelector('.planner')) {document.querySelectorAll('.checkButton').forEach($form => $form.addEventListener('submit', handleCheckPlannedItem));}
 };
 

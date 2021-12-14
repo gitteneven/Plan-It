@@ -31,13 +31,14 @@
         <?php foreach($planning as $item){if($item->date == date("Y-m-d", strtotime('+'.$i . 'day', $monday))){?>
       <li class="card <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today") || $item->watched==1){echo 'passed--card';} ?> <?php if($item->series == 1){echo "series";} elseif($item->movie == 1){echo "movie";} ?>">
         <p class="card__title"><?php echo ucfirst($item->title);?></p>
+        <input  type="submit" class="button--bin" value="">
         <?php if($item->series == 1){ ?><p>S<?php echo $item->current_ses?> Ep<?php echo $item->current_ep?></p><?php } ?>
         <p class="card__time"><?php sscanf($item->time, "%d:%d:%d", $hours, $minutes, $seconds); echo str_pad($hours, 2, "0", STR_PAD_LEFT) . ' : ' . str_pad($minutes, 2, "0", STR_PAD_LEFT);?></p>
         <?php if($item->watched==0){?>
-        <form class="" method="post" action="index.php?page=home">
+        <form class="checkButton" method="post" action="index.php?page=home">
           <input type="hidden" name="action" value="checkedTimeslot">
           <input type="hidden" name="plannedItem" value="<?php echo $item->id ?>">
-          <input  type="submit" class="checkButton button" value="watched">
+          <input  type="submit" class="button--check button <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")) echo 'passed--button';?>" value="watched">
         </form><?php } ?>
       </li>
       <?php }} ?>
@@ -46,4 +47,4 @@
   <?php } ?>
   </ul>
   </section>
-<?php } echo $checkedItem;?>
+<?php } ;?>

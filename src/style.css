@@ -330,7 +330,7 @@ input:focus {
   box-shadow: 10px 10px 20px var(--colorPurple);
 }
 
-/*------------------------planner-----------------------------------*/
+/*-------------------------------------planner-----------------------------------*/
 
 .planner__columns {
   display: grid;
@@ -375,6 +375,10 @@ input:focus {
   margin-bottom: -.5rem;
 }
 
+.card__title::first-letter {
+  text-transform: capitalize;
+}
+
 .button--weeks {
   background-image: url(./assets/arrowButton.svg);
   background-repeat: no-repeat;
@@ -382,6 +386,17 @@ input:focus {
   padding: 1.5rem;
   margin-right: .5rem;
   margin-left: .5rem;
+}
+
+.button--bin {
+  background-image: url(./assets/bin.svg);
+  background-repeat: no-repeat;
+  background-size: .9rem;
+  background-position: center;
+  width: 1.3rem;
+  border: unset;
+  display: inline-block;
+  /* background-color: transparent; */
 }
 
 .weeks--flipped {
@@ -407,6 +422,15 @@ input:focus {
 .passed--card {
   background-color: gray;
 }
+
+.passed--button {
+  background-color: rgb(80, 80, 80);
+}
+
+.card__bin {
+  display: inline-block;
+}
+
 /*---------------------------------------search----------------------*/
 
 .search {

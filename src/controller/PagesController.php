@@ -11,6 +11,38 @@ class PagesController extends Controller {
   public function index() {
 
     if(isset($_SESSION['id'])){
+      $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+      if ($contentType === "application/json") {
+        $content = trim(file_get_contents("php://input"));
+        $data = json_decode($content, true);
+
+        if(!empty($data) && !empty($data['action'])) {
+          if($data['action']== 'checkedTimeslot'){
+            $checkedItem=Planner::where('id', '=', $data['plannedItem'])->first();
+            $checkedItem->watched= 1;
+            $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
+            $updateWatchlist->current_ep++;
+            $checkedItem->save();
+            $updateWatchlist->save();
+            echo json_encode($checkedItem);
+            // echo $checkedItem->toJson();
+          }
+        }
+        exit();
+      }
+
+    if(!empty($_POST['action'])) {
+      if($_POST['action']== 'checkedTimeslot'){
+        $checkedItem=Planner::where('id', '=', $_POST['plannedItem'])->first();
+        $checkedItem->watched= 1;
+        $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
+        $updateWatchlist->current_ep++;
+        $checkedItem->save();
+        $updateWatchlist->save();
+        $this->set('checkedItem',$checkedItem);
+        }
+    }
+
     $userLogin= User::where('id', $_SESSION['id'])->first();
     $this->set('userLogin', $userLogin);
 
@@ -45,18 +77,7 @@ class PagesController extends Controller {
       //   $checkedItem=Planner::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $plannedItem->id)->first();
       //   $this->set('checkedItem',$checkedItem);
       // }
-      if(!empty($_POST['action'])) {
-      if($_POST['action']== 'checkedTimeslot'){
-        //$checkedItem= $_POST['plannedItem'];
-        $checkedItem=Planner::where('id', '=', $_POST['plannedItem'])->first();
-        $checkedItem->watched= 1;
-        $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
-        $updateWatchlist->current_ep++;
-        $checkedItem->save();
-        $updateWatchlist->save();
-        $this->set('checkedItem',$checkedItem);
-        }
-      }
+
 
       $this->set('monday',$monday);
       $this->set('currentWeek',$currentWeek);
@@ -69,6 +90,18 @@ class PagesController extends Controller {
 
   }
   private function _checkPlannedItems() {
+    if(!empty($_POST['action'])) {
+      if($_POST['action']== 'checkedTimeslot'){
+        //$checkedItem= $_POST['plannedItem'];
+        $checkedItem=Planner::where('id', '=', $_POST['plannedItem'])->first();
+        $checkedItem->watched= 1;
+        $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
+        $updateWatchlist->current_ep++;
+        $checkedItem->save();
+        $updateWatchlist->save();
+        $this->set('checkedItem',$checkedItem);
+        }
+      }
 
   }
 
