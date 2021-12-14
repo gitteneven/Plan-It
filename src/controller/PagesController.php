@@ -42,6 +42,12 @@ class PagesController extends Controller {
         $this->set('checkedItem',$checkedItem);
         }
     }
+    if(!empty($_POST['action'])) {
+      if($_POST['action']== 'removeTimeslot'){
+        $checkedItem=Planner::where('id', '=', $_POST['removedItem'])->first();
+        $checkedItem->delete();
+      }
+    }
 
     $userLogin= User::where('id', $_SESSION['id'])->first();
     $this->set('userLogin', $userLogin);
@@ -73,11 +79,6 @@ class PagesController extends Controller {
       }
       $daysOfWeekArray=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-      // foreach($_POST['plannedItem'] as $plannedItem){
-      //   $checkedItem=Planner::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $plannedItem->id)->first();
-      //   $this->set('checkedItem',$checkedItem);
-      // }
-
 
       $this->set('monday',$monday);
       $this->set('currentWeek',$currentWeek);
@@ -87,21 +88,6 @@ class PagesController extends Controller {
     }
 
     $this->set('title','Home');
-
-  }
-  private function _checkPlannedItems() {
-    if(!empty($_POST['action'])) {
-      if($_POST['action']== 'checkedTimeslot'){
-        //$checkedItem= $_POST['plannedItem'];
-        $checkedItem=Planner::where('id', '=', $_POST['plannedItem'])->first();
-        $checkedItem->watched= 1;
-        $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
-        $updateWatchlist->current_ep++;
-        $checkedItem->save();
-        $updateWatchlist->save();
-        $this->set('checkedItem',$checkedItem);
-        }
-      }
 
   }
 
