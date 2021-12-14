@@ -18,6 +18,7 @@
         $date = date( 'Y', strtotime($itemInfo->first_air_date));
         $itemCurrentSes = $item->current_ses;
         $itemCurrentEp = $item->current_ep;
+        $watch_type= 'tv';
         $itemType= 'series';
         if(!empty($itemInfo->episode_run_time)){
            $runtime= $itemInfo->episode_run_time[0];
@@ -29,6 +30,8 @@
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
         $date = date( 'Y', strtotime($itemInfo->release_date));
+        $watch_type= 'movie';
+        $itemType= 'movie';
         if(!empty($itemInfo->runtime)){
            $runtime= $itemInfo->runtime;
         }else{
@@ -38,7 +41,7 @@
       }
       $language = $itemInfo->spoken_languages;
 
-      echo ('<a class="overview__list--link" href="index.php?page=detail&id='. $item->id .'">
+      echo ('<a class="overview__list--link" href="index.php?page=detail&id='. $item->watch_id .'&watch_type='. $watch_type .'&title='.$item->title .'">
             <h2 class="overview__list--title">' . $item->title . '<em class="overview__list--date">   ' . $date . '</em></h2>
             <input type="hidden" name="watch__name" value="'. $item->title . '">
             <p class="overview__list--type"> ' . $itemType . ' </p>

@@ -96,7 +96,7 @@ const updateList = async list => {
       }
 
       listInner += `<li class="overview__list--item border--blue">
-                     <a class="overview__list--link" href="index.php?page=detail&id=${id}">
+                     <a class="overview__list--link" href="index.php?page=detail&id=${id}&watch_type=tv&title=${list[i].name}">
                     <h2 class="overview__list--title"> ${list[i].name} <em class="overview__list--date">${yearItem}</em></h2>
                    <input type="hidden" name="watch__name" value="${list[i].name}">
                     <p class="overview__list--type"> Series </p>
@@ -129,7 +129,7 @@ const updateList = async list => {
       }
 
       listInner += `<li class="overview__list--item border">
-                    <a class="overview__list--link" href="index.php?page=detail&id=${id}">
+                    <a class="overview__list--link" href="index.php?page=detail&id=${id}&watch_type=TV&title=${list[i].name}">
                     <h2 class="overview__list--title"> ${list[i].title}  <em class="overview__list--date">${yearItem}</em></h2>
                    <input type="hidden" name="watch__name" value="${list[i].title}">
                       <p class="overview__list--type"> Movie </p>

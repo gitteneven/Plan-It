@@ -65,7 +65,7 @@
         if(!empty($itemInfo->release_date)){
           $date = date( 'Y', strtotime($itemInfo->release_date));
         }else{
-          $date='/';
+          $date='';
         }
         if(!empty($itemInfo->runtime)){
            $runtime= $itemInfo->runtime;
@@ -77,7 +77,7 @@
       $language = $itemInfo->spoken_languages;
 
       if(array_key_exists('name', $itemArray)){
-            echo '<a class="overview__list--link" href="index.php?page=detail&id='. $item->id .'">
+            echo '<a class="overview__list--link" href="index.php?page=detail&id='. $item->id .'&watch_type=tv&title='.$title .'">
                   <h2 class="overview__list--title">' . $title . ' <em class="overview__list--date">' . $date . '</em></h2>
                   <input type="hidden" name="watch__name" value="'. $title . '">
                   <p class="overview__list--type"> Series </p>
@@ -93,7 +93,7 @@
             echo '<input type="hidden" name="runtime" value="'. $runtime . '">
             <p class="overview__list--runtime">' .  $runtime  . 'min </p></a>';
       }else if(array_key_exists('title', $itemArray)){
-            echo '<a class="overview__list--link" href="index.php?page=detail&id='. $item->id .'">
+            echo '<a class="overview__list--link" href="index.php?page=detail&id='. $item->id .'&watch_type=movie&title='.$title .'">
                   <h2 class="overview__list--title">' . $title . '<em class="overview__list--date">(' . $date . ')</em></h2>
                   <input type="hidden" name="watch__name" value="'. $title . '">
                   <p class="overview__list--type"> Movie </p>
