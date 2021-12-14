@@ -28,6 +28,12 @@ class PagesController extends Controller {
             // echo $checkedItem->toJson();
           }
         }
+        if(!empty($data) && !empty($data['action'])) {
+        if($data['action']== 'removeTimeslot'){
+          $checkedItem=Planner::where('id', '=', $data['removedItem'])->first();
+          $checkedItem->delete();
+        }
+      }
         exit();
       }
 
@@ -444,7 +450,7 @@ class PagesController extends Controller {
         $currentTime=$_SESSION['startTime'];
       // if(empty($overdueTimes)) {
       // else if($_SESSION['overtime']==false && $watchDuration < $_SESSION['availableTime'] || $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
-      if($watchDuration < $_SESSION['availableTime'] ){
+      if($watchDuration <= $_SESSION['availableTime'] ){
         foreach($watchArray as $watchItem){
           if($currentTime < $_SESSION['endTime']){
           $newTimeslot = new Planner;

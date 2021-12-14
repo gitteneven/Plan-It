@@ -166,18 +166,46 @@ const handleCheckPlannedItem = async e => {
 
   const returned = await response.json();
   $li.innerHTML = `
-  <p class="card__title"> ${(returned.title)}</p>
-        <input  type="submit" class="button--bin" >
+   <div class="card__title_wrapper">
+   <p class="card__title"><?php  ${(returned.title)}</p>
+       <form class="removeButton" method="post" action="index.php?page=home">
+          <input type="hidden" name="action" value="removeTimeslot">
+          <input type="hidden" name="removedItem" value="${returned.id}">
+          <input  type="submit" class="button--bin" value="">
+        </form></div>
         ${returned.series === 1 ? `<p>S${returned.current_ses} Ep ${returned.current_ep}</p>` : `` }
         <p class="card__time">${returned.time.split(':')[0].padStart(2, '0')} : ${returned.time.split(':')[1].padStart(2, '0')} </p>
   `;
   // console.log(returned);
 };
 
+const handleRemovePlannedItem = async e => {
+  e.preventDefault();
+  const url = e.currentTarget.getAttribute('action');
+  const $form = e.currentTarget;
+  const $li = $form.parentElement.parentElement;
+  const data = new FormData($form);
+  const obj = {};
+  data.forEach((value, key) => {
+    obj[key] = value;
+  });
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify(obj)
+  });
+  $li.style.display = 'none';
+  //  const returned = await response.json();
+
+}
+
 export const init = async () => {
   document.documentElement.classList.add('has-js');
   document.querySelectorAll('.filter__field').forEach($field => $field.addEventListener('input', handleInputField));
 
   if (document.querySelector('.planner')) {document.querySelectorAll('.checkButton').forEach($form => $form.addEventListener('submit', handleCheckPlannedItem));}
+  if (document.querySelector('.planner')) {document.querySelectorAll('.removeButton').forEach($form => $form.addEventListener('submit', handleRemovePlannedItem));}
 };
 
