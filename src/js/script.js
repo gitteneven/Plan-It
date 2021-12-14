@@ -145,10 +145,15 @@ const updateList = async list => {
   $list.innerHTML = listInner;
 };
 
+// const handleCheckPlannedItem = e => {
+//   // e.preventDefault();
+//   // e.currentTarget.parentElement.classList.add('passed');
+// };
 
 export const init = async () => {
   document.documentElement.classList.add('has-js');
   document.querySelectorAll('.filter__field').forEach($field => $field.addEventListener('input', handleInputField));
 
+  // if (document.querySelector('.planner')) {document.querySelectorAll('.checkButton').forEach($button => $button.addEventListener('click', handleCheckPlannedItem));}
 };
 

@@ -20,22 +20,6 @@ class PagesController extends Controller {
           $watchItem=Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
           $this->set('watchItem', $watchItem);
         }
-        //  $time = explode(":", $item->time);
-        //  $timeremoved = array_pop($time);
-        //  $timeMerged=implode(":", $timeremoved);
-        //  $item->time = $timeMerged;
-        //elseif($item->movie == 1){
-        //   $watchItem=Movie::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
-        // }
-
-        // $watchItems= Watch_list::where('user_id', '=', $_SESSION['id'])->where('title', '=', $item->title)->get();
-        // foreach($watchItems as $watchItem){
-        //   $findItem= 'https://api.themoviedb.org/3/tv/'.$watchItem->watch_id.'?api_key=662c8478635d4f25ee66abbe201e121d' ;
-        //   $findItem = file_get_contents($findItem);
-        //   $itemArray = $findItem;
-
-        // }
-        // $this->set('itemArray', $itemArray);
 
       }
       $currentWeek= 0;
@@ -63,7 +47,13 @@ class PagesController extends Controller {
       // }
       if(!empty($_POST['action'])) {
       if($_POST['action']== 'checkedTimeslot'){
-        $checkedItem= $_POST['plannedItem'];
+        //$checkedItem= $_POST['plannedItem'];
+        $checkedItem=Planner::where('id', '=', $_POST['plannedItem'])->first();
+        $checkedItem->watched= 1;
+        $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
+        $updateWatchlist->current_ep++;
+        $checkedItem->save();
+        $updateWatchlist->save();
         $this->set('checkedItem',$checkedItem);
         }
       }
@@ -76,6 +66,9 @@ class PagesController extends Controller {
     }
 
     $this->set('title','Home');
+
+  }
+  private function _checkPlannedItems() {
 
   }
 

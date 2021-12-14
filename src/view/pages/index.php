@@ -14,7 +14,7 @@
 <?php } ?>
 
 <?php if(!empty($_SESSION['id'])){?>
-  <section class="planner">
+<section class="planner">
     <div class="planner__nav">
       <a href="index.php?page=home&week=<?php echo $currentWeek-1; ?>" class="button--weeks"></a>
       <p class="planner__week"><?php echo date("d/m", $monday) . ' - ' . date("d/m", strtotime('+6 day', $monday)); ?></p>
@@ -29,21 +29,21 @@
   <li class="border planner__column <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed';} ?>"><h3><?php echo $daysOfWeekArray[$i]; ?> <?php echo date("d/m", strtotime('+'.$i . 'day', $monday));?></h3>
     <ul class="column__cards">
         <?php foreach($planning as $item){if($item->date == date("Y-m-d", strtotime('+'.$i . 'day', $monday))){?>
-      <li class="card <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed--card';} ?> <?php if($item->series == 1){echo "series";} elseif($item->movie == 1){echo "movie";} ?>">
+      <li class="card <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today") || $item->watched==1){echo 'passed--card';} ?> <?php if($item->series == 1){echo "series";} elseif($item->movie == 1){echo "movie";} ?>">
         <p class="card__title"><?php echo ucfirst($item->title);?></p>
         <?php if($item->series == 1){ ?><p>S<?php echo $item->current_ses?> Ep<?php echo $item->current_ep?></p><?php } ?>
-        <p class="card__time"><?php echo $item->time;?></p>
-        <!-- <label class="sugg__add--label"><input type="checkbox" id="<?php echo $watchItem->watch_id ?>" name="plannedItem[]" value="<?php echo $watchItem->watch_id ?>" class="sugg__add "></label> -->
+        <p class="card__time"><?php sscanf($item->time, "%d:%d:%d", $hours, $minutes, $seconds); echo str_pad($hours, 2, "0", STR_PAD_LEFT) . ' : ' . str_pad($minutes, 2, "0", STR_PAD_LEFT);?></p>
+        <?php if($item->watched==0){?>
         <form class="" method="post" action="index.php?page=home">
           <input type="hidden" name="action" value="checkedTimeslot">
-          <input type="hidden" name="plannedItem" value="<?php echo $item->watch_id ?>">
-          <input  type="submit" class=" button" value="watched">
-        </form>
+          <input type="hidden" name="plannedItem" value="<?php echo $item->id ?>">
+          <input  type="submit" class="checkButton button" value="watched">
+        </form><?php } ?>
       </li>
       <?php }} ?>
     </ul>
   </li>
-  <?php } echo $checkedItem;?>
+  <?php } ?>
   </ul>
   </section>
-<?php } ?>
+<?php } echo $checkedItem;?>
