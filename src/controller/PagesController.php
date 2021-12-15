@@ -103,11 +103,59 @@ class PagesController extends Controller {
     $this->set('title','My watchlist');
   }
   public function detail() {
+    //get models
+      $user = User::where('id', '=', $_SESSION['id'])->first();
      $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $_GET['id'])->get();
+     $services = Stream_service::where('user_id', '=', $_SESSION['id'])->get();
+         //get info of link
      $idDetail = $_GET['id'];
      $typeDetail = $_GET['watch_type'];
      $titleDetail = $_GET['title'];
+     //find providers
+     $country = $user->country;
+      $providerApi = 'https://api.themoviedb.org/3/'. $typeDetail.'/'. $idDetail . '/watch/providers?api_key=662c8478635d4f25ee66abbe201e121d';
+      $providerCode = file_get_contents($providerApi);
+      $providerInfo= json_decode($providerCode)->results;
+      $providerArray = (array) $providerInfo;
+    $countries = file_get_contents('http://country.io/names.json');
+      $countriesObj= json_decode($countries);
+      $countriesArray = (array) $countriesObj;
+      $abbrCountry = array_search($country,$countriesArray);
+      if(!empty($providerArray[$abbrCountry])){
+      $countryService = (array) $providerArray[$abbrCountry];
+      $arrayServices = (array) $countryService['flatrate'];
+        $servicesList = [];
+        foreach($arrayServices as $service){
+        array_push($servicesList,  $service->provider_name);
+       }
+      } else {
+        $servicesList= ' ';
+      }
+      foreach($services as $info){
+        foreach($servicesList as $item){
+          if($item === 'Netflix' && $info->netflix == 1){
+            $serviceItem = '<img class="detail__provider" src="../src/assets/netflix.svg" alt="netflix">';
+          }else if($item === 'Disney Plus' && $info->disney == 1){
+            $serviceItem = '<img class="detail__provider" src="../src/assets/disney.svg" alt="disney">';
+          } else if($item === 'Amazon Prime Video' && $info->amazon_prime == 1){
+            $serviceItem = '<img class="detail__provider" src="../src/assets/prime.svg" alt="prime">';
+          } else if($item === 'Hulu' && $info->hulu == 1){
+            $serviceItem = '<img class="detail__provider" src="../src/assets/hulu.svg" alt="hulu">';
+          } else if($item === 'HBO Max' && $info->hbo_max == 1){
+            $serviceItem = '<img class="detail__provider" src="../src/assets/hbo.svg" alt="hbo">';
+          } else{
+            $serviceItem ='';
+          }
+
+        }
+
+      }
+
+
      $this->set('watchlist', $watchlist);
+     $this->set('serviceItem', $serviceItem);
+     $this->set('servicesList', $servicesList);
+     $this->set('abbrCountry', $abbrCountry);
     $this->set('idDetail', $idDetail);
     $this->set('typeDetail', $typeDetail);
     $this->set('titleDetail', $titleDetail);

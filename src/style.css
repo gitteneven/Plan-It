@@ -631,6 +631,85 @@ input:focus {
   padding: 2rem 0;
 }
 
+/*---------------------------------------detail----------------------*/
+
+.detail {
+  width: 70rem;
+}
+
+.detail__card {
+  display: grid;
+  grid-template-columns: auto 1fr 4rem;
+  grid-template-rows: auto;
+  grid-gap: 2rem;
+  padding: 3rem;
+}
+
+.detail__title {
+  font-size: 3rem;
+  font-weight: bold;
+  grid-column: 2;
+  grid-row: 1;
+  z-index: -1;
+}
+
+.overview__list--date {
+  font-size: 1.8rem;
+}
+
+.detail__info {
+  font-size: 1.8rem;
+  grid-column: 2/span 3;
+}
+
+.detail__overview {
+  grid-column: 2/span 3;
+}
+
+.detail__overview--title {
+  font-size: 1.8rem;
+}
+
+.detail__total {
+  font-size: 1.8rem;
+  grid-column: 2/span 3;
+}
+
+.detail__provider--list {
+  grid-column: 3;
+  grid-row: 1;
+  z-index: 2;
+}
+
+.detail__provider {
+  width: 4rem;
+  border: var(--colorBlue) solid .3rem;
+  border-radius: .8rem;
+
+}
+
+.detail__episode {
+  grid-column: 2/span 3;
+}
+
+.detail__episode--title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.detail__current--text {
+  padding-bottom: 1rem;
+}
+
+.detail--img {
+  width: 25rem;
+  grid-row: 1/span 8;
+}
+
+.detail__episode--border {
+  padding: 1rem;
+}
+
 /*--------------------------------------Timeslot--------------------------------------*/
 
 .timeslot__form {
