@@ -11,52 +11,83 @@ class PagesController extends Controller {
   public function index() {
 
     if(isset($_SESSION['id'])){
+      $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+      if ($contentType === "application/json") {
+        $content = trim(file_get_contents("php://input"));
+        $data = json_decode($content, true);
+
+        if(!empty($data) && !empty($data['action'])) {
+          if($data['action']== 'checkedTimeslot'){
+            $checkedItem=Planner::where('id', '=', $data['plannedItem'])->first();
+            $checkedItem->watched= 1;
+            $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
+            $updateWatchlist->current_ep++;
+            $checkedItem->save();
+            $updateWatchlist->save();
+            echo json_encode($checkedItem);
+          }
+        }
+        if(!empty($data) && !empty($data['action'])) {
+        if($data['action']== 'removeTimeslot'){
+          $checkedItem=Planner::where('id', '=', $data['removedItem'])->first();
+          $checkedItem->delete();
+        }
+      }
+        exit();
+      }
+
+    if(!empty($_POST['action'])) {
+      if($_POST['action']== 'checkedTimeslot'){
+        $checkedItem=Planner::where('id', '=', $_POST['plannedItem'])->first();
+        $checkedItem->watched= 1;
+        $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
+        $updateWatchlist->current_ep++;
+        $checkedItem->save();
+        $updateWatchlist->save();
+        $this->set('checkedItem',$checkedItem);
+        }
+    }
+    if(!empty($_POST['action'])) {
+      if($_POST['action']== 'removeTimeslot'){
+        $checkedItem=Planner::where('id', '=', $_POST['removedItem'])->first();
+        $checkedItem->delete();
+      }
+    }
+
     $userLogin= User::where('id', $_SESSION['id'])->first();
     $this->set('userLogin', $userLogin);
 
-      $planning= Planner::where('user_id', '=', $_SESSION['id'])->get();
+      $planning= Planner::where('user_id', '=', $_SESSION['id'])->orderBy('time')->get();
       foreach($planning as $item){
         if($item->series == 1){
           $watchItem=Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
           $this->set('watchItem', $watchItem);
-         }
-        //elseif($item->movie == 1){
-        //   $watchItem=Movie::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
-        // }
+        }
 
-        // $watchItems= Watch_list::where('user_id', '=', $_SESSION['id'])->where('title', '=', $item->title)->get();
-        // foreach($watchItems as $watchItem){
-        //   $findItem= 'https://api.themoviedb.org/3/tv/'.$watchItem->watch_id.'?api_key=662c8478635d4f25ee66abbe201e121d' ;
-        //   $findItem = file_get_contents($findItem);
-        //   $itemArray = $findItem;
+      }
+      $currentWeek= 0;
+      $day=strtotime('monday');
+      if(!empty($_GET['week'])){
+        $monday=strtotime( $_GET['week']-1 ."week", $day);
+      }
+      else{
+        $monday=strtotime('monday');
+        if(strtotime('today') != $monday){
+          $monday=strtotime("-1 week", $day);
 
-        // }
-
-        // $this->set('itemArray', $itemArray);
+        }
       }
       if(!empty($_GET['week'])){
         $currentWeek = $_GET['week'];
       }else{
-        $currentWeek=0;
-      }
-      $day=strtotime('monday');
-       if(!empty($_GET['week'])){
 
-
-      $monday=strtotime($_GET['week'] ."week", $day);
-      }else{
-      $monday=strtotime('monday');
-        if(strtotime('today') != $monday){
-          $monday=strtotime("-1 week", $day);
-        }
       }
       $daysOfWeekArray=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
 
       $this->set('monday',$monday);
       $this->set('currentWeek',$currentWeek);
       $this->set('daysOfWeekArray',$daysOfWeekArray);
-
-
 
       $this->set('planning', $planning);
     }
@@ -70,6 +101,65 @@ class PagesController extends Controller {
     $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
     $this->set('watchlist', $watchlist);
     $this->set('title','My watchlist');
+  }
+  public function detail() {
+    //get models
+      $user = User::where('id', '=', $_SESSION['id'])->first();
+     $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $_GET['id'])->get();
+     $services = Stream_service::where('user_id', '=', $_SESSION['id'])->get();
+         //get info of link
+     $idDetail = $_GET['id'];
+     $typeDetail = $_GET['watch_type'];
+     $titleDetail = $_GET['title'];
+     //find providers
+     $country = $user->country;
+      $providerApi = 'https://api.themoviedb.org/3/'. $typeDetail.'/'. $idDetail . '/watch/providers?api_key=662c8478635d4f25ee66abbe201e121d';
+      $providerCode = file_get_contents($providerApi);
+      $providerInfo= json_decode($providerCode)->results;
+      $providerArray = (array) $providerInfo;
+      $countries = file_get_contents('http://country.io/names.json');
+      $countriesObj= json_decode($countries);
+      $countriesArray = (array) $countriesObj;
+      $abbrCountry = array_search($country,$countriesArray);
+      if(!empty($providerArray[$abbrCountry])){
+      $countryService = (array) $providerArray[$abbrCountry];
+      $arrayServices = (array) $countryService['flatrate'];
+        $servicesList = [];
+        foreach($arrayServices as $service){
+        array_push($servicesList,  $service->provider_name);
+       }
+      } else {
+        $servicesList= ' ';
+      }
+      foreach($services as $info){
+        foreach($servicesList as $item){
+          if($item === 'Netflix' && $info->netflix == 1){
+            $serviceItem = '<img class="detail__provider" src="../src/assets/netflix.svg" alt="netflix">';
+          }else if($item === 'Disney Plus' && $info->disney == 1){
+            $serviceItem = '<img class="detail__provider" src="../src/assets/disney.svg" alt="disney">';
+          } else if($item === 'Amazon Prime Video' && $info->amazon_prime == 1){
+            $serviceItem = '<img class="detail__provider" src="../src/assets/prime.svg" alt="prime">';
+          } else if($item === 'Hulu' && $info->hulu == 1){
+            $serviceItem = '<img class="detail__provider" src="../src/assets/hulu.svg" alt="hulu">';
+          } else if($item === 'HBO Max' && $info->hbo_max == 1){
+            $serviceItem = '<img class="detail__provider" src="../src/assets/hbo.svg" alt="hbo">';
+          } else{
+            $serviceItem ='';
+          }
+
+        }
+
+      }
+
+
+     $this->set('watchlist', $watchlist);
+     $this->set('serviceItem', $serviceItem);
+     $this->set('servicesList', $servicesList);
+     $this->set('abbrCountry', $abbrCountry);
+    $this->set('idDetail', $idDetail);
+    $this->set('typeDetail', $typeDetail);
+    $this->set('titleDetail', $titleDetail);
+    $this->set('title','detail – ' .$titleDetail.'');
   }
 
 
@@ -173,6 +263,27 @@ class PagesController extends Controller {
 
   }
 
+    public function apiSearch() {
+    $shows = $this->_getFormSearchResults();
+    echo $shows->toJson();
+    exit();
+  }
+
+  private function _getFormSearchResults() {
+    $showsQuery = Show::query();
+    if(!empty($_GET['title'])){
+      $showsQuery = $showsQuery->where('title', 'LIKE', '%' . $_GET['title'] . '%');
+    }
+    if(!empty($_GET['rating'])){
+      $showsQuery = $showsQuery->where('rating', $_GET['rating']);
+    }
+    if(!empty($_GET['score'])){
+      $showsQuery = $showsQuery->where('score', '>=', $_GET['score']);
+    }
+    $shows = $showsQuery->limit(100)->get();
+    return $shows;
+  }
+
   public function signup() {
     if(!empty($_POST['action'])) {
       if ($_POST['action'] == 'signup') {
@@ -221,9 +332,6 @@ class PagesController extends Controller {
       }
 
     }
-    $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "UK","USA","Venezuela","Vietnam");
-    $this->set('countries', $countries);
-
     $this->set('title','Sign up Watcho');
 
   }
@@ -271,7 +379,7 @@ class PagesController extends Controller {
       }
 
     }
-    $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "UK","USA","Venezuela","Vietnam");
+    $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "United Kingdom","United Status","Venezuela","Vietnam");
     $this->set('countries', $countries);
 
     $this->set('title','Sign up Watcho');
@@ -312,8 +420,7 @@ class PagesController extends Controller {
    }
 
   public function timeslot() {
-    $watchArray= array();
-    $availableTime='';
+    unset($watchSuggestions);
     if(!empty($_POST['action'])) {
     if ($_POST['action'] == 'timeslot') {
       $startDateAndTime=$_POST['timeslot--start'];
@@ -361,10 +468,12 @@ class PagesController extends Controller {
   if(!empty($_POST['action'])) {
 
     if ($_POST['action'] == 'addWatchItem') {
-
+      // unset($overdueTimes);
+      $watchArray=array();
       $watchTimes=array();
       $overdueTimes=array();
       $possibleTimes=array();
+
       foreach($_POST['watchItem'] as $watchItem){
 
         $watchListItem= Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem)->first();
@@ -381,47 +490,58 @@ class PagesController extends Controller {
       }
       $this->set('watchDuration', $watchDuration);
 
-      if($watchDuration < $_SESSION['availableTime'] /*|| $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']*/){
-      foreach($watchArray as $watchItem){
-        if($_SESSION['startTime'] < $_SESSION['endTime']){
-        $newTimeslot = new Planner;
-        $newTimeslot->user_id = $_SESSION['id'];
-        $newTimeslot->watch_id=$watchItem->watch_id;
-        $newTimeslot->title=$watchItem->title;
-        if($watchItem->series==1){
-          $newTimeslot->series=1;
-        }else if($watchItem->movie==1){
-          $newTimeslot->movie=1;
-        }
-        $plannedTime=$_SESSION['startTime']+$watchItem->duration;
-        array_push($watchTimes, $_SESSION['startTime']);
-        $newTimeslot->date= date("Y-m-d", $_SESSION['startTime']);
-        $newTimeslot->time= date("H:i:s", $_SESSION['startTime']);
-        $_SESSION['startTime']=$plannedTime;
-        $newTimeslot->save();
+      // if ($watchDuration > $_SESSION['availableTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] > $_SESSION['endTime']){
+        $currentTime=$_SESSION['startTime'];
+      // if(empty($overdueTimes)) {
+      // else if($_SESSION['overtime']==false && $watchDuration < $_SESSION['availableTime'] || $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
+      if($watchDuration <= $_SESSION['availableTime'] ){
+        foreach($watchArray as $watchItem){
+          if($currentTime < $_SESSION['endTime']){
+          $newTimeslot = new Planner;
+          $newTimeslot->user_id = $_SESSION['id'];
+          $newTimeslot->watch_id=$watchItem->watch_id;
+          $newTimeslot->title=$watchItem->title;
+          if($watchItem->series==1){
+            $newTimeslot->series=1;
+          }else if($watchItem->movie==1){
+            $newTimeslot->movie=1;
+          }
+          $plannedTime=$currentTime+$watchItem->duration;
+          array_push($watchTimes, $currentTime);
+          $newTimeslot->date= date("Y-m-d", $currentTime);
+          $newTimeslot->time= date("H:i", $currentTime);
+          $newTimeslot->current_ses=$watchItem->current_ses;
+          $newTimeslot->current_ep=$watchItem->current_ep;
+          $currentTime=$plannedTime;
+          $newTimeslot->save();
 
-      }
-      }
-      // unset($watchArray);
+        }
+        }
+      // if($watchDuration < $_SESSION['availableTime']){
+        $_SESSION['availableTime']='';
         header('Location:index.php?page=home');
           exit();
-    }else if ($watchDuration > $_SESSION['availableTime'] /*|| $_SESSION['overtime']==true && $_SESSION['startTime'] > $_SESSION['endTime']*/){
+      // }
+
+      }else if($watchDuration > $_SESSION['availableTime']){
         foreach($watchArray as $watchItem){
-          if($_SESSION['startTime']+$watchItem->duration < $_SESSION['endTime']/*|| $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']*/){
+          // if($_SESSION['startTime']+$watchItem->duration < $_SESSION['endTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
+          if($currentTime+$watchItem->duration < $_SESSION['endTime']){
             array_push($possibleTimes, $watchItem);
-            $plannedTime=$_SESSION['startTime']+$watchItem->duration;
-            $_SESSION['startTime']=$plannedTime;
+            $plannedTime=$currentTime+$watchItem->duration;
+            $currentTime=$plannedTime;
           }else{
             array_push($overdueTimes, $watchItem);
           }
         }
 
       }
+  // }
       // else if($_SESSION['startTime'] > $_SESSION['endTime']){
       //   array_push($overdueTimes, $watchItem);
       // }
 
-
+      $this->set('watchArray', $watchArray);
       $this->set('watchTimes', $watchTimes);
       $this->set('overdueTimes', $overdueTimes);
       $this->set('possibleTimes', $possibleTimes);
@@ -434,7 +554,7 @@ class PagesController extends Controller {
     $watchSuggestions= Watch_list::where('user_id', '=', $_SESSION['id'])->where('duration', '<=', $availableTime)->get();
     $this->set('watchSuggestions', $watchSuggestions);
   }
-  $this->set('watchArray', $watchArray);
+
   $this->set('title','Add a timeslot');
   }
 

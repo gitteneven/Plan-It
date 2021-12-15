@@ -18,9 +18,15 @@
         <label class="timeslot__label ">
             <span class="form__text">Do you want to stay within your planned limits?</span>
             <div class="timeslot__radio">
+<<<<<<< HEAD
             <label class="radio__wrap"><input type="radio" name="limit__radio" value=true checked >Yes!</label>
             <label class="radio__wrap"><input type="radio" name="limit__radio" value=false >No!</label></div>
         </label>
+=======
+            <label class="radio__wrap"><input type="radio" name="limit__radio" value=false checked <?php if(!empty($_POST['limit__radio'])=='false'){echo "checked";}else if(empty($_POST['limit__radio'])){echo "checked"; } ?>>Yes!</label>
+            <label class="radio__wrap"><input type="radio" name="limit__radio" value=true <?php if(!empty($_POST['limit__radio'])=='true'){echo "checked";}?>>No!</label></div>
+        </label><?php //echo $overtime ?>
+>>>>>>> develop
         <label class="timeslot__label ">
             <span class="form__text">Do you have a preference?</span>
         </label>
@@ -41,24 +47,35 @@
   <form class="timeslot__form--items" method="post" action="index.php?page=timeslot" enctype="multipart/form-data">
       <input type="hidden" name="action" value="addWatchItem">
       <ul class="watchItemList">
+<<<<<<< HEAD
 <?php
 if(!empty($watchSuggestions)){
   foreach($watchSuggestions as $sugg){?>
+=======
+
+<?php if(!empty($watchSuggestions)){
+foreach($watchSuggestions as $sugg){?>
+>>>>>>> develop
 
       <li class="timeslot__sugg <?php if($sugg->movie == 1)echo 'sugg--movie';?>">
 
     <?php if($sugg->series == 1){
         $suggApi = 'https://api.themoviedb.org/3/tv/'. $sugg->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $suggCode = file_get_contents($suggApi);
-        $suggInfo= json_decode($suggCode);?>
-        <img class="sugg__img" src="https://image.tmdb.org/t/p/w500/<?php echo $suggInfo->poster_path?>" alt="">
+        $suggInfo= json_decode($suggCode);
+        if(!empty($suggInfo->poster_path)){
+        echo '<img class="sugg__img" src="https://image.tmdb.org/t/p/w500/'. $suggInfo->poster_path .'" alt="">';
+      } else {
+          echo '<p class="sugg__img sugg__img--letter img__notfound dropshadow" > W </p>';
+      }?>
+
        <?php $suggDate = date( 'Y', strtotime($suggInfo->first_air_date));
         ?>
         <h3 class="sugg__title"><?php echo $sugg->title . ' <em>('. $suggDate .')</em>' ?></h3>
         <p class="sugg__ep">Se <?php echo $sugg->current_ses . ' ' . 'Ep' . ' ' .$sugg->current_ep//foreach($currentStatusArray as $status){ if($sugg->watch_id == $status['watch_id']){echo $status->current_ses . ' ' . 'Ep' . ' ' . $status->current_ep;}} ?></p>
         <?php
         // $suggCurrent = $currentEpisodes->where('watch_id', '=', $sugg->watch_id)->first();
-        $runtime= $suggInfo->episode_run_time[0];
+        $runtime= round($sugg->duration/60);
         echo '<p class="sugg__duration">'.$runtime.' min </p>';
         // echo '<input type="submit" class="add--button button" value="ADD">';
         ?>
@@ -80,8 +97,12 @@ if(!empty($watchSuggestions)){
       } ?>
       </li><br>
 <?php
+<<<<<<< HEAD
 }
 } ?>
+=======
+}} ?>
+>>>>>>> develop
 </ul>
 <input type="submit" class="add--button button" value="make timeslot">
 </form>
