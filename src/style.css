@@ -337,10 +337,12 @@ input:focus {
   grid-template-columns: repeat(7, 1fr);
 }
 
+
+
 .planner__column {
   height: 60vh;
   margin: 2rem .7rem;
-  width: 11rem;
+  width: 12vw;
   text-align: center;
   font-family: 'bronx_reg', sans-serif;
   padding: 1rem .3rem;
@@ -441,6 +443,15 @@ input:focus {
 
 .card__bin {
   display: inline-block;
+}
+
+.button--check {
+  /* padding-top: .4rem; */
+  width: 8vw;
+  text-align: center;
+  padding: auto;
+  font-size: 1rem;
+  margin: auto;
 }
 
 /*---------------------------------------search----------------------*/
@@ -790,6 +801,12 @@ input:focus {
   margin-bottom: -1rem;
   padding-bottom: -1rem;
   margin-left: .5rem;
+}
+
+.sugg__img--letter {
+  color: black;
+  width: 4rem;
+  padding: .1rem;
 }
 
 .sugg__title {

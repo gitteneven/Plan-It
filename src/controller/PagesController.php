@@ -25,7 +25,6 @@ class PagesController extends Controller {
             $checkedItem->save();
             $updateWatchlist->save();
             echo json_encode($checkedItem);
-            // echo $checkedItem->toJson();
           }
         }
         if(!empty($data) && !empty($data['action'])) {
