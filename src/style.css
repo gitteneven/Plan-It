@@ -630,24 +630,28 @@ input:focus {
   display: grid;
   grid-template-columns: auto 1fr 4rem;
   grid-template-rows: auto;
-  grid-gap: 2rem;
+  grid-gap: 1.8rem;
   padding: 3rem;
 }
 
-.detail__title {
-  font-size: 3rem;
-  font-weight: bold;
+.detail__head {
   grid-column: 2;
   grid-row: 1;
   z-index: -1;
 }
 
-.overview__list--date {
+.detail__title {
+  font-size: 3rem;
+  font-weight: bold;
+
+}
+
+.detail__list--date {
   font-size: 1.8rem;
 }
 
 .detail__info {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   grid-column: 2/span 3;
 }
 
@@ -879,3 +883,30 @@ em {
 .timeslot__label {
   margin: 1rem auto;
 }
+
+/*---------------------------------responsive------------------------------------*/
+
+img {
+  object-fit: contain;
+}
+
+/* @media only screen and (min-width: 1200px) {
+
+  .planner {
+    width: 100vw;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+
+  .planner {
+    width: 50vw;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+
+  .planner {
+    width: 30vw;
+  }
+} */

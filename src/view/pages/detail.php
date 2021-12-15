@@ -28,7 +28,17 @@
       $currentCode = file_get_contents($currentApi);
       $currentInfo= json_decode($currentCode);
     }
-     ?>
+      if($typeDetail === 'movie'){
+      $date = date( 'Y', strtotime($itemInfo->release_date));
+      $genres = $itemInfo->genres[0]->name;
+      $watch_type ='movie';
+      if(!empty($itemInfo->runtime)){
+          $runtime= $itemInfo->runtime;
+      }else{
+        $runtime=125;
+      }
+    }
+    ?>
 
 
   <section class="detail__card border <?php
@@ -38,14 +48,21 @@
             echo('border');
           }; ?>">
 <?php echo  '
-    <h2 class="detail__title">' . $titleDetail . '<em class="overview__list--date">   ' . $date . '</em></h2>
+    <div class="detail__head">
+    <h2 class="detail__title">' . $titleDetail . '<em class="detail__list--date">   ' . $date . '</em></h2>
     <p class="detail__info"> ' . $genres . ' || '. $languageDetail .' || '. $watch_type .' || ' . $runtime .' min</p>
+    </div>
     <div class="detail__overview">
     <h3 class="detail__overview--title"> Overview: </h3>
     <p class="detail__overview--text">'. $itemInfo->overview .'</p>
     </div>
+    <ul class="detail__provider--list"> <li>'. $serviceItem .'</li></ul>';
+
+
+     if($typeDetail === 'tv'){
+       echo
+    '
     <p class="detail__total">'. $itemInfo->number_of_seasons.' season(s) and '. $itemInfo->number_of_episodes .' episodes in total</p>
-     <ul class="detail__provider--list"> <li>'. $serviceItem .'</li></ul>
     <div class="detail__episode">
     <p class="detail__current--text">You are currently on:</p>
     <div class="detail__episode--border border">
@@ -53,6 +70,7 @@
     <p class="detail__episode--text">'. $currentInfo->overview.'</p>
     </div>
     </div>';
+    }
     if(!empty($itemInfo->poster_path)){
         echo '<img class="detail--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
    } else {
