@@ -167,7 +167,7 @@ const handleCheckPlannedItem = async e => {
   const returned = await response.json();
   $li.innerHTML = `
    <div class="card__title_wrapper">
-   <p class="card__title"><?php  ${(returned.title)}</p>
+   <p class="card__title"> ${(returned.title)}</p>
        <form class="removeButton" method="post" action="index.php?page=home">
           <input type="hidden" name="action" value="removeTimeslot">
           <input type="hidden" name="removedItem" value="${returned.id}">
@@ -197,9 +197,7 @@ const handleRemovePlannedItem = async e => {
     body: JSON.stringify(obj)
   });
   $li.style.display = 'none';
-  //  const returned = await response.json();
-
-}
+};
 
 export const init = async () => {
   document.documentElement.classList.add('has-js');

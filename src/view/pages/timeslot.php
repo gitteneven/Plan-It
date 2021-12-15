@@ -50,15 +50,20 @@ foreach($watchSuggestions as $sugg){?>
     <?php if($sugg->series == 1){
         $suggApi = 'https://api.themoviedb.org/3/tv/'. $sugg->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
         $suggCode = file_get_contents($suggApi);
-        $suggInfo= json_decode($suggCode);?>
-        <img class="sugg__img" src="https://image.tmdb.org/t/p/w500/<?php echo $suggInfo->poster_path?>" alt="">
+        $suggInfo= json_decode($suggCode);
+        if(!empty($suggInfo->poster_path)){
+        echo '<img class="sugg__img" src="https://image.tmdb.org/t/p/w500/'. $suggInfo->poster_path .'" alt="">';
+      } else {
+          echo '<p class="sugg__img sugg__img--letter img__notfound dropshadow" > W </p>';
+      }?>
+
        <?php $suggDate = date( 'Y', strtotime($suggInfo->first_air_date));
         ?>
         <h3 class="sugg__title"><?php echo $sugg->title . ' <em>('. $suggDate .')</em>' ?></h3>
         <p class="sugg__ep">Se <?php echo $sugg->current_ses . ' ' . 'Ep' . ' ' .$sugg->current_ep//foreach($currentStatusArray as $status){ if($sugg->watch_id == $status['watch_id']){echo $status->current_ses . ' ' . 'Ep' . ' ' . $status->current_ep;}} ?></p>
         <?php
         // $suggCurrent = $currentEpisodes->where('watch_id', '=', $sugg->watch_id)->first();
-        $runtime= $suggInfo->episode_run_time[0];
+        $runtime= round($sugg->duration/60);
         echo '<p class="sugg__duration">'.$runtime.' min </p>';
         // echo '<input type="submit" class="add--button button" value="ADD">';
         ?>
