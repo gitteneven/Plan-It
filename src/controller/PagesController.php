@@ -11,6 +11,50 @@ class PagesController extends Controller {
   public function index() {
 
     if(isset($_SESSION['id'])){
+      $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+      if ($contentType === "application/json") {
+        $content = trim(file_get_contents("php://input"));
+        $data = json_decode($content, true);
+
+        if(!empty($data) && !empty($data['action'])) {
+          if($data['action']== 'checkedTimeslot'){
+            $checkedItem=Planner::where('id', '=', $data['plannedItem'])->first();
+            $checkedItem->watched= 1;
+            $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
+            $updateWatchlist->current_ep++;
+            $checkedItem->save();
+            $updateWatchlist->save();
+            echo json_encode($checkedItem);
+            // echo $checkedItem->toJson();
+          }
+        }
+        if(!empty($data) && !empty($data['action'])) {
+        if($data['action']== 'removeTimeslot'){
+          $checkedItem=Planner::where('id', '=', $data['removedItem'])->first();
+          $checkedItem->delete();
+        }
+      }
+        exit();
+      }
+
+    if(!empty($_POST['action'])) {
+      if($_POST['action']== 'checkedTimeslot'){
+        $checkedItem=Planner::where('id', '=', $_POST['plannedItem'])->first();
+        $checkedItem->watched= 1;
+        $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
+        $updateWatchlist->current_ep++;
+        $checkedItem->save();
+        $updateWatchlist->save();
+        $this->set('checkedItem',$checkedItem);
+        }
+    }
+    if(!empty($_POST['action'])) {
+      if($_POST['action']== 'removeTimeslot'){
+        $checkedItem=Planner::where('id', '=', $_POST['removedItem'])->first();
+        $checkedItem->delete();
+      }
+    }
+
     $userLogin= User::where('id', $_SESSION['id'])->first();
     $this->set('userLogin', $userLogin);
 
@@ -20,22 +64,6 @@ class PagesController extends Controller {
           $watchItem=Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
           $this->set('watchItem', $watchItem);
         }
-        //  $time = explode(":", $item->time);
-        //  $timeremoved = array_pop($time);
-        //  $timeMerged=implode(":", $timeremoved);
-        //  $item->time = $timeMerged;
-        //elseif($item->movie == 1){
-        //   $watchItem=Movie::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $item->watch_id)->first();
-        // }
-
-        // $watchItems= Watch_list::where('user_id', '=', $_SESSION['id'])->where('title', '=', $item->title)->get();
-        // foreach($watchItems as $watchItem){
-        //   $findItem= 'https://api.themoviedb.org/3/tv/'.$watchItem->watch_id.'?api_key=662c8478635d4f25ee66abbe201e121d' ;
-        //   $findItem = file_get_contents($findItem);
-        //   $itemArray = $findItem;
-
-        // }
-        // $this->set('itemArray', $itemArray);
 
       }
       $currentWeek= 0;
@@ -57,16 +85,6 @@ class PagesController extends Controller {
       }
       $daysOfWeekArray=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-      // foreach($_POST['plannedItem'] as $plannedItem){
-      //   $checkedItem=Planner::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $plannedItem->id)->first();
-      //   $this->set('checkedItem',$checkedItem);
-      // }
-      if(!empty($_POST['action'])) {
-      if($_POST['action']== 'checkedTimeslot'){
-        $checkedItem= $_POST['plannedItem'];
-        $this->set('checkedItem',$checkedItem);
-        }
-      }
 
       $this->set('monday',$monday);
       $this->set('currentWeek',$currentWeek);
@@ -480,7 +498,7 @@ class PagesController extends Controller {
         $currentTime=$_SESSION['startTime'];
       // if(empty($overdueTimes)) {
       // else if($_SESSION['overtime']==false && $watchDuration < $_SESSION['availableTime'] || $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
-      if($watchDuration < $_SESSION['availableTime'] ){
+      if($watchDuration <= $_SESSION['availableTime'] ){
         foreach($watchArray as $watchItem){
           if($currentTime < $_SESSION['endTime']){
           $newTimeslot = new Planner;
