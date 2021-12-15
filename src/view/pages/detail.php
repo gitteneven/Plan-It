@@ -66,8 +66,13 @@
     <div class="detail__episode">
     <p class="detail__current--text">You are currently on:</p>
     <div class="detail__episode--border border">
+    <form method="post" class="detail__edit">
+    <input type="submit" class="detail__pencil edit" name="edit" value="edit">
+    </form>
+    <div class="detail__current--info">
     <p class="detail__episode--title"> S'. $current_ses.' – Ep'. $current_ep .': '.$currentInfo->name.'</p>
     <p class="detail__episode--text">'. $currentInfo->overview.'</p>
+    </div>
     </div>
     </div>';
     }

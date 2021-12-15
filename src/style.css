@@ -337,8 +337,6 @@ input:focus {
   grid-template-columns: repeat(7, 1fr);
 }
 
-
-
 .planner__column {
   height: 60vh;
   margin: 2rem .7rem;
@@ -677,6 +675,7 @@ input:focus {
 .detail__total {
   font-size: 1.8rem;
   grid-column: 2/span 3;
+  grid-row: 3;
 }
 
 .detail__provider--list {
@@ -699,6 +698,8 @@ input:focus {
 .detail__episode--title {
   font-size: 1.8rem;
   font-weight: bold;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .detail__current--text {
@@ -707,11 +708,41 @@ input:focus {
 
 .detail--img {
   width: 25rem;
-  grid-row: 1/span 8;
+  grid-row: 1/span 5;
 }
 
 .detail__episode--border {
   padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 4rem;
+  grid-gap: 2rem;
+}
+
+.detail__pencil {
+  background-image: url(./assets/pencil.svg);
+  height: 2.5rem;
+  width: 4rem;
+  background-repeat: no-repeat;
+  background-size: 2rem;
+  background-position: center;
+  border: unset;
+  display: inline-block;
+  background-color: transparent;
+  margin-left: .5rem;
+  color: transparent;
+}
+
+.detail__current--info {
+  grid-column: 1/ span 2;
+  grid-row: 1/span 2;
+  z-index: -1;
+}
+
+.detail__edit {
+  grid-column: 2;
+  grid-row: 1;
+  z-index: 2;
+
 }
 
 /*--------------------------------------Timeslot--------------------------------------*/
