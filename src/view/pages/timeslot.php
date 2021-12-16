@@ -18,15 +18,9 @@
         <label class="timeslot__label ">
             <span class="form__text">Do you want to stay within your planned limits?</span>
             <div class="timeslot__radio">
-<<<<<<< HEAD
-            <label class="radio__wrap"><input type="radio" name="limit__radio" value=true checked >Yes!</label>
-            <label class="radio__wrap"><input type="radio" name="limit__radio" value=false >No!</label></div>
-        </label>
-=======
             <label class="radio__wrap"><input type="radio" name="limit__radio" value=false checked <?php if(!empty($_POST['limit__radio'])=='false'){echo "checked";}else if(empty($_POST['limit__radio'])){echo "checked"; } ?>>Yes!</label>
             <label class="radio__wrap"><input type="radio" name="limit__radio" value=true <?php if(!empty($_POST['limit__radio'])=='true'){echo "checked";}?>>No!</label></div>
         </label><?php //echo $overtime ?>
->>>>>>> develop
         <label class="timeslot__label ">
             <span class="form__text">Do you have a preference?</span>
         </label>
@@ -47,15 +41,9 @@
   <form class="timeslot__form--items" method="post" action="index.php?page=timeslot" enctype="multipart/form-data">
       <input type="hidden" name="action" value="addWatchItem">
       <ul class="watchItemList">
-<<<<<<< HEAD
-<?php
-if(!empty($watchSuggestions)){
-  foreach($watchSuggestions as $sugg){?>
-=======
 
 <?php if(!empty($watchSuggestions)){
 foreach($watchSuggestions as $sugg){?>
->>>>>>> develop
 
       <li class="timeslot__sugg <?php if($sugg->movie == 1)echo 'sugg--movie';?>">
 
@@ -97,12 +85,7 @@ foreach($watchSuggestions as $sugg){?>
       } ?>
       </li><br>
 <?php
-<<<<<<< HEAD
-}
-} ?>
-=======
 }} ?>
->>>>>>> develop
 </ul>
 <input type="submit" class="add--button button" value="make timeslot">
 </form>
