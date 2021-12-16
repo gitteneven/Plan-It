@@ -3,13 +3,7 @@
 
     <?php
     //api of detail
-      $itemApi = 'https://api.themoviedb.org/3/'. $typeDetail.'/'. $idDetail . '?api_key=662c8478635d4f25ee66abbe201e121d';
-      $itemCode = file_get_contents($itemApi);
-      $itemInfo= json_decode($itemCode);
-      $language = $itemInfo->spoken_languages;
-      if(!empty($language)){
-        $languageDetail = $language['0']->name;
-      }
+
     //providers
       //var_dump($servicesList);
 
@@ -27,6 +21,7 @@
       $currentApi = 'https://api.themoviedb.org/3/tv/'.$idDetail.'/season/'.$current_ses.'/episode/' . $current_ep .'?api_key=662c8478635d4f25ee66abbe201e121d';
       $currentCode = file_get_contents($currentApi);
       $currentInfo= json_decode($currentCode);
+      $totalSeason= ($itemInfo->number_of_seasons)+1;
     }
       if($typeDetail === 'movie'){
       $date = date( 'Y', strtotime($itemInfo->release_date));
@@ -58,15 +53,15 @@
     </div>
     <ul class="detail__provider--list"> <li>'. $serviceItem .'</li></ul>';
 
-
      if($typeDetail === 'tv'){
        echo
     '
-    <p class="detail__total">'. $itemInfo->number_of_seasons.' season(s) and '. $itemInfo->number_of_episodes .' episodes in total</p>
+    <p class="detail__total">'. $totalSeason.' season(s) and '. $itemInfo->number_of_episodes .' episodes in total</p>
     <div class="detail__episode">
     <p class="detail__current--text">You are currently on:</p>
     <div class="detail__episode--border border">
     <form method="post" class="detail__edit">
+      <input type="hidden" name="action" value="editCurrent">
     <input type="submit" class="detail__pencil edit" name="edit" value="edit">
     </form>
     <div class="detail__current--info">

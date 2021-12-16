@@ -111,6 +111,14 @@ class PagesController extends Controller {
      $idDetail = $_GET['id'];
      $typeDetail = $_GET['watch_type'];
      $titleDetail = $_GET['title'];
+     //info out of api
+      $itemApi = 'https://api.themoviedb.org/3/'. $typeDetail.'/'. $idDetail . '?api_key=662c8478635d4f25ee66abbe201e121d';
+      $itemCode = file_get_contents($itemApi);
+      $itemInfo= json_decode($itemCode);
+      $language = $itemInfo->spoken_languages;
+      if(!empty($language)){
+        $languageDetail = $language['0']->name;
+      }
      //find providers
      $country = $user->country;
       $providerApi = 'https://api.themoviedb.org/3/'. $typeDetail.'/'. $idDetail . '/watch/providers?api_key=662c8478635d4f25ee66abbe201e121d';
@@ -146,13 +154,56 @@ class PagesController extends Controller {
           } else{
             $serviceItem ='';
           }
-
         }
-
       }
 
+      $seasons = $itemInfo->seasons;
+      //var_dump($seasons);
+      if(!empty($_POST['action'])){
+        if($_POST['action'] == 'editCurrent'){
+          $max = $itemInfo->number_of_seasons;
+          $formMax= $max+1;
+          echo '<form method="post" class="detail__edit">
+              <input type="hidden" name="action" value="submitSeason">
+              <label for="number__season">Which season: </label>
+              <input type="number" id="number__season" name="number__season" min="1" max="'.$formMax. '">
+              <input type="submit" class="detail__pencil edit" name="edit" value="episodes >">
+              </form> ';
+        }
+      }
+
+      //var_dump($seasons);
+        if(!empty($_POST['action'])){
+        if($_POST['action'] == 'submitSeason'){
+          $numberOfSeason = $_POST['number__season']-1;
+          foreach($seasons as $season){
+            if($numberOfSeason == $season->season_number){
+              $getSeason = $seasons[$numberOfSeason];
+              $episodeNumber = $getSeason->episode_count;
+              echo $episodeNumber;
+            }
+          }
+          echo $_POST['number__season'];
+          echo '<form method="post" class="detail__edit">
+              <input type="hidden" name="action" value="submitEpisode">
+              <label for="number__episode">Which episode: </label>
+              <input type="number" id="number__episode" name="number__episode" min="1" max="'. $episodeNumber. '">
+              <input type="submit" class="detail__pencil edit" name="edit" value="episodes >">
+              </form> ';
+        }
+      }
+
+      if(!empty($_POST['action'])){
+        if($_POST['action'] == 'submitEpisode'){
+          var_dump($watchlist[0]->id);
+          
+
+      }
+    }
 
      $this->set('watchlist', $watchlist);
+     $this->set('itemInfo', $itemInfo);
+     $this->set('languageDetail', $languageDetail);
      $this->set('serviceItem', $serviceItem);
      $this->set('servicesList', $servicesList);
      $this->set('abbrCountry', $abbrCountry);
@@ -197,8 +248,7 @@ class PagesController extends Controller {
         } else{
           $list ='';
           $this->set('list', $list);
-          $this->set('errors', $errors);
-        }
+         }
 
       }
    }
