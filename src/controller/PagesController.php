@@ -272,7 +272,7 @@ class PagesController extends Controller {
           if($_POST['watch__type']=='series'){
             $newWatch->series = 1;
             $newWatch->current_ep = 1;
-            $newWatch->current_ses = 1;
+            $newWatch->current_ses = 0;
           }
           if($_POST['watch__type']=='movie'){
             $newWatch->movie = 1;

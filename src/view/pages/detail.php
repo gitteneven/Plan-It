@@ -18,6 +18,7 @@
       }
       $current_ep = $watchlist[0]->current_ep;
       $current_ses = $watchlist[0]->current_ses;
+      $current_sesview = $watchlist[0]->current_ses+1;
       $currentApi = 'https://api.themoviedb.org/3/tv/'.$idDetail.'/season/'.$current_ses.'/episode/' . $current_ep .'?api_key=662c8478635d4f25ee66abbe201e121d';
       $currentCode = file_get_contents($currentApi);
       $currentInfo= json_decode($currentCode);
@@ -65,7 +66,7 @@
     <input type="submit" class="detail__pencil edit" name="edit" value="edit">
     </form>
     <div class="detail__current--info">
-    <p class="detail__episode--title"> S'. $current_ses.' – Ep'. $current_ep .': '.$currentInfo->name.'</p>
+    <p class="detail__episode--title"> S'. $current_sesview.' – Ep'. $current_ep .': '.$currentInfo->name.'</p>
     <p class="detail__episode--text">'. $currentInfo->overview.'</p>
     </div>
     </div>
