@@ -209,6 +209,7 @@ class PagesController extends Controller {
 
      $this->set('watchlist', $watchlist);
      $this->set('itemInfo', $itemInfo);
+     $this->set('seasons', $seasons);
      $this->set('languageDetail', $languageDetail);
      $this->set('serviceItem', $serviceItem);
      $this->set('servicesList', $servicesList);

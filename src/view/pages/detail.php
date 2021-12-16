@@ -16,13 +16,27 @@
       }else{
         $runtime=45;
       }
+      $totalSeason= ($itemInfo->number_of_seasons);
+
       $current_ep = $watchlist[0]->current_ep;
-      $current_ses = $watchlist[0]->current_ses;
       $current_sesview = $watchlist[0]->current_ses+1;
+
+
+      $seasonNumber = $seasons->season_number;
+      //var_dump($seasons);
+      foreach($seasons as $season){
+        if(in_array(0, $season->season_numberas)){
+            $current_ses = $watchlist[0]->current_ses;
+        } else{
+          $current_ses = $watchlist[0]->current_ses+1;
+        }
+      }
+      echo $current_ses;
+
       $currentApi = 'https://api.themoviedb.org/3/tv/'.$idDetail.'/season/'.$current_ses.'/episode/' . $current_ep .'?api_key=662c8478635d4f25ee66abbe201e121d';
       $currentCode = file_get_contents($currentApi);
       $currentInfo= json_decode($currentCode);
-      $totalSeason= ($itemInfo->number_of_seasons)+1;
+      //var_dump($currentInfo);
     }
       if($typeDetail === 'movie'){
       $date = date( 'Y', strtotime($itemInfo->release_date));
