@@ -180,7 +180,7 @@ class PagesController extends Controller {
             if($numberOfSeason == $season->season_number){
               $getSeason = $seasons[$numberOfSeason];
               $episodeNumber = $getSeason->episode_count;
-              echo $episodeNumber;
+              //echo $episodeNumber;
             }
           }
           echo $_POST['number__season'];
@@ -188,16 +188,22 @@ class PagesController extends Controller {
               <input type="hidden" name="action" value="submitEpisode">
               <label for="number__episode">Which episode: </label>
               <input type="number" id="number__episode" name="number__episode" min="1" max="'. $episodeNumber. '">
+              <input type="hidden" name="number__season" value="'. $numberOfSeason . '">
               <input type="submit" class="detail__pencil edit" name="edit" value="episodes >">
               </form> ';
+         $this->set('numberOfSeason', $numberOfSeason);
         }
       }
 
       if(!empty($_POST['action'])){
         if($_POST['action'] == 'submitEpisode'){
-          var_dump($watchlist[0]->id);
-          
-
+          $watch = Watch_list::find($watchlist[0]->id);
+          echo $_POST['number__season'];
+          echo $_POST['number__episode'];
+          var_dump($watch->current_ep);
+          $watch->current_ep = $_POST['number__episode'];
+          $watch->current_ses = $_POST['number__season'];
+          $watch->save();
       }
     }
 
