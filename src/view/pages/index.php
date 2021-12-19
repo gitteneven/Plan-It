@@ -7,7 +7,7 @@
 <p class="intro__text2">Log in to start planning! Not a member yet? Sign up!</p>
 </div>
 <ul class="button--wrapper">
-  <li><a href="index.php?page=login" class="button">Log in</a></li>
+  <li><a href="index.php?page=login" class="button button--login">Log in</a></li>
   <li> <a href="index.php?page=signup" class="button button--signup">Sign Up</a></li>
 </ul>
 </section>
@@ -26,7 +26,7 @@
   <ul class="planner__columns">
 
   <?php for ($i=0; $i < 7; $i++) {?>
-  <li class="border planner__column <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed';} ?>"><h3><?php echo $daysOfWeekArray[$i]; ?> <?php echo date("d/m", strtotime('+'.$i . 'day', $monday));?></h3>
+  <li class="border planner__column <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed';} ?>"><h3 class="column__title"><?php echo $daysOfWeekArray[$i]; ?> <?php echo date("d/m", strtotime('+'.$i . 'day', $monday));?></h3>
     <ul class="column__cards">
         <?php foreach($planning as $item){if($item->date == date("Y-m-d", strtotime('+'.$i . 'day', $monday))){?>
       <li class="card <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today") || $item->watched==1){echo 'passed--card';} ?> <?php if($item->series == 1){echo "series";} elseif($item->movie == 1){echo "movie";} ?>">
