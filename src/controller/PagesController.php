@@ -111,13 +111,21 @@ class PagesController extends Controller {
      $idDetail = $_GET['id'];
      $typeDetail = $_GET['watch_type'];
      $titleDetail = $_GET['title'];
+     //info out of api
+      $itemApi = 'https://api.themoviedb.org/3/'. $typeDetail.'/'. $idDetail . '?api_key=662c8478635d4f25ee66abbe201e121d';
+      $itemCode = file_get_contents($itemApi);
+      $itemInfo= json_decode($itemCode);
+      $language = $itemInfo->spoken_languages;
+      if(!empty($language)){
+        $languageDetail = $language['0']->name;
+      }
      //find providers
      $country = $user->country;
       $providerApi = 'https://api.themoviedb.org/3/'. $typeDetail.'/'. $idDetail . '/watch/providers?api_key=662c8478635d4f25ee66abbe201e121d';
       $providerCode = file_get_contents($providerApi);
       $providerInfo= json_decode($providerCode)->results;
       $providerArray = (array) $providerInfo;
-    $countries = file_get_contents('http://country.io/names.json');
+      $countries = file_get_contents('http://country.io/names.json');
       $countriesObj= json_decode($countries);
       $countriesArray = (array) $countriesObj;
       $abbrCountry = array_search($country,$countriesArray);
@@ -146,13 +154,63 @@ class PagesController extends Controller {
           } else{
             $serviceItem ='';
           }
-
         }
-
       }
 
+      $seasons = $itemInfo->seasons;
+      //var_dump($seasons);
+      if(!empty($_POST['action'])){
+        if($_POST['action'] == 'editCurrent'){
+          $max = $itemInfo->number_of_seasons;
+          $formMax= $max+1;
+          echo '<form method="post" class="detail__edit">
+              <input type="hidden" name="action" value="submitSeason">
+              <label for="number__season">Which season: </label>
+              <input type="number" id="number__season" name="number__season" min="1" max="'.$formMax. '">
+              <input type="submit" class="detail__pencil edit" name="edit" value="episodes >">
+              </form> ';
+        }
+      }
+
+      //var_dump($seasons);
+        if(!empty($_POST['action'])){
+        if($_POST['action'] == 'submitSeason'){
+          $numberOfSeason = $_POST['number__season']-1;
+          foreach($seasons as $season){
+            if($numberOfSeason == $season->season_number){
+              $getSeason = $seasons[$numberOfSeason];
+              $episodeNumber = $getSeason->episode_count;
+              //echo $episodeNumber;
+            }
+          }
+          echo $_POST['number__season'];
+          echo '<form method="post" class="detail__edit">
+              <input type="hidden" name="action" value="submitEpisode">
+              <label for="number__episode">Which episode: </label>
+              <input type="number" id="number__episode" name="number__episode" min="1" max="'. $episodeNumber. '">
+              <input type="hidden" name="number__season" value="'. $numberOfSeason . '">
+              <input type="submit" class="detail__pencil edit" name="edit" value="episodes >">
+              </form> ';
+         $this->set('numberOfSeason', $numberOfSeason);
+        }
+      }
+
+      if(!empty($_POST['action'])){
+        if($_POST['action'] == 'submitEpisode'){
+          $watch = Watch_list::find($watchlist[0]->id);
+          echo $_POST['number__season'];
+          echo $_POST['number__episode'];
+          var_dump($watch->current_ep);
+          $watch->current_ep = $_POST['number__episode'];
+          $watch->current_ses = $_POST['number__season'];
+          $watch->save();
+      }
+    }
 
      $this->set('watchlist', $watchlist);
+     $this->set('itemInfo', $itemInfo);
+     $this->set('seasons', $seasons);
+     $this->set('languageDetail', $languageDetail);
      $this->set('serviceItem', $serviceItem);
      $this->set('servicesList', $servicesList);
      $this->set('abbrCountry', $abbrCountry);
@@ -197,8 +255,7 @@ class PagesController extends Controller {
         } else{
           $list ='';
           $this->set('list', $list);
-          $this->set('errors', $errors);
-        }
+         }
 
       }
    }
@@ -216,7 +273,7 @@ class PagesController extends Controller {
           if($_POST['watch__type']=='series'){
             $newWatch->series = 1;
             $newWatch->current_ep = 1;
-            $newWatch->current_ses = 1;
+            $newWatch->current_ses = 0;
           }
           if($_POST['watch__type']=='movie'){
             $newWatch->movie = 1;
@@ -332,9 +389,6 @@ class PagesController extends Controller {
       }
 
     }
-    $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "UK","USA","Venezuela","Vietnam");
-    $this->set('countries', $countries);
-
     $this->set('title','Sign up Watcho');
 
   }
@@ -382,7 +436,7 @@ class PagesController extends Controller {
       }
 
     }
-    $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "UK","USA","Venezuela","Vietnam");
+    $countries= array("-----","Albania", "Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Bolivia","Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Burkina Faso","Canada" ,"Colombia","Costa Rica","Croatia","Cuba","Cyprus","Czechoslovakia","Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Korea","Kosovo","Kuwait","Kyrgyzstan","Latvia","Lebanon" ,"Lithuania","Luxembourg" ,"Malaysia" ,"Mali","Malta","Mexico","Mongolia","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia" ,"Saudi Arabia","Senegal","Singapore","Slovakia", "Slovenia", "South Africa","Soviet Union" ,"Spain","Sweden","Switzerland","Syria","Thailand","Tunisia","Turkey","Ukraine","United Arab Emirates", "United Kingdom","United Status","Venezuela","Vietnam");
     $this->set('countries', $countries);
 
     $this->set('title','Sign up Watcho');

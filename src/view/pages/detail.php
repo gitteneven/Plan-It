@@ -3,13 +3,7 @@
 
     <?php
     //api of detail
-      $itemApi = 'https://api.themoviedb.org/3/'. $typeDetail.'/'. $idDetail . '?api_key=662c8478635d4f25ee66abbe201e121d';
-      $itemCode = file_get_contents($itemApi);
-      $itemInfo= json_decode($itemCode);
-      $language = $itemInfo->spoken_languages;
-      if(!empty($language)){
-        $languageDetail = $language['0']->name;
-      }
+
     //providers
       //var_dump($servicesList);
 
@@ -22,13 +16,39 @@
       }else{
         $runtime=45;
       }
+      $totalSeason= ($itemInfo->number_of_seasons);
+
       $current_ep = $watchlist[0]->current_ep;
-      $current_ses = $watchlist[0]->current_ses;
+      $current_sesview = $watchlist[0]->current_ses+1;
+
+
+      $seasonNumber = $seasons->season_number;
+      //var_dump($seasons);
+      foreach($seasons as $season){
+        if(in_array(0, $season->season_numberas)){
+            $current_ses = $watchlist[0]->current_ses;
+        } else{
+          $current_ses = $watchlist[0]->current_ses+1;
+        }
+      }
+      echo $current_ses;
+
       $currentApi = 'https://api.themoviedb.org/3/tv/'.$idDetail.'/season/'.$current_ses.'/episode/' . $current_ep .'?api_key=662c8478635d4f25ee66abbe201e121d';
       $currentCode = file_get_contents($currentApi);
       $currentInfo= json_decode($currentCode);
+      //var_dump($currentInfo);
     }
-     ?>
+      if($typeDetail === 'movie'){
+      $date = date( 'Y', strtotime($itemInfo->release_date));
+      $genres = $itemInfo->genres[0]->name;
+      $watch_type ='movie';
+      if(!empty($itemInfo->runtime)){
+          $runtime= $itemInfo->runtime;
+      }else{
+        $runtime=125;
+      }
+    }
+    ?>
 
 
   <section class="detail__card border <?php
@@ -38,21 +58,34 @@
             echo('border');
           }; ?>">
 <?php echo  '
-    <h2 class="detail__title">' . $titleDetail . '<em class="overview__list--date">   ' . $date . '</em></h2>
+    <div class="detail__head">
+    <h2 class="detail__title">' . $titleDetail . '<em class="detail__list--date">   ' . $date . '</em></h2>
     <p class="detail__info"> ' . $genres . ' || '. $languageDetail .' || '. $watch_type .' || ' . $runtime .' min</p>
+    </div>
     <div class="detail__overview">
     <h3 class="detail__overview--title"> Overview: </h3>
     <p class="detail__overview--text">'. $itemInfo->overview .'</p>
     </div>
-    <p class="detail__total">'. $itemInfo->number_of_seasons.' season(s) and '. $itemInfo->number_of_episodes .' episodes in total</p>
-     <ul class="detail__provider--list"> <li>'. $serviceItem .'</li></ul>
+    <ul class="detail__provider--list"> <li>'. $serviceItem .'</li></ul>';
+
+     if($typeDetail === 'tv'){
+       echo
+    '
+    <p class="detail__total">'. $totalSeason.' season(s) and '. $itemInfo->number_of_episodes .' episodes in total</p>
     <div class="detail__episode">
     <p class="detail__current--text">You are currently on:</p>
     <div class="detail__episode--border border">
-    <p class="detail__episode--title"> S'. $current_ses.' – Ep'. $current_ep .': '.$currentInfo->name.'</p>
+    <form method="post" class="detail__edit">
+      <input type="hidden" name="action" value="editCurrent">
+    <input type="submit" class="detail__pencil edit" name="edit" value="edit">
+    </form>
+    <div class="detail__current--info">
+    <p class="detail__episode--title"> S'. $current_sesview.' – Ep'. $current_ep .': '.$currentInfo->name.'</p>
     <p class="detail__episode--text">'. $currentInfo->overview.'</p>
     </div>
+    </div>
     </div>';
+    }
     if(!empty($itemInfo->poster_path)){
         echo '<img class="detail--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';
    } else {
