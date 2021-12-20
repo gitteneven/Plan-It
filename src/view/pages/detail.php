@@ -91,6 +91,3 @@
    ?>
 </section>
 </article>
-
-
-<!-- https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg -->

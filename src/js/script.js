@@ -95,7 +95,7 @@ const updateList = async list => {
         yearItem = ``;
       }
 
-      listInner += `<li class="overview__list--item border--blue">
+      listInner += `<li class="overview__list--item search__list--item border--blue">
                      <a class="overview__list--link" href="index.php?page=detail&id=${id}&watch_type=tv&title=${list[i].name}">
                     <h2 class="overview__list--title"> ${list[i].name} <em class="overview__list--date">${yearItem}</em></h2>
                    <input type="hidden" name="watch__name" value="${list[i].name}">
@@ -104,7 +104,7 @@ const updateList = async list => {
                     ${poster}
                     ${language}
                     ${runtime}</a>
-                    <input type="submit" class="button button__add" name="add" value="add to watchlist"/></li>`;
+                    <input type="submit" class="button button__add--search button__add" name="add" value="add to watchlist"/></li>`;
     } else if (Object.prototype.hasOwnProperty.call(list[i], 'title')) {
       const itemApi = `https://api.themoviedb.org/3/movie/${list[i].id}?api_key=662c8478635d4f25ee66abbe201e121d`;
       const apiCode = await fetch(itemApi);
@@ -128,7 +128,7 @@ const updateList = async list => {
                      <p class="overview__list--runtime"> ${runtimeSearch}min </p>`;
       }
 
-      listInner += `<li class="overview__list--item border">
+      listInner += `<li class="overview__list--item search__list--item border">
                     <a class="overview__list--link" href="index.php?page=detail&id=${id}&watch_type=TV&title=${list[i].name}">
                     <h2 class="overview__list--title"> ${list[i].title}  <em class="overview__list--date">${yearItem}</em></h2>
                    <input type="hidden" name="watch__name" value="${list[i].title}">
