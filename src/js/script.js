@@ -6,7 +6,7 @@ const handleInputField = () => {
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
     submitWithJS();
-  }, 100);
+  }, 500);
 };
 
 const submitWithJS = async () => {

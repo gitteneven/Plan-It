@@ -350,30 +350,11 @@ class PagesController extends Controller {
         $newUser->surname = $_POST['surname'];
         $newUser->username = $_POST['username'];
         $newUser->email = $_POST['email'];
-        $newUser->password = $_POST['password'];
+        $newUser->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
         $errors = User::validate($newUser);
         if (empty($errors)) {
-          // $whitelist_type = array('image/jpeg', 'image/png','image/gif');
-          // if(!in_array($_FILES['picture']['type'], $whitelist_type)){
-          //     $errors['username--login'] = 'Please select a jpeg, png or gif file';
-          // }
-          //  $size = getimagesize($_FILES['picture']['tmp_name']);
-          // if ($size[0] < 70 || $size[1] < 1480) {
-          //     $errors['password--login'] = 'The picture must be minimum 170x480';
-          // }
-          // $projectFolder = realpath(__DIR__);
-          // $targetFolder = $projectFolder . '/../assets/uploads';
-          // $targetFolder = tempnam($targetFolder, '');
-          // unlink($targetFolder);
-          // mkdir($targetFolder, 0777, true);
-          // $targetFileName = $targetFolder . '/' . $_FILES['picture']['name'];
-          //  $this->_resizeAndCrop($_FILES['picture']['tmp_name'], $targetFileName, 480, 480);
-          // $relativeFileName = substr($targetFileName, 1 + strlen($projectFolder));
-          //  $data = array(
-          //     'picture' => $relativeFileName,
-          // );
-          // $newUser->picture=$data['picture'];
+
            $newUser->save();
            $_SESSION['name']=$_POST['name'];
            $_SESSION['password']=$_POST['password'];
@@ -418,21 +399,23 @@ class PagesController extends Controller {
           if($value=='hulu'){
             $strServ->hulu = 1;
           }
-            //echo "Chosen stream_serv : ".$value.'<br/>';
 
-            // echo $newUser;
         }
-        $strServ->save();
-        foreach($_POST['country'] as $value){
-            //echo "Chosen country : ".$value.'<br/>';
+
+
+          $strServ->save();
+          foreach($_POST['country'] as $value){
+              //echo "Chosen country : ".$value.'<br/>';
             $newUser->country = $value;
         }
-
-
+        $errors = User::validate($newUser);
+        if (empty($errors)) {
         $newUser->save();
-        //$part1=true;
         header('Location:index.php?page=overview');
           exit();
+        }else{
+          $this->set('errors', $errors);
+        }
       }
 
     }
