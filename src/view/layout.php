@@ -15,7 +15,7 @@
 <body><?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {?>
   <header class="navigation">
     <ul class="nav">
-    <?php if(!empty($_SESSION['id'])) { ?>
+    <?php if(!empty($_SESSION['id']) && $_GET['page']!== 'signup2') { ?>
     <li><a class="nav__item <?php if($_GET['page'] == 'home') {echo 'selected';}?>" href="index.php?page=home">Home</a></li>
     <li><a class="overview nav__item <?php if($_GET['page'] == 'overview') {echo 'selected';}?>" href="index.php?page=overview">Watchlist</a></li>
     <li ><a  href="index.php?page=account" class=" nav__item">Account</a></li>

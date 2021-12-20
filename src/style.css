@@ -217,6 +217,7 @@ li {
   justify-content: center;
   flex-direction: column;
   text-align: center;
+  margin-top: 10vh;
 }
 
 .button--wrapper {
@@ -233,14 +234,18 @@ li {
 /*----------------------------Sign up---------------------------*/
 
 .signup__form {
-  display: grid;
-  grid-template-columns: 30vw 30vw;
-  grid-template-rows: auto;
+  /* display: grid;
+  grid-template-columns: 60vw;
+  grid-template-rows: auto; */
   /* display: flex;
   flex-direction: column; */
   width: 55vw;
   gap: .2rem 5rem;
   margin: 1rem auto 1rem 3rem;
+}
+
+.country--selector {
+  display: block;
 }
 
 .signup__title {
@@ -277,7 +282,6 @@ li {
 .country {
   border-radius: .8rem;
   border-color: var(--colorPink);
-  margin-bottom: 3rem;
   margin-top: .5rem;
 }
 
@@ -286,7 +290,7 @@ li {
   flex-wrap: wrap;
   overflow-wrap: normal;
   width: 70vw;
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
   margin-top: 1rem;
   /* max-width: 55vw; */
 }
@@ -844,6 +848,7 @@ input:focus {
 
 .timeslot__wrap {
   display: flex;
+  width: 90vw;
 }
 
 .watchItemList {
@@ -1150,16 +1155,17 @@ em {
   }
 
   .container {
-    height: 100vh;
+    height: 80vh;
     vertical-align: middle;
     margin-top: 7vh;
 
   }
 
   .signup__form {
-    grid-auto-flow: row;
+    /* grid-auto-flow: column; */
     width: 65vw;
     margin: 0;
+
   }
 
   .signup__label {
@@ -1170,17 +1176,17 @@ em {
     width: 40vw;
   }
 
-  .nav {
-    justify-content: flex-end;
-  }
-
   .nav__item {
     font-size: 1rem;
     margin-left: 1.5rem;
   }
 
+  .signup__title {
+    font-size: 1.6rem;
+  }
+
   .country--selector {
-    width: 23vw;
+    width: 30vw;
   }
 
   .overview {
@@ -1244,13 +1250,14 @@ em {
   }
 
   .signup__form {
-    grid-template-columns: 50vw;
+    grid-template-columns: 70vw;
     justify-content: space-around;
-    margin: auto;
   }
 
-  .signup--button {
-    margin-left: -2rem;
+  .signup--button2 {
+    width: 70vw;
+    height: 3rem;
+    font-size: 1.5rem;
   }
 
   .c2--1 {
@@ -1261,6 +1268,46 @@ em {
   .c2--2 {
     grid-column: 1;
     grid-row: 5;
+  }
+
+  .nav__item {
+    margin-left: 1.3rem;
+    font-size: 1rem;
+  }
+
+  .logotitle {
+    font-size: 2rem;
+  }
+
+  .logoline {
+    width: 7rem;
+    margin-top: -.5rem;
+  }
+
+  .signup {
+    margin-top: 1rem;
+  }
+
+  .country {
+    /* width: 70vw; */
+  }
+
+  .country--selector {
+    width: 33vw;
+    margin: auto;
+    margin-top: 1rem;
+  }
+
+  .signup__wrap {
+    /* padding-left: 1.5rem; */
+  }
+
+  .timeslot__wrap {
+    flex-direction: column;
+  }
+
+  .timeslot__form {
+    border-right: none;
   }
 
   .container {
@@ -1346,6 +1393,7 @@ em {
   .subtitle {
     margin-bottom: .7rem;
     text-align: center;
+    margin-top: 1rem;
   }
 
   .intro__text, .intro__text2 {
@@ -1390,7 +1438,7 @@ em {
   }
 
   .button--login, .button--signup {
-    padding: 1rem 4rem;
+    /* padding: 1rem 4rem; */
   }
 
   .container {
@@ -1402,6 +1450,19 @@ em {
   .overview {
     margin: 3rem;
     width: 90vw;
+  }
+
+  .signup__label {
+    /* justify-content: center;
+    width: 18rem; */
+  }
+
+  .signup__form {
+    width: auto;
+  }
+
+  .form__text {
+    text-align: left;
   }
 
   .overview__list {

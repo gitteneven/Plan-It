@@ -7,6 +7,7 @@ class User extends Model {
 
   public static function validate($data){
     $errors = [];
+    if ($_POST['action'] == 'signup') {
     if (empty($data['name'])) {
       $errors['name'] = 'Please fill in a name ';
     }
@@ -25,12 +26,16 @@ class User extends Model {
     if (empty($data['password'])) {
       $errors['password'] = 'Please fill in an password';
     }
-    if($data['password']!==$_POST['password2']){
+    // if($data['password']!==$_POST['password2']){
+    if(password_verify($data['password'], $newUser->password)){
       $errors['password'] = 'Password is not the same';
     }
-    // if (empty($_FILES['picture'])) {
-    //       $errors['picture'] = 'Please select a file';
-    //     }
+    }
+    if ($_POST['action'] == 'streaming') {
+      if (empty($data['country'])|| $data['country']==='-----') {
+        $errors['country'] = 'Please select a country';
+      }
+    }
     return $errors;
   }
 
