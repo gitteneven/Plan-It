@@ -27,6 +27,7 @@ class PagesController extends Controller {
             echo json_encode($checkedItem);
           }
         }
+        
         if(!empty($data) && !empty($data['action'])) {
         if($data['action']== 'removeTimeslot'){
           $checkedItem=Planner::where('id', '=', $data['removedItem'])->first();

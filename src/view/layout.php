@@ -22,7 +22,8 @@
     <!-- <li> <a href="index.php?page=signup" class="nav__item">Sign Up</a></li> -->
     <li class=" <?php if($_GET['page']== 'login') {echo 'selected--login';}?>"><?php if(empty($_SESSION['id'])){echo '<a class="nav__item button" href="index.php?page=login">Log In</a>';} if(!empty($_SESSION['id'])){?><a class="nav__item button" href="index.php?page=logout">Log Out</a><?php ;} ?></li>
     <?php } ?>
-  </ul>
+    </ul>
+
 
 </header><?php } ?>
   <div class="container">
@@ -31,6 +32,16 @@
       </header>
       <?php echo $content;?>
   </div>
+
+   <div class="nav__mobile--bottom">
+      <ul class="nav__mobile">
+      <?php if(!empty($_SESSION['id'])) { ?>
+        <li class="nav__mobile--item <?php if($_GET['page'] == 'overview') {echo 'mobile__selected';}?>"><a class="nav__overview " href="index.php?page=overview"><img src="./assets/movie.svg" class="nav__watch--button nav__button" alt="home button"></a></li>
+        <li class="nav__mobile--item <?php if($_GET['page'] == 'home') {echo 'mobile__selected';}?>"><a class="nav__home " href="index.php?page=home"><img src="./assets/home.svg" class="nav__home--button nav__button" alt="home button"></a></li>
+        <li class="nav__mobile--item"><a  href="index.php?page=account" class="nav__account"><img src="./assets/account.svg" class="nav__home--button nav__button" alt="home button"></a></li>
+    <?php } ?>
+    </ul>
+    </div>
   <?php echo $js; ?>
 </body>
 </html>

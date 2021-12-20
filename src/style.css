@@ -157,6 +157,46 @@ li {
   text-decoration: underline;
 }
 
+.nav__mobile--bottom {
+  background-color: rgba(0, 255, 254, .8);
+  position: fixed;
+  bottom: -1rem;
+  width: 100vw;
+  height: 6rem;
+  border: var(--colorBlue) .3rem solid;
+  border-radius: .8rem;
+  display: none;
+}
+
+.nav__mobile {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: space-between;
+}
+
+.nav__mobile--item {
+  margin: -.3rem auto;
+  justify-content: center;
+  align-content: center;
+  height: 5rem;
+  width: 5rem;
+}
+
+.mobile__selected {
+  border: var(--colorBlue) .3rem solid;
+  border-radius: 3rem;
+  background-color: var(--colorPink);
+}
+
+.nav__button {
+  display: flex;
+  margin: .7rem auto;
+  width: 3rem;
+}
+
+.nav__home--button {
+  width: 3rem;
+}
 /*---------------------------------intro------------------------------------*/
 
 .intro__text {
@@ -470,7 +510,8 @@ input:focus {
 
 .button--check {
   /* padding-top: .4rem; */
-  width: 8vw;
+  /* width: 8vw; */
+  width: fit-content;
   text-align: center;
   padding: auto;
   font-size: 1rem;
@@ -769,13 +810,18 @@ input:focus {
   grid-column: 1/ span 2;
   grid-row: 1/span 2;
   z-index: -1;
+  display: grid;
+  grid-template-columns: auto 3rem;
 }
 
 .detail__edit {
   grid-column: 2;
   grid-row: 1;
   z-index: 2;
+}
 
+.detail__episode--text {
+  grid-column: 1/ span 2;
 }
 
 /*--------------------------------------Timeslot--------------------------------------*/
@@ -783,7 +829,7 @@ input:focus {
 .timeslot__form {
   display: flex;
   flex-direction: column;
-  width: 29rem;
+  width: 35vw;
   margin-right: 2rem;
   border-right: solid var(--colorPink);
   padding-right: 2rem;
@@ -965,7 +1011,7 @@ em {
 }
 
 .timeslot__label {
-  margin: 1rem 20vw;
+  margin: 1rem auto;
 }
 
 @media only screen and (max-width: 1300px) {
@@ -1020,12 +1066,25 @@ em {
     width: 70vw;
   }
 
+  /* .planner__columns {
+    grid-template-columns: repeat(4, 1fr);
+  } */
 }
 
 @media only screen and (max-width: 1200px) {
 
   .planner__columns {
     grid-template-columns: repeat(4, 1fr);
+    max-width: 50rem;
+    overflow-wrap: normal;
+  }
+
+  .detail {
+    width: 90vw;
+  }
+
+  .detail__card {
+    width: 90vw;
   }
 }
 
@@ -1037,6 +1096,43 @@ em {
 
   .text--login {
     width: 60vw;
+  }
+
+  .detail__card {
+    grid-gap: 1rem;
+    padding: 2rem;
+  }
+
+  .detail--img {
+    width: 30vw;
+  }
+
+  .detail__title {
+    font-size: 2rem;
+  }
+
+  .detail__list--date {
+    font-size: 1.5rem;
+  }
+
+  .detail__info {
+    font-size: 1rem;
+  }
+
+  .detail__overview--title {
+    font-size: 1.5rem;
+  }
+
+  .detail__overview--text {
+    font-size: 1rem;
+  }
+
+  .detail__total {
+    font-size: 1.5rem;
+  }
+
+  .detail__episode--title {
+    font-size: 1.5rem;
   }
 }
 
@@ -1077,6 +1173,8 @@ em {
     height: 80vh;
     vertical-align: middle;
     margin-top: 7vh;
+    width: 100vw;
+    margin-left: 10vw;
 
   }
 
@@ -1096,7 +1194,8 @@ em {
   }
 
   .nav__item {
-    margin-left: 1.7rem;
+    font-size: 1rem;
+    margin-left: 1.5rem;
   }
 
   .signup__title {
@@ -1120,7 +1219,7 @@ em {
 
   .overview__list--item {
     width: 70vw;
-    height: 27vw;
+    height: 13rem;
   }
 
   .button__search {
@@ -1130,7 +1229,7 @@ em {
   }
 
   .overview__list--img {
-    width: 15vw;
+    width: 7.5rem;
   }
 
   .img__notfound {
@@ -1150,18 +1249,38 @@ em {
   .timeslot__wrap {
     flex-direction: column;
     columns: unset;
+    padding-top: 2.5rem;
   }
 
   .timeslot__form {
     border-right: none;
+    width: 65vw;
+    padding-top: 0;
   }
 
   .watchItemList {
     width: 70vw;
   }
+
+  .detail--img {
+    grid-row: 1 / span 3;
+  }
+
+  .detail__episode {
+    grid-column: 1/ span 3;
+  }
+
 }
 
 @media only screen and (max-width: 670px) {
+
+  .nav {
+    display: none;
+  }
+
+  .nav__mobile--bottom {
+    display: block;
+  }
 
   .signup__form {
     grid-template-columns: 70vw;
@@ -1230,6 +1349,7 @@ em {
 
   .overview {
     width: 70vw;
+    margin-top: 5rem;
   }
 
   .overview__list {
@@ -1240,19 +1360,23 @@ em {
 
   .overview__list--item {
     width: 70vw;
-    height: 27vw;
+    height: 11.5rem;
+  }
+
+  .search__list--item {
+    height: 14.5rem;
   }
 
   .button__search {
     right: 0;
-    margin: 3.5rem 15vw 1rem 1rem;
+    margin: 2.5rem 15vw 1rem 1rem;
     width: 70vw;
     display: flex;
     justify-content: center;
   }
 
   .overview__list--img {
-    width: 15vw;
+    width: 6.5rem;
   }
 
   .form__title--label {
@@ -1287,6 +1411,30 @@ em {
     width: 100vw;
   }
 
+  .button__add--search {
+    margin-top: 3rem;
+    width: 65vw;
+  }
+
+  .detail {
+    margin-top: 3.5rem;
+  }
+
+  .search {
+    margin-top: 3.5rem;
+  }
+
+  .timeslot__form--items {
+    width: 60vw;
+  }
+
+  .subtitle {
+    margin-top: 2rem;
+  }
+
+  .timeslot__wrap {
+    margin-bottom: 5rem;
+  }
 }
 
 @media only screen and (max-width: 425px) {
@@ -1298,7 +1446,8 @@ em {
   .subtitle {
     margin-bottom: .7rem;
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 2rem;
+    font-size: 1.2rem;
   }
 
   .intro__text, .intro__text2 {
@@ -1350,9 +1499,11 @@ em {
     text-align: center;
     margin-top: 2rem;
     width: 90vw;
+    margin-left: 0;
   }
 
   .overview {
+    margin: 3rem;
     width: 90vw;
   }
 
@@ -1383,7 +1534,7 @@ em {
   }
 
   .button__search {
-    margin: 3.5rem 6vw 1rem 1rem;
+    margin: 1rem 6vw 1rem 1rem;
     width: 90vw;
     display: flex;
     justify-content: center;
@@ -1431,4 +1582,83 @@ em {
   .button__add--search {
     width: 80vw;
   }
+
+  .detail__card {
+    grid-template-columns: auto 1fr;
+    text-align: left;
+  }
+
+  .detail__title {
+    font-size: 1.5rem;
+  }
+
+  .detail__list--date {
+    font-size: 1rem;
+  }
+
+  .detail__provider--list {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .detail--img {
+    grid-row: 1/span 2;
+  }
+
+  .detail__total {
+    grid-column: 1/span 2;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .detail__overview {
+    grid-column: 1/span 2;
+  }
+
+  .detail__overview--title {
+    font-size: 1.5rem;
+  }
+
+  .detail__episode {
+    grid-column: 1/span 2;
+  }
+
+  .detail__episode--title {
+    font-size: 1.1rem;
+  }
+
+  .timeslot__form {
+    width: 70vw;
+    margin: auto;
+    padding: 0;
+  }
+
+  .sugg__img {
+    width: 5rem;
+    margin-top: -.5rem;
+  }
+
+  .sugg__title {
+    font-size: 1rem;
+    line-height: 1rem;
+    margin-bottom: .8rem;
+  }
+
+  .timeslot__sugg {
+    padding-top: .5rem;
+  }
+
+  .add--button {
+    margin: auto;
+    margin-left: 1.7rem;
+  }
+
+  .sugg__add:checked::before {
+    content: '✔';
+  }
+
+  .sugg__add:checked {
+    margin-left: .5rem;
+  }
+
 }
