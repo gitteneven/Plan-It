@@ -1,7 +1,7 @@
 <article class="search">
   <section class="search__layout">
     <a href="index.php?page=overview" class="search__back"><i class="search__back gg-arrow-left"></i>Back to watchlist</a>
-   <h1 class="search__title subtitle">Watchlist - Add Movie/series</h1>
+   <h1 class="search__title subtitle"> Add Movie/series</h1>
 <form id="form" class="form filter-form" method="post" action="index.php?page=search" enctype="multipart/form-data" >
   <input type="hidden" name="action" value="searchWatchlist">
 
@@ -15,9 +15,9 @@
   </div>
 
   <div class="form__title">
-  <label class="title form__title--text input" for="title">
+  <label class="title form__title--label input" for="title">
   <span class="error"><?php if(!empty($errors['text'])){ echo $errors['text'];} ?></span>
-  <input type="text" class="title form__title--text filter__field" name="title" id="title" placeholder="Enter Title to search" value="<?php if(!empty($_GET['title'])){ echo $_GET['title'];} ?>" size="45">
+  <input type="text" class="title form__title--text filter__field" name="title" id="title" placeholder="Enter Title to search" value="<?php if(!empty($_GET['title'])){ echo $_GET['title'];} ?>">
   <div class="buttons">
   <input type="submit" name="submit" value="search" class="search__button button">
   </div>
@@ -25,7 +25,7 @@
 
 </form>
 </section>
-<ul class="overview__list ">
+<ul class="overview__list search__list">
 <?php  if(!empty($_POST['action'])):  ?>
 <?php  if(!empty($_POST['title'])):  ?>
 <?php foreach ($list as $item): ?>
@@ -122,9 +122,9 @@
         }
 
           if(!isset($idExists) || $idExists != $item->id){
-              echo '<input type="submit" class="button button__add" name="add" value="add to watchlist"/>';
+              echo '<input type="submit" class="button button__add--search button__add" name="add" value="add to watchlist"/>';
           } else if($idExists = $item->id) {
-            echo '<p class="button__add button__added">Added</p>';
+            echo '<p class="button__add button__add--search button__added">Added</p>';
           }
 
         ?>
