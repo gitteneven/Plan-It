@@ -938,23 +938,127 @@ img {
   object-fit: contain;
 }
 
-/* @media only screen and (min-width: 1200px) {
+@media only screen and (max-width: 1300px) {
 
-  .planner {
-    width: 100vw;
+  .container {
+    width: 70vw;
+  }
+
+  .overview {
+    width: 70vw;
+  }
+
+  .overview__list {
+    width: 70vw;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .overview__list--item {
+    width: 40vw;
   }
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 780px) {
 
-  .planner {
-    width: 50vw;
+  .container {
+    width: 70vw;
+  }
+
+  .overview {
+    width: 70vw;
+  }
+
+  .overview__list {
+    width: 70vw;
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+    grid-gap: 1rem;
+  }
+
+  .overview__list--item {
+    width: 70vw;
+    height: 27vw;
+  }
+
+  .button__search {
+    margin: -1.5rem 2.5rem 1rem 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .overview__list--img {
+    width: 15vw;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 550px) {
 
-  .planner {
-    width: 30vw;
+  .container {
+    width: 70vw;
   }
-} */
+
+  .overview {
+    width: 70vw;
+  }
+
+  .overview__list {
+    width: 70vw;
+    grid-template-columns: 1fr;
+    margin-top: 4rem;
+  }
+
+  .overview__list--item {
+    width: 70vw;
+    height: 40vw;
+  }
+
+  .button__search {
+    right: 0;
+    margin: 3.5rem 15vw 1rem 1rem;
+    width: 70vw;
+    display: flex;
+    justify-content: center;
+  }
+
+  .overview__list--img {
+    width: 23vw;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+
+  .container {
+    width: 90vw;
+  }
+
+  .overview {
+    width: 90vw;
+  }
+
+  .overview__list {
+    width: 90vw;
+    grid-template-columns: 1fr;
+    margin-top: 4rem;
+    grid-gap: 1rem;
+  }
+
+  .overview__list--item {
+    width: 90vw;
+    height: 60vw;
+  }
+
+  .button__search {
+    margin: 3.5rem 6vw 1rem 1rem;
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+  }
+
+  .overview__list--img {
+    width: 34vw;
+  }
+
+  .overview__list--link {
+    grid-template-rows: auto repeat(3, 8vw);
+  }
+}
