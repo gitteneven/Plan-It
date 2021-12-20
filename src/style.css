@@ -624,7 +624,7 @@ input:focus {
   z-index: -1;
   text-decoration: none;
   color: white;
-  height: 15rem;
+  height: 14vw;
 }
 
 .overview__list--img {
@@ -1088,6 +1088,10 @@ em {
   .overview__list--img {
     width: 15vw;
   }
+
+  .img__notfound {
+    font-size: 4rem;
+  }
 }
 
 @media only screen and (max-width: 670px) {
@@ -1111,9 +1115,6 @@ em {
     grid-column: 1;
     grid-row: 5;
   }
-}
-
-@media only screen and (max-width: 550px) {
 
   .container {
     width: 70vw;
@@ -1131,7 +1132,7 @@ em {
 
   .overview__list--item {
     width: 70vw;
-    height: 40vw;
+    height: 27vw;
   }
 
   .button__search {
@@ -1143,7 +1144,7 @@ em {
   }
 
   .overview__list--img {
-    width: 23vw;
+    width: 15vw;
   }
 }
 
@@ -1207,9 +1208,6 @@ em {
     text-align: center;
     margin-top: 2rem;
   }
-}
-
-@media only screen and (max-width: 375px) {
 
   .container {
     width: 90vw;
