@@ -9,7 +9,7 @@
       <!-- <h2 class=subtitle>Choose your streaming services:</h2> -->
 
       <label class="country input" for="country">What country are you from?
-    <select id="country" class="country" name="country[]" size="1">
+    <select id="country" class="country country--selector" name="country[]" size="1">
     <?php foreach($countries as $country): ?>
                     <option value="<?php echo $country; ?>"><?php echo $country; ?></option>
                 <?php endforeach; ?>

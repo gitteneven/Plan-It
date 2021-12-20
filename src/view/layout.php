@@ -13,20 +13,22 @@
   <title><?php echo $title; ?></title>
 </head>
 <body><?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {?>
-  <header>
+  <header class="navigation">
     <ul class="nav">
+    <?php if(!empty($_SESSION['id'])) { ?>
     <li><a class="nav__item <?php if($_GET['page'] == 'home') {echo 'selected';}?>" href="index.php?page=home">Home</a></li>
     <li><a class="overview nav__item <?php if($_GET['page'] == 'overview') {echo 'selected';}?>" href="index.php?page=overview">Watchlist</a></li>
     <li ><a  href="index.php?page=account" class=" nav__item">Account</a></li>
     <!-- <li> <a href="index.php?page=signup" class="nav__item">Sign Up</a></li> -->
     <li class=" <?php if($_GET['page']== 'login') {echo 'selected--login';}?>"><?php if(empty($_SESSION['id'])){echo '<a class="nav__item button" href="index.php?page=login">Log In</a>';} if(!empty($_SESSION['id'])){?><a class="nav__item button" href="index.php?page=logout">Log Out</a><?php ;} ?></li>
+    <?php } ?>
   </ul>
 
 </header><?php } ?>
   <div class="container">
-      <header><h1 class="pagetitle <?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo 'logotitle';}?> dropshadow">Watcho</h1></header>
+      <header class="<?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo 'nav__header';}?>"><a href="index.php?" class="pagetitle <?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo 'logotitle';}?> dropshadow">Watcho</a>
       <?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo '<div class="line dropshadow logoline"></div>';}?>
-
+      </header>
       <?php echo $content;?>
   </div>
   <?php echo $js; ?>
