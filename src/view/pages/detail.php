@@ -16,22 +16,11 @@
       }else{
         $runtime=45;
       }
-      $totalSeason= ($itemInfo->number_of_seasons);
 
       $current_ep = $watchlist[0]->current_ep;
-      $current_sesview = $watchlist[0]->current_ses+1;
+      $current_ses = $watchlist[0]->current_ses;
+      $totalSeason= $itemInfo->number_of_seasons;
 
-
-      $seasonNumber = $seasons->season_number;
-      //var_dump($seasons);
-      foreach($seasons as $season){
-        if(in_array(0, $season->season_numberas)){
-            $current_ses = $watchlist[0]->current_ses;
-        } else{
-          $current_ses = $watchlist[0]->current_ses+1;
-        }
-      }
-      echo $current_ses;
 
       $currentApi = 'https://api.themoviedb.org/3/tv/'.$idDetail.'/season/'.$current_ses.'/episode/' . $current_ep .'?api_key=662c8478635d4f25ee66abbe201e121d';
       $currentCode = file_get_contents($currentApi);
@@ -78,9 +67,17 @@
     <form method="post" class="detail__edit">
       <input type="hidden" name="action" value="editCurrent">
     <input type="submit" class="detail__pencil edit" name="edit" value="edit">
-    </form>
-    <div class="detail__current--info">
-    <p class="detail__episode--title"> S'. $current_sesview.' – Ep'. $current_ep .': '.$currentInfo->name.'</p>
+    </form>';
+      if(!empty($_POST['action'])){
+        if($_POST['action'] == 'editCurrent'){
+        echo '<div class="form__season">'. $formSeason .'</div>';
+        }
+        if($_POST['action'] == 'submitSeason'){
+        echo '<div class="form__episode">'. $formEpisode .'</div>';
+        }
+      }
+     echo  '<div class="detail__current--info">
+    <p class="detail__episode--title"> S'. $current_ses.' – Ep'. $current_ep .': '.$currentInfo->name.'</p>
     <p class="detail__episode--text">'. $currentInfo->overview.'</p>
     </div>
     </div>

@@ -137,7 +137,7 @@ const updateList = async list => {
                     ${poster}
                     ${language}
                     ${runtime} </a>
-                    <input type="submit" class="button button__add" name="add" value="add to watchlist"/></li>`;
+                    <input type="submit" class="button button__add--search button__add" name="add" value="add to watchlist"/></li>`;
     }
 
   }

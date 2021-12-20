@@ -16,7 +16,7 @@
         $itemCode = file_get_contents($itemApi);
         $itemInfo= json_decode($itemCode);
         $date = date( 'Y', strtotime($itemInfo->first_air_date));
-        $itemCurrentSes = $item->current_ses+1;
+        $itemCurrentSes = $item->current_ses;
         $itemCurrentEp = $item->current_ep;
         $watch_type= 'tv';
         $itemType= 'series';
