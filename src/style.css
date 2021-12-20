@@ -194,14 +194,14 @@ li {
 /*----------------------------Sign up---------------------------*/
 
 .signup__form {
-  /* display: grid;
-  grid-template-columns: 60vw;
-  grid-template-rows: auto; */
+  display: grid;
+  grid-template-columns: 30vw 30vw;
+  grid-template-rows: auto;
   /* display: flex;
   flex-direction: column; */
-  width: 55vw;
+  width: 60vw;
   gap: .2rem 5rem;
-  margin: 1rem auto 1rem 3rem;
+  margin: 1rem auto;
 }
 
 .country--selector {
@@ -339,6 +339,7 @@ li {
   width: 8rem;
   text-align: center;
   height: 2.5rem;
+  margin: auto;
 }
 
 input {
@@ -358,6 +359,7 @@ input:focus {
 .planner__columns {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  overflow-wrap: normal;
 }
 
 .planner__column {
@@ -803,11 +805,13 @@ input:focus {
 
 .timeslot__wrap {
   display: flex;
-  width: 90vw;
+  width: 80vw;
+  columns: unset;
 }
 
 .watchItemList {
   height: 65vh;
+  width: 40vw;
   overflow: scroll;
   padding-right: 2rem;
 }
@@ -961,10 +965,14 @@ em {
 }
 
 .timeslot__label {
-  margin: 1rem auto;
+  margin: 1rem 20vw;
 }
 
 @media only screen and (max-width: 1300px) {
+
+  .planner__columns {
+    grid-template-columns: repeat(4, 1fr);
+  }
 
   .container {
     width: 70vw;
@@ -1025,6 +1033,10 @@ em {
 
   .button__add--search {
     width: 37vw;
+  }
+
+  .text--login {
+    width: 60vw;
   }
 }
 
@@ -1134,6 +1146,19 @@ em {
     height: 4rem;
     width: 5rem;
   }
+
+  .timeslot__wrap {
+    flex-direction: column;
+    columns: unset;
+  }
+
+  .timeslot__form {
+    border-right: none;
+  }
+
+  .watchItemList {
+    width: 70vw;
+  }
 }
 
 @media only screen and (max-width: 670px) {
@@ -1191,13 +1216,13 @@ em {
     /* padding-left: 1.5rem; */
   }
 
-  .timeslot__wrap {
+  /* .timeslot__wrap {
     flex-direction: column;
-  }
+  } */
 
-  .timeslot__form {
+  /* .timeslot__form {
     border-right: none;
-  }
+  } */
 
   .container {
     width: 70vw;
@@ -1253,6 +1278,15 @@ em {
     width: 4rem;
     height: 3rem;
   }
+
+  .timeslotPlanner {
+    width: 70vw;
+  }
+
+  body {
+    width: 100vw;
+  }
+
 }
 
 @media only screen and (max-width: 425px) {
@@ -1333,6 +1367,8 @@ em {
 
   .form__text {
     text-align: left;
+  }
+
   .overview__list {
     width: 90vw;
     grid-template-columns: 1fr;
