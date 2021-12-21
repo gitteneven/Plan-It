@@ -26,7 +26,7 @@
 
 </header><?php } ?>
   <div class="container">
-      <header class="<?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo 'nav__header';} ?> <?php  if(!empty($_SESSION['id']) || $_GET['page'] == 'home') {echo 'onboarding__title';}?>  "><a href="index.php?" class="pagetitle <?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo 'logotitle';}?> dropshadow">Watcho</a>
+      <header class="<?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo 'nav__header';} ?> <?php  if(empty($_SESSION['id']) || !isset($_GET['page'])) {echo 'onboarding__title';}?>  "><a href="index.php?" class="pagetitle <?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo 'logotitle';}?> dropshadow">Watcho</a>
       <?php if(!empty($_SESSION['id']) || $_GET['page'] !== 'home') {echo '<div class="line dropshadow logoline"></div>';}?>
       </header>
       <?php echo $content;?>

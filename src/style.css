@@ -1347,7 +1347,7 @@ em {
   }
 
   .watchItemList {
-    width: 70vw;
+    width: 75vw;
     padding-right: 0;
   }
 
@@ -1811,6 +1811,8 @@ em {
 
   .sugg__add::before {
     width: 30vw;
+    justify-content: left;
+    margin-left: -3vw;
     text-align: center;
   }
 

@@ -200,11 +200,42 @@ const handleRemovePlannedItem = async e => {
   $li.style.display = 'none';
 };
 
+let selectedTimesAll = 0;
+const updateSelectedTime = e => {
+  if (document.querySelector('.time--selected')) {
+    document.querySelector('.time--selected').remove();
+  }
+  const $form = document.querySelector('.timeslot__form');
+  const $checkbox = e.currentTarget;
+  const $watchInfo = $checkbox.parentElement.parentElement;
+  const $duration = $watchInfo.querySelector('.sugg__duration').textContent;
+  const $durationTime = $duration.split(' ');
+  const durationNumber = parseInt($durationTime[0]);
+
+  if (document.querySelector('.selected__time--php')) {
+    const $selectTimePhp = document.querySelector('.selected__time--php').textContent.split(' ');
+    selectedTimesAll = parseInt($selectTimePhp[2]);
+  }
+  if ($checkbox.checked) {
+    selectedTimesAll += durationNumber;
+  } else if (!$checkbox.checked) {
+    selectedTimesAll -= durationNumber;
+  }
+  if (!document.querySelector('.selected__time--php')) {
+    const $selectedTime = document.createElement('p');
+    $selectedTime.innerHTML = `<p class="time--selected">Selected Time: ${selectedTimesAll} min</p>`;
+    $form.appendChild($selectedTime);
+  } else if (document.querySelector('.selected__time--php')) {
+    document.querySelector('.selected__time--php').innerHTML = `<p class="selected__time--php">Selected Time: ${selectedTimesAll} min</p>`;
+  }
+};
+
 export const init = async () => {
   document.documentElement.classList.add('has-js');
   document.querySelectorAll('.filter__field').forEach($field => $field.addEventListener('input', handleInputField));
 
   if (document.querySelector('.planner')) {document.querySelectorAll('.checkButton').forEach($form => $form.addEventListener('submit', handleCheckPlannedItem));}
   if (document.querySelector('.planner')) {document.querySelectorAll('.removeButton').forEach($form => $form.addEventListener('submit', handleRemovePlannedItem));}
+  if (document.querySelector('.timeslotPlanner')) {document.querySelectorAll('.sugg__add').forEach($check => $check.addEventListener('click', updateSelectedTime));}
 };
 
