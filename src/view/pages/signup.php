@@ -41,5 +41,5 @@
 
 </form>
 
- <script src="js/functions/validate.js"></script>
+ <!-- <script src="js/functions/validate.js"></script> -->
 </article>

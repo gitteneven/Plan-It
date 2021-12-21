@@ -27,16 +27,16 @@
 
         <input type="submit" class=" button" value="CREATE SUGGESTIONS"><br>
         <?php if(!empty($availableTime)){ ?>
-        <p>Available Time: <?php echo $availableTime/60; ?> min</p><?php } ?>
+        <p>Available Time: <?php echo $availableTime/60; ?> min</p><?php } ?><br>
          <?php if(!empty($watchDuration)){ ?>
-        <p>Selected Time: <?php echo round($watchDuration/60);?> min</p><?php } ?>
+        <p class="selected__time--php">Selected Time: <?php echo round($watchDuration/60);?> min</p><?php } ?>
         <?php if(!empty($overdueTimes)){ ?><br>
           <p class="error">You have selected too many items. Please select fewer items to fit in your timeslot</p>
-        <p>Selected items:</p><ul> <?php foreach($possibleTimes as $item)echo '<li class="possible__card"><p>' . $item->title .' : '.$item->duration/60 .' min<p></li>';?></ul>
-        <p>Overdue items: <?php foreach($overdueTimes as $item)echo '<li class="overdue__card"><p>' . $item->title .' : '.$item->duration/60 .' min<p></li>' ;?></p><?php } ?>
+        <p>Selected items:</p><ul> <?php foreach($possibleTimes as $item)echo '<li class="possible__card"><p>' . $item->title .' : '. round($item->duration/60) .' min<p></li>';?></ul>
+        <p>Overdue items: <?php foreach($overdueTimes as $item)echo '<li class="overdue__card"><p>' . $item->title .' : '. round($item->duration/60) .' min<p></li>' ;?></p><?php } ?>
   </form>
-<?php //echo $startDateNonFormat . ' - ' . $endDateNonFormat; ?><br>
-<?php //echo $newAvailableTime; ?><br>
+  <br>
+  <br>
 
   <form class="timeslot__form--items" method="post" action="index.php?page=timeslot" enctype="multipart/form-data">
       <input type="hidden" name="action" value="addWatchItem">
@@ -65,7 +65,6 @@ foreach($watchSuggestions as $sugg){?>
         // $suggCurrent = $currentEpisodes->where('watch_id', '=', $sugg->watch_id)->first();
         $runtime= round($sugg->duration/60);
         echo '<p class="sugg__duration">'.$runtime.' min </p>';
-        // echo '<input type="submit" class="add--button button" value="ADD">';
         ?>
         <label class="sugg__add--label"><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
         <?php
