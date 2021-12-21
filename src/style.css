@@ -930,10 +930,12 @@ input:focus {
   background-color: var(--colorDarkblue);
   padding: 1rem;
   border-radius: .8rem;
+  grid-template-columns: 1fr 1fr 1fr 4rem;
+  grid-gap: .5rem;
   display: grid;
   grid-template-areas:
-    'img title . .'
-    'img ep . button'
+    'img title title title'
+    'img ep ep button'
     'img duration . button';
 }
 
@@ -968,7 +970,8 @@ input:focus {
   grid-area: title;
   font-weight: bold;
   font-size: 1.2rem;
-  max-width: 13rem;
+  grid-column: 2/ span 3;
+  /* max-width: 17rem; */
 }
 
 em {
@@ -1094,7 +1097,7 @@ em {
   }
 
   .planner {
-    width: 90vw;
+    width: 70vw;
   }
 
   .login__form {
@@ -1184,9 +1187,8 @@ em {
     display: flex;
     flex-wrap: wrap;
     overflow-wrap: normal;
-    max-width: 80vw;
+    max-width: 70vw;
     margin: auto;
-    margin-left: 2rem;
   }
 
   .planner__column {
@@ -1235,8 +1237,6 @@ em {
     height: 80vh;
     vertical-align: middle;
     margin-top: 7vh;
-    width: 100vw;
-    margin-left: 10vw;
 
   }
 
@@ -1330,6 +1330,7 @@ em {
 
   .watchItemList {
     width: 70vw;
+    padding-right: 0;
   }
 
   .detail--img {
@@ -1426,19 +1427,10 @@ em {
     border-right: none;
   } */
 
-  .container {
-    width: 70vw;
-  }
-
-  .overview {
-    width: 70vw;
-    margin-top: 5rem;
-  }
-
   .overview__list {
     width: 70vw;
     grid-template-columns: 1fr;
-    margin-top: 4rem;
+    margin-top: 4.5rem;
   }
 
   .overview__list--item {
@@ -1448,14 +1440,6 @@ em {
 
   .search__list--item {
     height: 14.5rem;
-  }
-
-  .button__search {
-    right: 0;
-    margin: 2.5rem 15vw 1rem 1rem;
-    width: 70vw;
-    display: flex;
-    justify-content: center;
   }
 
   .overview__list--img {
@@ -1486,10 +1470,6 @@ em {
     height: 3rem;
   }
 
-  .timeslotPlanner {
-    width: 70vw;
-  }
-
   body {
     width: 100vw;
   }
@@ -1512,16 +1492,24 @@ em {
   }
 
   .subtitle {
-    margin-top: 2rem;
+    margin-top: 3rem;
   }
 
   .timeslot__wrap {
-    margin-bottom: 5rem;
+    margin-bottom: 6rem;
+  }
+
+  .login__wrap {
+    padding: 2rem;
   }
 
   .planner__column {
-    width: 80vw;
+    width: 70vw;
     margin-bottom: 0;
+  }
+
+  .planner__columns {
+    margin-top: 2rem;
   }
 
   /* .card__title_wrapper {
@@ -1540,6 +1528,25 @@ em {
   .button--check {
     height: 2.7rem;
   }
+
+  .button--add {
+    width: 65vw;
+    right: 17vw;
+    top: 8rem;
+    text-align: center;
+  }
+
+  .button__search {
+    margin: 0 10vw 1rem 1rem;
+    display: flex;
+    justify-content: center;
+    right: 7vw;
+  }
+
+  .search__title {
+    margin-top: 0;
+  }
+
 }
 
 @media only screen and (max-width: 425px) {
@@ -1609,12 +1616,7 @@ em {
     /* margin-left: 0; */
   }
 
-  .timeslotPlanner {
-    margin-left: -4rem;
-  }
-
   .overview {
-    margin: 3rem;
     width: 90vw;
   }
 
@@ -1644,13 +1646,6 @@ em {
     text-align: left;
   }
 
-  .button__search {
-    margin: 1rem 6vw 1rem 1rem;
-    width: 90vw;
-    display: flex;
-    justify-content: center;
-  }
-
   .overview__list--img {
     width: 34vw;
   }
@@ -1661,6 +1656,8 @@ em {
 
   .form__title--text {
     font-size: 1.1rem;
+    padding-left: 0;
+
   }
 
   .search {
@@ -1773,10 +1770,12 @@ em {
   }
 
   .button--add {
-    width: 11rem;
+    width: 85vw;
     padding: .5rem;
     font-size: 1rem;
-    margin: 1.4rem 1.5rem 1.4rem auto;
+    text-align: center;
+    right: 2vw;
+    margin: .5rem 1.5rem 1.4rem auto;
   }
 
   .planner__nav {
@@ -1786,7 +1785,28 @@ em {
     margin-left: -1rem;
   }
 
+  .planner {
+    width: 90vw;
+  }
+
   .planner__columns {
+    max-width: 90vw;
     margin-bottom: 8rem;
   }
+
+  .planner__column {
+    width: 90vw;
+  }
+
+  .button__search {
+    margin-top: -2rem;
+    width: 85vw;
+    display: flex;
+    justify-content: center;
+  }
+
+  .search__title {
+    margin-top: 0;
+  }
+
 }
