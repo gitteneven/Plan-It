@@ -1,6 +1,5 @@
 let timeoutID;
 
-
 const handleInputField = () => {
   submitWithJS();
   clearTimeout(timeoutID);
@@ -173,8 +172,10 @@ const handleCheckPlannedItem = async e => {
           <input type="hidden" name="removedItem" value="${returned.id}">
           <input  type="submit" class="button--bin" value="">
         </form></div>
+         <div class="timeEp--wrapper">
         ${returned.series === 1 ? `<p>S${returned.current_ses} Ep ${returned.current_ep}</p>` : `` }
         <p class="card__time">${returned.time.split(':')[0].padStart(2, '0')} : ${returned.time.split(':')[1].padStart(2, '0')} </p>
+        </div>
   `;
   // console.log(returned);
 };

@@ -29,7 +29,7 @@
   <li class="border planner__column <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today")){echo 'passed';} ?>"><h3 class="column__title"><?php echo $daysOfWeekArray[$i]; ?> <?php echo date("d/m", strtotime('+'.$i . 'day', $monday));?></h3>
     <ul class="column__cards">
         <?php foreach($planning as $item){if($item->date == date("Y-m-d", strtotime('+'.$i . 'day', $monday))){?>
-      <li class="
+      <li class="card
        <?php if(strtotime('+'.$i . 'day', $monday)< strtotime("today") || $item->watched==1){echo 'passed--card';} ?> <?php if($item->series == 1){echo "series";} elseif($item->movie == 1){echo "movie";} ?>">
        <div class="card__title_wrapper"><p class="card__title"><?php echo ucfirst($item->title);?></p>
        <form class="removeButton" method="post" action="index.php?page=home">
@@ -37,8 +37,10 @@
           <input type="hidden" name="removedItem" value="<?php echo $item->id ?>">
           <input  type="submit" class="button--bin" value="">
         </form></div>
+        <div class="timeEp--wrapper">
         <?php if($item->series == 1){ ?><p>S<?php echo $item->current_ses?> Ep<?php echo $item->current_ep?></p><?php } ?>
         <p class="card__time"><?php sscanf($item->time, "%d:%d:%d", $hours, $minutes, $seconds); echo str_pad($hours, 2, "0", STR_PAD_LEFT) . ' : ' . str_pad($minutes, 2, "0", STR_PAD_LEFT);?></p>
+        </div>
         <?php if($item->watched==0){?>
         <form class="checkButton" method="post" action="index.php?page=home">
           <input type="hidden" name="action" value="checkedTimeslot">

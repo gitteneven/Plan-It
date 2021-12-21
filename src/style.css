@@ -235,14 +235,14 @@ li {
 /*----------------------------Sign up---------------------------*/
 
 .signup__form {
-  /* display: grid;
-  grid-template-columns: 60vw;
-  grid-template-rows: auto; */
+  display: grid;
+  grid-template-columns: 30vw 30vw;
+  grid-template-rows: auto;
   /* display: flex;
   flex-direction: column; */
-  width: 55vw;
+  width: 60vw;
   gap: .2rem 5rem;
-  margin: 1rem auto 1rem 3rem;
+  margin: 1rem auto;
 }
 
 .country--selector {
@@ -380,6 +380,7 @@ li {
   width: 8rem;
   text-align: center;
   height: 2.5rem;
+  margin: auto;
 }
 
 input {
@@ -399,12 +400,13 @@ input:focus {
 .planner__columns {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  overflow-wrap: normal;
 }
 
 .planner__column {
   height: 60vh;
   margin: 2rem .7rem;
-  width: 12vw;
+  width: 11rem;
   text-align: center;
   font-family: 'bronx_reg', sans-serif;
   padding: 1rem .3rem;
@@ -509,7 +511,8 @@ input:focus {
 
 .button--check {
   /* padding-top: .4rem; */
-  width: 8vw;
+  /* width: 8vw; */
+  width: fit-content;
   text-align: center;
   padding: auto;
   font-size: 1rem;
@@ -868,7 +871,7 @@ input:focus {
 .timeslot__form {
   display: flex;
   flex-direction: column;
-  width: 29rem;
+  width: 35vw;
   margin-right: 2rem;
   border-right: solid var(--colorPink);
   padding-right: 2rem;
@@ -890,11 +893,13 @@ input:focus {
 
 .timeslot__wrap {
   display: flex;
-  width: 90vw;
+  width: 80vw;
+  columns: unset;
 }
 
 .watchItemList {
   height: 65vh;
+  width: 40vw;
   overflow: scroll;
   padding-right: 2rem;
 }
@@ -1053,6 +1058,10 @@ em {
 
 @media only screen and (max-width: 1300px) {
 
+  .planner__columns {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   .container {
     width: 70vw;
   }
@@ -1100,15 +1109,18 @@ em {
     width: 70vw;
   }
 
-  .planner__columns {
+  /* .planner__columns {
     grid-template-columns: repeat(4, 1fr);
-  }
+  } */
+
 }
 
 @media only screen and (max-width: 1200px) {
 
   .planner__columns {
     grid-template-columns: repeat(4, 1fr);
+    max-width: 50rem;
+    overflow-wrap: normal;
   }
 
   .detail {
@@ -1118,12 +1130,17 @@ em {
   .detail__card {
     width: 90vw;
   }
+
 }
 
 @media only screen and (max-width: 1015px) {
 
   .button__add--search {
     width: 37vw;
+  }
+
+  .text--login {
+    width: 60vw;
   }
 
   .detail__card {
@@ -1161,6 +1178,23 @@ em {
 
   .detail__episode--title {
     font-size: 1.5rem;
+  }
+
+  .planner__columns {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-wrap: normal;
+    max-width: 80vw;
+    margin: auto;
+    margin-left: 2rem;
+  }
+
+  .planner__column {
+    width: 11rem;
+  }
+
+  .planner {
+    margin: auto;
   }
 }
 
@@ -1201,6 +1235,8 @@ em {
     height: 80vh;
     vertical-align: middle;
     margin-top: 7vh;
+    width: 100vw;
+    margin-left: 10vw;
 
   }
 
@@ -1280,6 +1316,22 @@ em {
     width: 5rem;
   }
 
+  .timeslot__wrap {
+    flex-direction: column;
+    columns: unset;
+    padding-top: 2.5rem;
+  }
+
+  .timeslot__form {
+    border-right: none;
+    width: 65vw;
+    padding-top: 0;
+  }
+
+  .watchItemList {
+    width: 70vw;
+  }
+
   .detail--img {
     grid-row: 1 / span 3;
   }
@@ -1288,9 +1340,22 @@ em {
     grid-column: 1/ span 3;
   }
 
+  .planner__column {
+    width: 15rem;
+  }
+
+  .planner__columns {
+    margin: 0;
+    margin-right: 0;
+  }
+
 }
 
 @media only screen and (max-width: 670px) {
+
+  /* .planner {
+    margin: auto;
+  } */
 
   .nav {
     display: none;
@@ -1353,13 +1418,13 @@ em {
     /* padding-left: 1.5rem; */
   }
 
-  .timeslot__wrap {
+  /* .timeslot__wrap {
     flex-direction: column;
-  }
+  } */
 
-  .timeslot__form {
+  /* .timeslot__form {
     border-right: none;
-  }
+  } */
 
   .container {
     width: 70vw;
@@ -1421,6 +1486,14 @@ em {
     height: 3rem;
   }
 
+  .timeslotPlanner {
+    width: 70vw;
+  }
+
+  body {
+    width: 100vw;
+  }
+
   .button__add--search {
     margin-top: 3rem;
     width: 65vw;
@@ -1433,6 +1506,40 @@ em {
   .search {
     margin-top: 3.5rem;
   }
+
+  .timeslot__form--items {
+    width: 60vw;
+  }
+
+  .subtitle {
+    margin-top: 2rem;
+  }
+
+  .timeslot__wrap {
+    margin-bottom: 5rem;
+  }
+
+  .planner__column {
+    width: 80vw;
+    margin-bottom: 0;
+  }
+
+  /* .card__title_wrapper {
+    justify-content: flex-start;
+  }
+
+  .card__title {
+    justify-self: flex-start;
+  } */
+
+  .timeEp--wrapper {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .button--check {
+    height: 2.7rem;
+  }
 }
 
 @media only screen and (max-width: 425px) {
@@ -1444,7 +1551,8 @@ em {
   .subtitle {
     margin-bottom: .7rem;
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 2rem;
+    font-size: 1.2rem;
   }
 
   .intro__text, .intro__text2 {
@@ -1469,11 +1577,13 @@ em {
   .logotitle {
     text-align: center;
     position: relative;
+    margin-left: -2rem;
   }
 
   .logoline {
     margin-top: -3rem;
     position: relative;
+    margin-left: -2rem;
   }
 
   .nav__header {
@@ -1494,8 +1604,13 @@ em {
 
   .container {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 2.5rem;
     width: 90vw;
+    /* margin-left: 0; */
+  }
+
+  .timeslotPlanner {
+    margin-left: -4rem;
   }
 
   .overview {
@@ -1621,5 +1736,57 @@ em {
 
   .detail__episode--title {
     font-size: 1.1rem;
+  }
+
+  .timeslot__form {
+    width: 70vw;
+    margin: auto;
+    padding: 0;
+  }
+
+  .sugg__img {
+    width: 5rem;
+    margin-top: -.5rem;
+  }
+
+  .sugg__title {
+    font-size: 1rem;
+    line-height: 1rem;
+    margin-bottom: .8rem;
+  }
+
+  .timeslot__sugg {
+    padding-top: .5rem;
+  }
+
+  .add--button {
+    margin: auto;
+    margin-left: 1.7rem;
+  }
+
+  .sugg__add:checked::before {
+    content: '✔';
+  }
+
+  .sugg__add:checked {
+    margin-left: .5rem;
+  }
+
+  .button--add {
+    width: 11rem;
+    padding: .5rem;
+    font-size: 1rem;
+    margin: 1.4rem 1.5rem 1.4rem auto;
+  }
+
+  .planner__nav {
+    width: 90vw;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-left: -1rem;
+  }
+
+  .planner__columns {
+    margin-bottom: 8rem;
   }
 }
