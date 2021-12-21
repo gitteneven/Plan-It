@@ -62,11 +62,47 @@ foreach($watchSuggestions as $sugg){?>
         <h3 class="sugg__title"><?php echo $sugg->title . ' <em>('. $suggDate .')</em>' ?></h3>
         <p class="sugg__ep">Se <?php echo $sugg->current_ses . ' ' . 'Ep' . ' ' .$sugg->current_ep//foreach($currentStatusArray as $status){ if($sugg->watch_id == $status['watch_id']){echo $status->current_ses . ' ' . 'Ep' . ' ' . $status->current_ep;}} ?></p>
         <?php
-        // $suggCurrent = $currentEpisodes->where('watch_id', '=', $sugg->watch_id)->first();
         $runtime= round($sugg->duration/60);
         echo '<p class="sugg__duration">'.$runtime.' min </p>';
         ?>
         <label class="sugg__add--label"><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
+        <span>
+          <label class="multiEps input form__text" for="multiEps">Select multiple episodes:
+          <select id="multiEps" class="multiEps multiEps--selector" name="multiEps[]" size="1" required>
+            <?php  if($suggInfo->seasons[0]->name =='Specials') {
+            $nextEps=$suggInfo->seasons[$sugg->current_ses]->episode_count-$sugg->current_ep;
+            $TotalEpsWatched=$suggInfo->seasons[$sugg->current_ses]->episode_count-$nextEps-1 ;
+            $currentSes=$suggInfo->seasons[$sugg->current_ses];
+            if($currentSes !==0){
+              for ($i=1; $i <= $sugg->current_ses-1; $i++) {
+                $prevEps=$suggInfo->seasons[$i]->episode_count;
+                $TotalEpsWatched+=$prevEps;
+              }
+            }
+            $remainingEps=$suggInfo->number_of_episodes - $TotalEpsWatched;
+        } else if($suggInfo->seasons[0]->name !=='Specials') { echo 'no specials ' . $suggInfo->seasons[$sugg->current_ses-1]->episode_count ;
+            $nextEps=$suggInfo->seasons[$sugg->current_ses]->episode_count-$sugg->current_ep;
+            $TotalEpsWatched=$suggInfo->seasons[$sugg->current_ses]->episode_count-$nextEps-1 ;
+            $currentSes=$suggInfo->seasons[$sugg->current_ses];
+
+              for ($i=1; $i <= $sugg->current_ses-1; $i++) {
+                $prevEps=$suggInfo->seasons[$i]->episode_count;
+                $TotalEpsWatched+=$prevEps;
+              }
+
+            $remainingEps=$suggInfo->number_of_episodes - $TotalEpsWatched;
+            }?>
+          <?php for ($i=0; $i < $remainingEps; $i++) {?>
+           <option value="<?php echo $i+1; ?>"><?php echo $i+1; ?></option>
+          <?php } ?>
+
+
+            </select>
+    </label>
+
+        </span><?php echo $suggInfo->number_of_episodes . ' - '; //echo $suggInfo->number_of_episodes - $sugg->current_ep . ' - '; ?>
+      <br>
+
         <?php
       }else if($sugg->movie == 1){
         $suggApi = 'https://api.themoviedb.org/3/movie/'. $sugg->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
