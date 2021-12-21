@@ -33,7 +33,7 @@
     <form class="add__button" method="post" <?php echo('action="index.php?page=search&title='. $titleSearch . '"')?>   enctype="multipart/form-data">
      <?php echo ('<input type="hidden" name="title__search" value="'. $titleSearch . '">') ?>
     <input type="hidden" name="action" value="addWatchlist">
-        <li class="overview__list--item search__list--item 
+        <li class="overview__list--item search__list--item
          <?php if(array_key_exists('name', $itemArray)){
             echo('border--blue');
           }else if(array_key_exists('title', $itemArray)){
