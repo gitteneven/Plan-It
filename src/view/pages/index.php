@@ -37,8 +37,10 @@
           <input type="hidden" name="removedItem" value="<?php echo $item->id ?>">
           <input  type="submit" class="button--bin" value="">
         </form></div>
+        <div class="timeEp--wrapper">
         <?php if($item->series == 1){ ?><p>S<?php echo $item->current_ses?> Ep<?php echo $item->current_ep?></p><?php } ?>
         <p class="card__time"><?php sscanf($item->time, "%d:%d:%d", $hours, $minutes, $seconds); echo str_pad($hours, 2, "0", STR_PAD_LEFT) . ' : ' . str_pad($minutes, 2, "0", STR_PAD_LEFT);?></p>
+        </div>
         <?php if($item->watched==0){?>
         <form class="checkButton" method="post" action="index.php?page=home">
           <input type="hidden" name="action" value="checkedTimeslot">

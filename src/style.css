@@ -405,7 +405,7 @@ input:focus {
 .planner__column {
   height: 60vh;
   margin: 2rem .7rem;
-  width: 12vw;
+  width: 11rem;
   text-align: center;
   font-family: 'bronx_reg', sans-serif;
   padding: 1rem .3rem;
@@ -1069,6 +1069,7 @@ em {
   /* .planner__columns {
     grid-template-columns: repeat(4, 1fr);
   } */
+
 }
 
 @media only screen and (max-width: 1200px) {
@@ -1086,6 +1087,7 @@ em {
   .detail__card {
     width: 90vw;
   }
+
 }
 
 @media only screen and (max-width: 1015px) {
@@ -1133,6 +1135,23 @@ em {
 
   .detail__episode--title {
     font-size: 1.5rem;
+  }
+
+  .planner__columns {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-wrap: normal;
+    max-width: 80vw;
+    margin: auto;
+    margin-left: 2rem;
+  }
+
+  .planner__column {
+    width: 11rem;
+  }
+
+  .planner {
+    margin: auto;
   }
 }
 
@@ -1270,9 +1289,22 @@ em {
     grid-column: 1/ span 3;
   }
 
+  .planner__column {
+    width: 15rem;
+  }
+
+  .planner__columns {
+    margin: 0;
+    margin-right: 0;
+  }
+
 }
 
 @media only screen and (max-width: 670px) {
+
+  /* .planner {
+    margin: auto;
+  } */
 
   .nav {
     display: none;
@@ -1435,6 +1467,28 @@ em {
   .timeslot__wrap {
     margin-bottom: 5rem;
   }
+
+  .planner__column {
+    width: 80vw;
+    margin-bottom: 0;
+  }
+
+  /* .card__title_wrapper {
+    justify-content: flex-start;
+  }
+
+  .card__title {
+    justify-self: flex-start;
+  } */
+
+  .timeEp--wrapper {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .button--check {
+    height: 2.7rem;
+  }
 }
 
 @media only screen and (max-width: 425px) {
@@ -1472,11 +1526,13 @@ em {
   .logotitle {
     text-align: center;
     position: relative;
+    margin-left: -2rem;
   }
 
   .logoline {
     margin-top: -3rem;
     position: relative;
+    margin-left: -2rem;
   }
 
   .nav__header {
@@ -1497,9 +1553,13 @@ em {
 
   .container {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 2.5rem;
     width: 90vw;
-    margin-left: 0;
+    /* margin-left: 0; */
+  }
+
+  .timeslotPlanner {
+    margin-left: -4rem;
   }
 
   .overview {
@@ -1661,4 +1721,21 @@ em {
     margin-left: .5rem;
   }
 
+  .button--add {
+    width: 11rem;
+    padding: .5rem;
+    font-size: 1rem;
+    margin: 1.4rem 1.5rem 1.4rem auto;
+  }
+
+  .planner__nav {
+    width: 90vw;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-left: -1rem;
+  }
+
+  .planner__columns {
+    margin-bottom: 8rem;
+  }
 }
