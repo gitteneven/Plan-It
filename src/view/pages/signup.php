@@ -7,34 +7,40 @@
          <input type="hidden" name="action" value="signup">
 
          <label class="signup__label ">
+           <p class="error"></p>
             <span class="form__text">What is your firstname?</span>
             <span class="error"><?php if(!empty($errors['name'])){ echo $errors['name'];} ?></span>
-            <input type="text" class="size1" name="name" class="signup__input signup--name" size="5">
+            <input type="text" class="size1" name="name" class="signup__input signup--name input" size="5">
         </label>
         <label class="signup__label ">
+          <p class="error"></p>
            <span class="form__text">What is your surname?</span>
            <span class="error"><?php if(!empty($errors['surname'])){ echo $errors['surname'];} ?></span>
-           <input type="text" class="size1" name="surname" class="signup__input signup--surname">
+           <input type="text" class="size1" name="surname" class="signup__input signup--surname input">
          </label>
          <label class="signup__label ">
+           <p class="error"></p>
             <span class="form__text">How may we call you?</span>
             <span class="error"><?php if(!empty($errors['username'])){ echo $errors['username'];} ?></span>
-            <input type="text" class="size1" name="username" class="signup__input signup--name">
+            <input type="text" class="size1" name="username" class="signup__input signup--name input">
         </label>
         <label class="signup__label c2--1">
+          <p class="error"></p>
             <span class="form__text">What is your email adress?</span>
             <span class="error"><?php if(!empty($errors['email'])){ echo $errors['email'];} ?></span>
-            <input type="email" name="email" class="signup__input signup--email">
+            <input type="email" name="email" class="signup__input signup--email input">
         </label>
           <label class="signup__label c2--2">
+            <p class="error"></p>
              <span class="form__text">What is your password?</span>
              <span class="error"><?php if(!empty($errors['password'])){ echo $errors['password'];} ?></span>
-             <input type="password" class="size1" name="password" class="signup__input signup--password" >
+             <input type="password" class="size1" name="password" class="signup__input signup--password input" >
          </label>
          <label class="signup__label c2--3">
+           <p class="error"></p>
             <span class="form__text">Your password again? </span>
             <span class="error"></span>
-            <input type="password" class="size1" name="password2" class="signup__input signup--password" >
+            <input type="password" class="size1" name="password2" class="signup__input signup--password input" >
         </label>
 
         <input type="submit" class="signup--button button" value="Choose streaming services">

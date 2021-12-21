@@ -190,7 +190,7 @@ const handleRemovePlannedItem = async e => {
   data.forEach((value, key) => {
     obj[key] = value;
   });
-  const response = await fetch(url, {
+  await fetch(url, {
     method: 'POST',
     headers: new Headers({
       'Content-Type': 'application/json'

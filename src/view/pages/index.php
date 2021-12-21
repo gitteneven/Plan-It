@@ -52,6 +52,6 @@
     </ul>
   </li>
   <?php } ?>
-  </ul>
+  </ul><?php echo $itemInfo; echo $currentSes; ?>
   </section>
-<?php } ;?>
+<?php } ?>
