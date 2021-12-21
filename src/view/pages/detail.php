@@ -60,7 +60,10 @@
      if($typeDetail === 'tv'){
        echo
     '
-    <p class="detail__total">'. $totalSeason.' season(s) and '. $itemInfo->number_of_episodes .' episodes in total</p>
+    <p class="detail__total">'. $totalSeason.' season(s) and '. $itemInfo->number_of_episodes .' episodes in total</p>';
+
+    if(!empty($current_ep)){
+    echo'
     <div class="detail__episode">
     <p class="detail__current--text">You are currently on:</p>
     <div class="detail__episode--border border">
@@ -82,6 +85,7 @@
     </div>
     </div>
     </div>';
+    }
     }
     if(!empty($itemInfo->poster_path)){
         echo '<img class="detail--img" src="https://image.tmdb.org/t/p/w500/'. $itemInfo->poster_path . '" alt="">';

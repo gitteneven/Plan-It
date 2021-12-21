@@ -44,6 +44,10 @@ $routes = array(
   'detail' => array(
     'controller' => 'Pages',
     'action' => 'detail'
+  ),
+  'account' => array(
+    'controller' => 'Pages',
+    'action' => 'account'
   )
 );
 
