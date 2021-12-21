@@ -25,11 +25,10 @@ li {
 }
 
 .container {
-  width: 70vw;
-  margin: var(--spacerBig) auto;
+  margin: 3rem auto;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
 }
 
 @font-face {
@@ -200,6 +199,14 @@ li {
 }
 /*---------------------------------intro------------------------------------*/
 
+.onboarding__title {
+  margin-top: 15vh;
+}
+
+.onboarding__subtitle {
+  margin-top: 0;
+}
+
 .intro__text {
   margin-top: 2.4rem;
   font-size: 1.3rem;
@@ -218,7 +225,6 @@ li {
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  margin-top: 10vh;
 }
 
 .button--wrapper {
@@ -267,6 +273,10 @@ li {
   width: max-content;
 }
 
+.signup--email {
+  width: 18rem;
+}
+
 .c2--1, .c2--2 {
   grid-column: 2;
   grid-row: 1;
@@ -291,6 +301,7 @@ li {
   flex-wrap: wrap;
   overflow-wrap: normal;
   width: 70vw;
+  grid-column: 1/ span 2;
   margin-bottom: 4rem;
   margin-top: 1rem;
   /* max-width: 55vw; */
@@ -298,8 +309,9 @@ li {
 
 .strList > li {
   margin-right: 1rem;
+  margin-bottom: 1rem;
   width: 7rem;
-  height: 23vh;
+  height: 7rem;
 }
 
 .option::before {
@@ -340,7 +352,6 @@ li {
   flex-direction: column;
   justify-content: center; */
   width: 90vw;
-  margin-top: 3rem;
 }
 
 .login__form {
@@ -926,7 +937,7 @@ input:focus {
   visibility: hidden;
 }
 
-.timeslot__sugg, .possible__card, .overdue__card {
+.timeslot__sugg {
   background-color: var(--colorDarkblue);
   padding: 1rem;
   border-radius: .8rem;
@@ -940,11 +951,15 @@ input:focus {
 }
 
 .possible__card, .overdue__card {
+  background-color: var(--colorDarkblue);
+  padding: 1rem;
+  border-radius: .8rem;
   margin: .5rem .1rem;
 }
 
 .overdue__card {
   background-color: var(--colorPurple);
+  list-style-type: none;
 }
 
 .sugg--movie {
@@ -986,7 +1001,7 @@ em {
 .sugg__duration {
   grid-area: duration;
   background-color: var(--colorPurple);
-  width: 4.5rem;
+  width: 5rem;
   height: 2rem;
   border-radius: .9rem;
   padding: .1rem .4rem;
@@ -1097,7 +1112,7 @@ em {
   }
 
   .planner {
-    width: 70vw;
+    width: 85vw;
   }
 
   .login__form {
@@ -1140,6 +1155,10 @@ em {
 
   .button__add--search {
     width: 37vw;
+  }
+
+  .signup--email {
+    width: 13rem;
   }
 
   .text--login {
@@ -1197,6 +1216,7 @@ em {
 
   .planner {
     margin: auto;
+    width: 70vw;
   }
 }
 
@@ -1234,10 +1254,7 @@ em {
   }
 
   .container {
-    height: 80vh;
     vertical-align: middle;
-    margin-top: 7vh;
-
   }
 
   .signup__form {
@@ -1270,6 +1287,13 @@ em {
 
   .overview {
     width: 70vw;
+  }
+
+  .timeslot__wrap {
+    flex-direction: column;
+    columns: unset;
+    padding-top: 2.5rem;
+    width: 85vw;
   }
 
   .overview__list {
@@ -1316,12 +1340,6 @@ em {
     width: 5rem;
   }
 
-  .timeslot__wrap {
-    flex-direction: column;
-    columns: unset;
-    padding-top: 2.5rem;
-  }
-
   .timeslot__form {
     border-right: none;
     width: 65vw;
@@ -1329,7 +1347,7 @@ em {
   }
 
   .watchItemList {
-    width: 70vw;
+    width: 75vw;
     padding-right: 0;
   }
 
@@ -1367,8 +1385,9 @@ em {
   }
 
   .signup__form {
+    width: 80vw;
     grid-template-columns: 70vw;
-    justify-content: space-around;
+    justify-content: center;
   }
 
   .signup--button2 {
@@ -1495,12 +1514,25 @@ em {
     margin-top: 3rem;
   }
 
+  .signup__title {
+    margin-top: -1.5rem;
+  }
+
+  .signup__form--str {
+    width: 100vw;
+  }
+
+  .onboarding__subtitle {
+    margin-top: 0;
+  }
+
   .timeslot__wrap {
     margin-bottom: 6rem;
   }
 
   .login__wrap {
     padding: 2rem;
+    margin-bottom: 6rem;
   }
 
   .planner__column {
@@ -1532,7 +1564,7 @@ em {
   .button--add {
     width: 65vw;
     right: 17vw;
-    top: 8rem;
+    top: 9rem;
     text-align: center;
   }
 
@@ -1560,6 +1592,10 @@ em {
     text-align: center;
     margin-top: 2rem;
     font-size: 1.2rem;
+  }
+
+  .onboarding__subtitle {
+    margin-top: 0;
   }
 
   .intro__text, .intro__text2 {
@@ -1611,7 +1647,6 @@ em {
 
   .container {
     text-align: center;
-    margin-top: 2.5rem;
     width: 90vw;
     /* margin-left: 0; */
   }
@@ -1623,10 +1658,6 @@ em {
   .signup__label {
     /* justify-content: center;
     width: 18rem; */
-  }
-
-  .signup__form {
-    width: auto;
   }
 
   .form__text {
@@ -1743,23 +1774,46 @@ em {
 
   .sugg__img {
     width: 5rem;
-    margin-top: -.5rem;
+    margin-top: .5rem;
   }
 
   .sugg__title {
     font-size: 1rem;
     line-height: 1rem;
     margin-bottom: .8rem;
+    text-align: left;
   }
 
   .timeslot__sugg {
-    padding-top: .5rem;
+    padding: .5rem;
+    grid-template-columns: 1fr 1fr;
   }
 
   .add--button {
     margin: auto;
-    margin-left: 1.7rem;
-    margin-top: 1rem;
+    width: 70vw;
+  }
+
+  .sugg__ep {
+    text-align: left;
+  }
+
+  .sugg__duration {
+    width: 5rem;
+  }
+
+  .sugg__add--label {
+    grid-row: 4;
+    grid-column: 2;
+    margin-top: 0;
+    margin-left: -4.5rem;
+  }
+
+  .sugg__add::before {
+    width: 30vw;
+    justify-content: left;
+    margin-left: -3vw;
+    text-align: center;
   }
 
   .sugg__add:checked::before {
@@ -1767,7 +1821,7 @@ em {
   }
 
   .sugg__add:checked {
-    margin-left: .5rem;
+    margin-left: 1.5rem;
   }
 
   .button--add {
@@ -1810,4 +1864,51 @@ em {
     margin-top: 0;
   }
 
+  .button {
+    font-size: 1rem;
+  }
+
+  .strList {
+    margin-bottom: 1rem;
+  }
+
+  .signup__wrap {
+    margin-bottom: 6rem;
+  }
+
+  .signup--button {
+    margin-left: -1rem;
+    width: 65vw;
+    font-size: .8rem;
+  }
+
+  .signup--button2 {
+    width: 80vw;
+    font-size: 1rem;
+  }
+
+  .signup__form {
+    width: 90vw;
+    grid-template-columns: 60vw;
+    justify-content: center;
+  }
+
+  .signup__form--str {
+    width: 80vw;
+    grid-column: auto;
+    grid-gap: 0;
+  }
+
+  .country {
+    width: 70vw;
+    margin-bottom: .5rem;
+  }
+
+  .country--selector {
+    width: 50vw;
+  }
+
+  .option {
+    margin-left: -2rem;
+  }
 }

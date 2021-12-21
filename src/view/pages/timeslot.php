@@ -79,7 +79,7 @@ foreach($watchSuggestions as $sugg){?>
         <?php
         $runtime= $suggInfo->runtime;
         echo '<p class="sugg__duration duration--movie">'.$runtime.' min </p>';?>
-        <label class="sugg__add--label"><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
+        <label class="sugg__add--label"><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add add__timeslot--moment" <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
         <?php
       } ?>
       </li><br>

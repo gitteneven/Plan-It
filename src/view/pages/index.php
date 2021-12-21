@@ -1,6 +1,6 @@
 <?php if(empty($_SESSION['id'])){?>
 <section class="content intro">
-<h2 class="subtitle">Watch whenever you can</h2>
+<h2 class="subtitle onboarding__subtitle">Watch whenever you can</h2>
 <div class="line dropshadow"></div>
 <div >
 <p class="intro__text">Watcho helps you plan your series and movies so you don’t miss any new episodes!</p>
