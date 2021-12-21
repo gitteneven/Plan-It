@@ -4,7 +4,7 @@
  <section class="border login__wrap signup__wrap">
 
 
-   <form class="signup__form" method="post" action="index.php?page=signup2" enctype="multipart/form-data">
+   <form class="signup__form signup__form--str" method="post" action="index.php?page=signup2" enctype="multipart/form-data">
       <input type="hidden" name="action" value="streaming">
       <!-- <h2 class=subtitle>Choose your streaming services:</h2> -->
       <span class="error"><?php if(!empty($errors['country'])){ echo $errors['country'];} ?></span><br>
