@@ -122,7 +122,7 @@ class PagesController extends Controller {
   }
 
   public function overview() {
-   // $user = User::where('id', '=', $_SESSION['id'])->first();
+   
     $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
     $this->set('watchlist', $watchlist);
     $this->set('title','My watchlist');
@@ -184,7 +184,7 @@ class PagesController extends Controller {
       }
 
       $seasons = $itemInfo->seasons;
-      //var_dump($seasons);
+
       if(!empty($_POST['action'])){
         if($_POST['action'] == 'editCurrent'){
           $max = $itemInfo->number_of_seasons;
@@ -206,7 +206,7 @@ class PagesController extends Controller {
               $episodeNumber = $getSeason->episode_count;
             }
           }
-          //echo $_POST['number__season'];
+
           $formEpisode =  '<form method="post" class="detail__edit">
               <input type="hidden" name="action" value="submitEpisode">
               <label for="number__episode">Which episode: </label>
@@ -268,8 +268,7 @@ class PagesController extends Controller {
             $newWatch->movie = 1;
           }
         $newWatch->save();
-        // header('Location:index.php?page=overview');
-        // exit();
+
        }
       }
     }
@@ -333,8 +332,7 @@ class PagesController extends Controller {
             $newWatch->movie = 1;
           }
         $newWatch->save();
-        // header('Location:index.php?page=overview');
-        // exit();
+
       }
 
     }
@@ -346,8 +344,7 @@ class PagesController extends Controller {
 
   public function apiSearch() {
     $exists = Watch_list::where('watch_id', '=', $_GET['watch_id'])->where('user_id', '=', $_SESSION['id'])->get();
-    //echo $_GET['watch_id'];
-    //echo(json_decode($exists));
+
 
      echo $exists;
 
@@ -372,8 +369,7 @@ class PagesController extends Controller {
            $_SESSION['name']=$_POST['name'];
            $_SESSION['password']=$_POST['password'];
            $_SESSION['id']=$newUser->id;
-          // $userLogin= User::where('id', $_SESSION['id'])->first();
-          // $this->set('userLogin',$userLogin);
+
 
           header('Location:index.php?page=signup2');
           exit();
@@ -396,7 +392,7 @@ class PagesController extends Controller {
 
           $_SESSION['strServ']=$_SESSION['id'];
         foreach($_POST['strOption'] as $value){
-          //$newUser->stream_serv = $value;
+
           if($value=='netflix'){
             $strServ->netflix = 1;
           }
@@ -418,7 +414,7 @@ class PagesController extends Controller {
 
           $strServ->save();
           foreach($_POST['country'] as $value){
-              //echo "Chosen country : ".$value.'<br/>';
+
             $newUser->country = $value;
         }
         $errors = User::validate($newUser);
@@ -490,22 +486,7 @@ class PagesController extends Controller {
        $_SESSION['startTime']=$startDateNonFormat;
        $_SESSION['endTime']=$endDateNonFormat;
 
-        // $availableTime=date("Y-m-d, H:i:s", strtotime($availableTimeNonFormat));
-        //  $availableTime=$availableTimeNonFormat->format("Y-m-d H:i:s");
-         //$availableTime=new DateTime($availableTimeNonFormat);
 
-      // $startDateNonFormat = new DateTime($startDateAndTime);
-      // $endDateNonFormat = new DateTime($endDateAndTime);
-
-      // $startDate = $startDateNonFormat->format('d-m-Y');
-      // //$startTime = $startDateNonFormat->format('H:i:s');
-      // $startTime = strtotime($startDateNonFormat->format('H:i:s'));
-      // $endDate = $endDateNonFormat->format('d-m-Y');
-      // // $endTime = $endDateNonFormat->format('H:i:s');
-      // $endTime = strtotime($endDateNonFormat->format('H:i:s'));
-
-      // $availableTimeNonFormat=$endTime-$startTime;
-      // $availableTime=$availableTimeNonFormat;
 
       $watchSuggestions= Watch_list::where('user_id', '=', $_SESSION['id'])->where('duration', '<=', $availableTime)->get();
 
@@ -521,17 +502,17 @@ class PagesController extends Controller {
   if(!empty($_POST['action'])) {
 
     if ($_POST['action'] == 'addWatchItem') {
-      // unset($overdueTimes);
+
       $watchArray=array();
       $watchTimes=array();
       $overdueTimes=array();
       $possibleTimes=array();
       $amountEpisodes=array();
-        // echo $_POST['multiEps']->id;
+
         foreach($_POST['multiEps'] as $value){
           $tempEpisodes= explode('-', $value);
           $amountEpisodes[$tempEpisodes[0]]=$tempEpisodes[1];
-          // $this->set('tempEpisodes', $tempEpisodes[1]);
+
         }
 
       foreach($_POST['watchItem'] as $watchItem){
@@ -539,7 +520,7 @@ class PagesController extends Controller {
         $watchListItem= Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem)->first();
         array_push($watchArray, $watchListItem);
         $selectedEps=$amountEpisodes[$watchItem];
-        // $this->set('selectedEps', $selectedEps);
+
         $newAvailableTime=$_SESSION['availableTime']-($watchListItem->duration*$selectedEps);
         $this->set('newAvailableTime', $newAvailableTime);
 
@@ -550,10 +531,10 @@ class PagesController extends Controller {
       }
       $this->set('watchDuration', $watchDuration);
 
-      // if ($watchDuration > $_SESSION['availableTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] > $_SESSION['endTime']){
+
         $currentTime=$_SESSION['startTime'];
-      // if(empty($overdueTimes)) {
-      // else if($_SESSION['overtime']==false && $watchDuration < $_SESSION['availableTime'] || $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
+
+
       if($watchDuration <= $_SESSION['availableTime'] ){
         foreach($watchArray as $watchItem){
 
@@ -612,15 +593,15 @@ class PagesController extends Controller {
 
           }
       }
-      // if($watchDuration < $_SESSION['availableTime']){
+
         $_SESSION['availableTime']='';
         header('Location:index.php?page=home');
           exit();
-      // }
+
 
       }else if($watchDuration > $_SESSION['availableTime']){
         foreach($watchArray as $watchItem){
-          // if($_SESSION['startTime']+$watchItem->duration < $_SESSION['endTime']|| $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
+
           if($currentTime+$watchItem->duration < $_SESSION['endTime']){
             array_push($possibleTimes, $watchItem);
             $plannedTime=$currentTime+$watchItem->duration;
@@ -631,10 +612,6 @@ class PagesController extends Controller {
         }
 
       }
-  // }
-      // else if($_SESSION['startTime'] > $_SESSION['endTime']){
-      //   array_push($overdueTimes, $watchItem);
-      // }
 
       $this->set('watchArray', $watchArray);
       $this->set('watchTimes', $watchTimes);

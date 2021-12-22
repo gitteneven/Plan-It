@@ -6,7 +6,7 @@
 
    <form class="signup__form signup__form--str" method="post" action="index.php?page=signup2" enctype="multipart/form-data">
       <input type="hidden" name="action" value="streaming">
-      <!-- <h2 class=subtitle>Choose your streaming services:</h2> -->
+     
       <span class="error"><?php if(!empty($errors['country'])){ echo $errors['country'];} ?></span><br>
       <label class="country input form__text" for="country">What country are you from?
     <select id="country" class="country country--selector" name="country[]" size="1" required>
@@ -40,5 +40,5 @@
   </form>
 </section>
 
- <!-- <script src="js/validate.js"></script> -->
+
 </article>

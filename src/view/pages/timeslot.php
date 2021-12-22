@@ -7,8 +7,7 @@
 
       <label class="timeslot__label ">
             <span class="form__text">When do you want to watch?</span>
-            <!-- <span class="error"><?php if(!empty($errors['name'])){ echo $errors['name'];} ?></span> -->
-            <!-- <input type="text" class="size1" name="name" class="timeslot__input timeslot--name" size="5"> -->
+           
             <label class="time__label">Start:
             <input type="datetime-local" name="timeslot--start" class="timeslot__input time--start size1" value="<?php if(!empty($_POST['timeslot--start'])) echo $_POST['timeslot--start'];  ?>"></label>
             <label class="time__label"> End:

@@ -32,8 +32,7 @@ const submitWithJS = async () => {
     resultList = resultListSeries.concat(resultListMovie);
   }
 
-  //console.log(resultList);
-  //updateList(resultList);
+  
 
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
@@ -59,7 +58,7 @@ const updateList = async list => {
 
 
   for (let i = 0;i < list.length;i ++) {
-    // console.log(list[i].name);
+
     let poster;
     let language;
     const id = list[i].id;
@@ -184,7 +183,7 @@ const handleAddItem = async e => {
   e.preventDefault();
   const url = e.currentTarget.getAttribute('action');
   const $form = e.currentTarget;
-  //const $button = document.querySelector('button__add--search');
+
   const data = new FormData($form);
   const obj = {};
   data.forEach((value, key) => {
@@ -233,7 +232,7 @@ const handleCheckPlannedItem = async e => {
         <p class="card__time">${returned.time.split(':')[0].padStart(2, '0')} : ${returned.time.split(':')[1].padStart(2, '0')} </p>
         </div>
   `;
-  // console.log(returned);
+
 };
 
 const handleRemovePlannedItem = async e => {
@@ -265,7 +264,7 @@ const updateSelectedTime = e => {
   const $form = document.querySelector('.timeslot__form');
   const $checkbox = e.currentTarget;
   const $watchInfo = $checkbox.parentElement.parentElement;
-  //const $dropValue = parseInt(document.querySelector(`#${$checkbox.value}`).options[$checkbox.selectedIndex].value);
+
   const $dropValue = document.querySelector(`.id_${$checkbox.value}`);
   let splitDropValue = 1;
   if ($dropValue !== null) {
