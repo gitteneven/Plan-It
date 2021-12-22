@@ -1155,6 +1155,12 @@ em {
     width: 70vw;
   }
 
+  .remove__watch {
+    margin-top: 1rem;
+    margin-left: 28rem;
+    justify-content: right;
+  }
+
 }
 
 @media only screen and (max-width: 1200px) {
@@ -1171,6 +1177,12 @@ em {
 
   .detail__card {
     width: 90vw;
+  }
+
+  .remove__watch {
+    margin-top: 1rem;
+    margin-left: 26rem;
+    justify-content: right;
   }
 
 }
@@ -1241,6 +1253,12 @@ em {
   .planner {
     margin: auto;
     width: 70vw;
+  }
+
+  .remove__watch {
+    margin-top: 3rem;
+    margin-left: 22rem;
+    justify-content: right;
   }
 }
 
