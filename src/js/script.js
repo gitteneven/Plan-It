@@ -1,11 +1,10 @@
 let timeoutID;
 
 const handleInputField = () => {
-  submitWithJS();
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
     submitWithJS();
-  }, 500);
+  }, 100);
 };
 
 const submitWithJS = async () => {
@@ -34,7 +33,12 @@ const submitWithJS = async () => {
   }
 
   //console.log(resultList);
-  updateList(resultList);
+  //updateList(resultList);
+
+  clearTimeout(timeoutID);
+  timeoutID = setTimeout(() => {
+    updateList(resultList);
+  }, 100);
 };
 
 const updateList = async list => {
@@ -50,6 +54,9 @@ const updateList = async list => {
 
   const languageNames = new Intl.DisplayNames(['en'], {type: 'language'});
   console.log(Array.isArray(list));
+  console.log(list);
+
+
 
   for (let i = 0;i < list.length;i ++) {
     // console.log(list[i].name);
@@ -97,13 +104,23 @@ const updateList = async list => {
       listInner += `<li class="overview__list--item search__list--item border--blue">
                      <a class="overview__list--link" href="index.php?page=detail&id=${id}&watch_type=tv&title=${list[i].name}">
                     <h2 class="overview__list--title"> ${list[i].name} <em class="overview__list--date">${yearItem}</em></h2>
-                   <input type="hidden" name="watch__name" value="${list[i].name}">
                     <p class="overview__list--type"> Series </p>
-                   <input type="hidden" name="watch__type" value="series">
+
                     ${poster}
                     ${language}
                     ${runtime}</a>
-                    <input type="submit" class="button button__add--search button__add" name="add" value="add to watchlist"/></li>`;
+                    <div class="form__add--button">
+                    <form class="add__button" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="addWatchlist">
+                    <input type="hidden" name="watch__name" value="${list[i].name}">
+                    <input type="hidden" name="watch__id" value="${id}">
+                    <input type="hidden" name="watch__type" value="series">
+                    <input type="hidden" name="title__search" value="${list[i].name}">
+                    <input type="submit" class="button button__add--search button__add" name="add" value="add to watchlist"/>
+                    </form>
+                    </div>
+                    </li>`;
+
     } else if (Object.prototype.hasOwnProperty.call(list[i], 'title')) {
       const itemApi = `https://api.themoviedb.org/3/movie/${list[i].id}?api_key=662c8478635d4f25ee66abbe201e121d`;
       const apiCode = await fetch(itemApi);
@@ -136,12 +153,51 @@ const updateList = async list => {
                     ${poster}
                     ${language}
                     ${runtime} </a>
-                    <input type="submit" class="button button__add--search button__add" name="add" value="add to watchlist"/></li>`;
+                    <div class="form__add--button">
+                   <form class="add__button" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="addWatchlist">
+                    <input type="hidden" name="watch__name" value="${list[i].name}">
+                    <input type="hidden" name="watch__id" value="${id}">
+                    <input type="hidden" name="watch__type" value="movie">
+                    <input type="hidden" name="title__search" value="${list[i].name}">
+                    <input type="submit" class="button button__add--search button__add" name="add" value="add to watchlist">
+                    </form>
+                    </div>
+                    </li>`;
     }
 
+    //changeButton(id);
   }
 
   $list.innerHTML = listInner;
+
+};
+
+const changeButton = async id => {
+  const response = await fetch(`index.php?page=api-search&watch_id=${id}`);
+  const dataId = await response.json();
+  console.log(dataId);
+};
+
+
+const handleAddItem = async e => {
+  e.preventDefault();
+  const url = e.currentTarget.getAttribute('action');
+  const $form = e.currentTarget;
+  //const $button = document.querySelector('button__add--search');
+  const data = new FormData($form);
+  const obj = {};
+  data.forEach((value, key) => {
+    obj[key] = value;
+  });
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify(obj)
+  });
 };
 
 const handleCheckPlannedItem = async e => {
@@ -233,6 +289,7 @@ const updateSelectedTime = e => {
 export const init = async () => {
   document.documentElement.classList.add('has-js');
   document.querySelectorAll('.filter__field').forEach($field => $field.addEventListener('input', handleInputField));
+  if (document.querySelector('.search__list')) {document.querySelectorAll('.add__button').forEach($form => $form.addEventListener('submit', handleAddItem));}
 
   if (document.querySelector('.planner')) {document.querySelectorAll('.checkButton').forEach($form => $form.addEventListener('submit', handleCheckPlannedItem));}
   if (document.querySelector('.planner')) {document.querySelectorAll('.removeButton').forEach($form => $form.addEventListener('submit', handleRemovePlannedItem));}
