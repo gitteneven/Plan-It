@@ -662,6 +662,8 @@ input:focus {
 }
 
 .overview__list--link {
+  grid-column: 1/span 2;
+  grid-row: 1/span 2;
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto;
@@ -692,6 +694,22 @@ input:focus {
   align-self: center;
   font-size: 5rem;
   padding: 2rem 0;
+}
+
+.remove__watch {
+  text-align: center;
+  font-size: 1.2rem;
+  text-decoration: none;
+  margin-top: -5rem;
+  margin-left: 20rem;
+  z-index: 3;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.overview__button--bin {
+  background-size: 1rem;
 }
 
 /*---------------------------------------detail----------------------*/

@@ -41,7 +41,8 @@
       }
       $language = $itemInfo->spoken_languages;
 
-      echo ('<a class="overview__list--link" href="index.php?page=detail&id='. $item->watch_id .'&watch_type='. $watch_type .'&title='.$item->title .'">
+      echo ('
+            <a class="overview__list--link" href="index.php?page=detail&id='. $item->watch_id .'&watch_type='. $watch_type .'&title='.$item->title .'">
             <h2 class="overview__list--title">' . $item->title . '<em class="overview__list--date">   ' . $date . '</em></h2>
             <input type="hidden" name="watch__name" value="'. $item->title . '">
             <p class="overview__list--type"> ' . $itemType . ' </p>
@@ -60,7 +61,13 @@
      }
 
       echo(
-          '<p class="overview__list--runtime">' .  $runtime  . 'min </p></a>');
+          '<p class="overview__list--runtime">' .  $runtime  . 'min </p></a>
+          <div>
+           <form class="removeButton remove__watch" method="post" action="index.php?page=overview">
+          <input type="hidden" name="action" value="removeWatchItem">
+          <input type="hidden" name="removedItem" value="'. $item->watch_id .'">
+          <input  type="submit" class="button--bin overview__button--bin" value="">
+          </form></div>');
        ?>
 
         </li>

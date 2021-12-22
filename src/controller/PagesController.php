@@ -40,7 +40,7 @@ class PagesController extends Controller {
           }
         }
 
-        if(!empty($data) && !empty($data['action'])) {
+      if(!empty($data) && !empty($data['action'])) {
         if($data['action']== 'removeTimeslot'){
           $checkedItem=Planner::where('id', '=', $data['removedItem'])->first();
           $checkedItem->delete();
@@ -124,6 +124,21 @@ class PagesController extends Controller {
   public function overview() {
 
     $watchlist = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
+    if(isset($_SESSION['id'])){
+      $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+      if ($contentType === "application/json") {
+        $content = trim(file_get_contents("php://input"));
+        $data = json_decode($content, true);
+
+     if(!empty($data) && !empty($data['action'])) {
+        if($data['action']== 'removeWatchItem'){
+          $checkedItem=Watch_list::where('watch_id', '=', $data['removedItem'])->first();
+          $checkedItem->delete();
+        }
+      }
+      exit();
+    }
+    }
     $this->set('watchlist', $watchlist);
     $this->set('title','My watchlist');
   }

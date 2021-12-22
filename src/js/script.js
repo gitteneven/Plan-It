@@ -326,6 +326,8 @@ export const init = async () => {
   document.querySelectorAll('.filter__field').forEach($field => $field.addEventListener('input', handleInputField));
   if (document.querySelector('.search__list')) {document.querySelectorAll('.add__watchlist').forEach($form => $form.addEventListener('submit', handleAddItem));}
   changeButton();
+  if (document.querySelector('.overview')) {document.querySelectorAll('.removeButton').forEach($form => $form.addEventListener('submit', handleRemovePlannedItem));}
+
   if (document.querySelector('.planner')) {document.querySelectorAll('.checkButton').forEach($form => $form.addEventListener('submit', handleCheckPlannedItem));}
   if (document.querySelector('.planner')) {document.querySelectorAll('.removeButton').forEach($form => $form.addEventListener('submit', handleRemovePlannedItem));}
   if (document.querySelector('.timeslotPlanner')) {document.querySelectorAll('.sugg__add').forEach($check => $check.addEventListener('click', updateSelectedTime));}
