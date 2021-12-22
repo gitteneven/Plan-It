@@ -247,6 +247,33 @@ class PagesController extends Controller {
 
 
   public function search() {
+    if(isset($_SESSION['id'])){
+      $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+      if ($contentType === "application/json") {
+        $content = trim(file_get_contents("php://input"));
+        $data = json_decode($content, true);
+
+       if($_POST['action'] == 'addWatchlist'){
+        $newWatch = new Watch_list;
+        $newWatch->user_id = $_SESSION['id'];
+        $newWatch->watch_id = $_POST['watch__id'];
+        $newWatch->title = $_POST['watch__name'];
+        $newWatch->duration = intval($_POST['runtime']) * 60;
+          if($_POST['watch__type']=='series'){
+            $newWatch->series = 1;
+            $newWatch->current_ep = 1;
+            $newWatch->current_ses = 1;
+          }
+          if($_POST['watch__type']=='movie'){
+            $newWatch->movie = 1;
+          }
+        $newWatch->save();
+        // header('Location:index.php?page=overview');
+        // exit();
+       }
+      }
+    }
+
       if(!empty($_POST['action'])) {
       if($_POST['action']== 'searchWatchlist'){
           $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
@@ -285,6 +312,7 @@ class PagesController extends Controller {
 
       }
    }
+
    if(!empty($_POST['title'])){
    $this->set('titleSearch', $titleSearch);
    }
@@ -304,37 +332,7 @@ class PagesController extends Controller {
           if($_POST['watch__type']=='movie'){
             $newWatch->movie = 1;
           }
-
         $newWatch->save();
-
-        $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
-
-        $titleClean = str_replace(' ', '%20', $_POST['title__search']);
-        $seriesSearch = 'https://api.themoviedb.org/3/search/tv?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean ;
-        $moviesSearch = 'https://api.themoviedb.org/3/search/movie?api_key=662c8478635d4f25ee66abbe201e121d&query=' . $titleClean;
-          $seriesCode = file_get_contents($seriesSearch);
-          $moviesCode = file_get_contents($moviesSearch);
-          $resultSeries = json_decode($seriesCode);
-          $resultMovies = json_decode($moviesCode);
-          $seriesArray = $resultSeries->results;
-          $moviesArray = $resultMovies->results;
-          $resultList = array_merge($seriesArray, $moviesArray);
-
-        if(empty($_POST['form__type'])){
-             $list = $resultList;
-          } else if($_POST['form__type'] == 'movie'){
-             $list = $moviesArray;
-          } else if($_POST['form__type'] == 'series'){
-              $list = $seriesArray;
-          } else if($_POST['form__type'] == 'movie/series'){
-              $list = $resultList;
-          }
-
-
-         // $titleSearch = $_POST['title__search'];
-        $this->set('titleSearch', $titleClean);
-        $this->set('list', $list);
-        $this->set('exists', $exists);
         // header('Location:index.php?page=overview');
         // exit();
       }
@@ -346,25 +344,14 @@ class PagesController extends Controller {
 
   }
 
-    public function apiSearch() {
-    $shows = $this->_getFormSearchResults();
-    echo $shows->toJson();
-    exit();
-  }
+  public function apiSearch() {
+    $exists = Watch_list::where('watch_id', '=', $_GET['watch_id'])->where('user_id', '=', $_SESSION['id'])->get();
+    //echo $_GET['watch_id'];
+    //echo(json_decode($exists));
 
-  private function _getFormSearchResults() {
-    $showsQuery = Show::query();
-    if(!empty($_GET['title'])){
-      $showsQuery = $showsQuery->where('title', 'LIKE', '%' . $_GET['title'] . '%');
-    }
-    if(!empty($_GET['rating'])){
-      $showsQuery = $showsQuery->where('rating', $_GET['rating']);
-    }
-    if(!empty($_GET['score'])){
-      $showsQuery = $showsQuery->where('score', '>=', $_GET['score']);
-    }
-    $shows = $showsQuery->limit(100)->get();
-    return $shows;
+     echo $exists;
+
+    exit;
   }
 
   public function signup() {
