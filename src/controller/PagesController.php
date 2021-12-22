@@ -21,7 +21,19 @@ class PagesController extends Controller {
             $checkedItem=Planner::where('id', '=', $data['plannedItem'])->first();
             $checkedItem->watched= 1;
             $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
-            $updateWatchlist->current_ep++;
+
+            $serieDetails= 'https://api.themoviedb.org/3/tv/'. $checkedItem->watch_id. '?api_key=662c8478635d4f25ee66abbe201e121d';
+            $itemCode = file_get_contents($serieDetails);
+            $itemInfo= json_decode($itemCode);
+            if($itemInfo->seasons[$updateWatchlist->current_ses]->episode_count > $checkedItem->current_ep){
+              $updateWatchlist->current_ep++;
+              $this->set('currentSes',$currentSes);
+            } else {
+              if ($itemInfo->seasons[$updateWatchlist->current_ses]->episode_count !== NULL){
+                $updateWatchlist->current_ses++;
+                $updateWatchlist->current_ep=1;
+              }
+            }
             $checkedItem->save();
             $updateWatchlist->save();
             echo json_encode($checkedItem);
@@ -42,7 +54,19 @@ class PagesController extends Controller {
         $checkedItem=Planner::where('id', '=', $_POST['plannedItem'])->first();
         $checkedItem->watched= 1;
         $updateWatchlist=Watch_list::where('watch_id','=',$checkedItem->watch_id)->first();
-        $updateWatchlist->current_ep++;
+         $serieDetails= 'https://api.themoviedb.org/3/tv/'. $checkedItem->watch_id. '?api_key=662c8478635d4f25ee66abbe201e121d';
+         $itemCode = file_get_contents($serieDetails);
+         $itemInfo= json_decode($itemCode);
+         if($itemInfo->seasons[$updateWatchlist->current_ses]->episode_count > $checkedItem->current_ep){
+           $updateWatchlist->current_ep++;
+           $this->set('currentSes',$currentSes);
+         } else {
+           if ($itemInfo->seasons[$updateWatchlist->current_ses]->episode_count !== NULL){
+            $updateWatchlist->current_ses++;
+           $updateWatchlist->current_ep=1;
+           }
+         }
+
         $checkedItem->save();
         $updateWatchlist->save();
         $this->set('checkedItem',$checkedItem);
