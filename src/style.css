@@ -1059,15 +1059,9 @@ em {
   margin: .5rem auto;
 }
 
-.timeslot__radio {
-  display: flex;
-  justify-content: center;
-  justify-content: space-around;
-}
-
-.radio__wrap {
-  display: flex;
-  align-items: center;
+.multiEps--selector {
+  grid-row: 4;
+  grid-column: 2/span 3;
 }
 
 .timeslot__label {
@@ -1910,5 +1904,11 @@ em {
 
   .option {
     margin-left: -2rem;
+  }
+
+  .multiEps--selector {
+    grid-row: 4;
+    grid-column: 1;
+    margin-top: .5rem;
   }
 }

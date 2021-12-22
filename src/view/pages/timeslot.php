@@ -57,9 +57,9 @@ foreach($watchSuggestions as $sugg){?>
         echo '<p class="sugg__duration">'.$runtime.' min </p>';
         ?>
         <label class="sugg__add--label"><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
-        <span>
+        <span class="multiEps--selector">
           <label class="multiEps input form__text" for="multiEps">Select multiple episodes:
-          <select  class="multiEps multiEps--selector id_<?php echo $sugg->watch_id?>" name="multiEps[]" size="1" required>
+          <select  class="multiEps  id_<?php echo $sugg->watch_id?>" name="multiEps[]" size="1" required>
             <?php  if($suggInfo->seasons[0]->name =='Specials') {
             $nextEps=$suggInfo->seasons[$sugg->current_ses]->episode_count-$sugg->current_ep;
             $TotalEpsWatched=$suggInfo->seasons[$sugg->current_ses]->episode_count-$nextEps-1 ;
@@ -90,9 +90,6 @@ foreach($watchSuggestions as $sugg){?>
 
             </select>
     </label>
-
-        </span><?php echo $suggInfo->number_of_episodes . ' - '; //echo $suggInfo->number_of_episodes - $sugg->current_ep . ' - '; ?>
-      <br>
 
         <?php
       }else if($sugg->movie == 1){

@@ -191,7 +191,7 @@ const handleAddItem = async e => {
     obj[key] = value;
   });
 
-  const response = await fetch(url, {
+  await fetch(url, {
     method: 'POST',
     headers: new Headers({
       'Content-Type': 'application/json'

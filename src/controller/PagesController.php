@@ -575,7 +575,7 @@ class PagesController extends Controller {
 
               $newTimeslot->series=1;
 
-              $plannedTime=$currentTime+$watchItem->duration;
+              $plannedTime=$currentTime+($watchItem->duration*($i+1));
               array_push($watchTimes, $currentTime);
               $newTimeslot->date= date("Y-m-d", $currentTime);
               $newTimeslot->time= date("H:i", $currentTime);
