@@ -539,20 +539,27 @@ class PagesController extends Controller {
       $watchTimes=array();
       $overdueTimes=array();
       $possibleTimes=array();
+      $amountEpisodes=array();
+        // echo $_POST['multiEps']->id;
+        foreach($_POST['multiEps'] as $value){
+          $tempEpisodes= explode('-', $value);
+          $amountEpisodes[$tempEpisodes[0]]=$tempEpisodes[1];
+          // $this->set('tempEpisodes', $tempEpisodes[1]);
+        }
 
       foreach($_POST['watchItem'] as $watchItem){
 
         $watchListItem= Watch_list::where('user_id', '=', $_SESSION['id'])->where('watch_id', '=', $watchItem)->first();
         array_push($watchArray, $watchListItem);
-
-        //$this->set('selectedWatchItem', $selectedWatchItem);
-        $newAvailableTime=$_SESSION['availableTime']-$watchListItem->duration;
+        $selectedEps=$amountEpisodes[$watchItem];
+        // $this->set('selectedEps', $selectedEps);
+        $newAvailableTime=$_SESSION['availableTime']-($watchListItem->duration*$selectedEps);
         $this->set('newAvailableTime', $newAvailableTime);
 
       }
       $watchDuration=0;
       foreach($watchArray as $watchItem){
-        $watchDuration +=$watchItem->duration;
+        $watchDuration +=$watchItem->duration*$amountEpisodes[$watchItem->watch_id];
       }
       $this->set('watchDuration', $watchDuration);
 
@@ -562,27 +569,62 @@ class PagesController extends Controller {
       // else if($_SESSION['overtime']==false && $watchDuration < $_SESSION['availableTime'] || $_SESSION['overtime']==true && $_SESSION['startTime'] < $_SESSION['endTime']){
       if($watchDuration <= $_SESSION['availableTime'] ){
         foreach($watchArray as $watchItem){
-          if($currentTime < $_SESSION['endTime']){
-          $newTimeslot = new Planner;
-          $newTimeslot->user_id = $_SESSION['id'];
-          $newTimeslot->watch_id=$watchItem->watch_id;
-          $newTimeslot->title=$watchItem->title;
-          if($watchItem->series==1){
-            $newTimeslot->series=1;
-          }else if($watchItem->movie==1){
-            $newTimeslot->movie=1;
-          }
-          $plannedTime=$currentTime+$watchItem->duration;
-          array_push($watchTimes, $currentTime);
-          $newTimeslot->date= date("Y-m-d", $currentTime);
-          $newTimeslot->time= date("H:i", $currentTime);
-          $newTimeslot->current_ses=$watchItem->current_ses;
-          $newTimeslot->current_ep=$watchItem->current_ep;
-          $currentTime=$plannedTime;
-          $newTimeslot->save();
 
-        }
-        }
+          if($watchItem->series==1){
+          $itemInfo='https://api.themoviedb.org/3/tv/'. $watchItem->watch_id . '?api_key=662c8478635d4f25ee66abbe201e121d';
+          $suggCode = file_get_contents($itemInfo);
+          $suggInfo= json_decode($suggCode);
+          $currentSeasonChanged=$watchItem->current_ses;
+          $currentEpChanged=$watchItem->current_ep;
+          for ($i=0; $i < intval($amountEpisodes[$watchItem->watch_id]); $i++) {
+
+            $currentSesEps=$suggInfo->seasons[$currentSeasonChanged - ($suggInfo->seasons[0]->name !=='Specials' ? 1 : 0)]->episode_count;
+            $this->set('currentSesEps', $currentSesEps);
+              if($currentTime < $_SESSION['endTime']){
+              $newTimeslot = new Planner;
+              $newTimeslot->user_id = $_SESSION['id'];
+              $newTimeslot->watch_id=$watchItem->watch_id;
+              $newTimeslot->title=$watchItem->title;
+
+              $newTimeslot->series=1;
+
+              $plannedTime=$currentTime+$watchItem->duration;
+              array_push($watchTimes, $currentTime);
+              $newTimeslot->date= date("Y-m-d", $currentTime);
+              $newTimeslot->time= date("H:i", $currentTime);
+
+                if(intval($currentSesEps) < $currentEpChanged){
+                  $currentEpChanged=1;
+                  $currentSeasonChanged++;
+                }
+                $newTimeslot->current_ep=$currentEpChanged;
+
+                $newTimeslot->current_ses=$currentSeasonChanged;
+
+              $currentTime=$plannedTime;
+              $newTimeslot->save();
+            }
+            $currentEpChanged++;
+
+
+          }
+          }else if($watchItem->movie==1){
+            if($currentTime < $_SESSION['endTime']){
+              $newTimeslot = new Planner;
+              $newTimeslot->user_id = $_SESSION['id'];
+              $newTimeslot->watch_id=$watchItem->watch_id;
+              $newTimeslot->title=$watchItem->title;
+              $newTimeslot->movie=1;
+              $plannedTime=$currentTime+$watchItem->duration;
+              array_push($watchTimes, $currentTime);
+              $newTimeslot->date= date("Y-m-d", $currentTime);
+              $newTimeslot->time= date("H:i", $currentTime);
+              $currentTime=$plannedTime;
+              $newTimeslot->save();
+            }
+
+          }
+      }
       // if($watchDuration < $_SESSION['availableTime']){
         $_SESSION['availableTime']='';
         header('Location:index.php?page=home');

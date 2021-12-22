@@ -66,7 +66,7 @@
     $form.noValidate = true;
     $form.addEventListener(`submit`, handleSubmitForm);
 
-    const inputs = document.querySelectorAll(`.input`);
+    const inputs = document.querySelectorAll(`.inputValidate`);
     inputs.forEach($input => {
       $input.addEventListener(`blur`, handleBlurInput);
       $input.addEventListener(`input`, handleInputField);

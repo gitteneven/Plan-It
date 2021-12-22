@@ -15,15 +15,6 @@
               <input type="datetime-local" name="timeslot--end" class="timeslot__input time--end size1" value="<?php if(!empty($_POST['timeslot--end'])) echo $_POST['timeslot--end'];  ?>"></label>
         </label>
 
-        <!-- <label class="timeslot__label ">
-            <span class="form__text">Do you want to stay within your planned limits?</span>
-            <div class="timeslot__radio">
-            <label class="radio__wrap"><input type="radio" name="limit__radio" value=false checked <?php if(!empty($_POST['limit__radio'])=='false'){echo "checked";}else if(empty($_POST['limit__radio'])){echo "checked"; } ?>>Yes!</label>
-            <label class="radio__wrap"><input type="radio" name="limit__radio" value=true <?php if(!empty($_POST['limit__radio'])=='true'){echo "checked";}?>>No!</label></div>
-        </label><?php //echo $overtime ?> -->
-        <label class="timeslot__label ">
-            <span class="form__text">Do you have a preference?</span>
-        </label>
 
         <input type="submit" class=" button" value="CREATE SUGGESTIONS"><br>
         <?php if(!empty($availableTime)){ ?>
@@ -68,7 +59,7 @@ foreach($watchSuggestions as $sugg){?>
         <label class="sugg__add--label"><input type="checkbox" id="<?php echo $sugg->watch_id ?>" name="watchItem[]" value="<?php echo $sugg->watch_id ?>" class="sugg__add " <?php if(!empty($_POST['watchItem'])&& in_array($sugg->watch_id,$_POST['watchItem']) ) echo 'checked'; ?>></label>
         <span>
           <label class="multiEps input form__text" for="multiEps">Select multiple episodes:
-          <select id="multiEps" class="multiEps multiEps--selector" name="multiEps[]" size="1" required>
+          <select  class="multiEps multiEps--selector id_<?php echo $sugg->watch_id?>" name="multiEps[]" size="1" required>
             <?php  if($suggInfo->seasons[0]->name =='Specials') {
             $nextEps=$suggInfo->seasons[$sugg->current_ses]->episode_count-$sugg->current_ep;
             $TotalEpsWatched=$suggInfo->seasons[$sugg->current_ses]->episode_count-$nextEps-1 ;
@@ -93,7 +84,7 @@ foreach($watchSuggestions as $sugg){?>
             $remainingEps=$suggInfo->number_of_episodes - $TotalEpsWatched;
             }?>
           <?php for ($i=0; $i < $remainingEps; $i++) {?>
-           <option value="<?php echo $i+1; ?>"><?php echo $i+1; ?></option>
+           <option value="<?php echo $sugg->watch_id?>-<?php echo $i+1; ?>"><?php echo $i+1; ?></option>
           <?php } ?>
 
 
@@ -124,16 +115,7 @@ foreach($watchSuggestions as $sugg){?>
 </ul>
 <input type="submit" class="add--button button" value="make timeslot">
 </form>
-<?php //foreach($watchSuggestions as $item){
-  //echo $item .' ' ;
-//};?>
-<?php //foreach($watchTimes as $time){
-  //echo $time .' ';
-//};
- if(!empty($overdueTimes)){
-?>
-<?php foreach($overdueTimes as $time){
-  //echo $time .' ';
-};}?>
+
+
 </section>
 </article>

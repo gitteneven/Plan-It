@@ -202,15 +202,23 @@ const handleRemovePlannedItem = async e => {
 
 let selectedTimesAll = 0;
 const updateSelectedTime = e => {
+
   if (document.querySelector('.time--selected')) {
     document.querySelector('.time--selected').remove();
   }
   const $form = document.querySelector('.timeslot__form');
   const $checkbox = e.currentTarget;
   const $watchInfo = $checkbox.parentElement.parentElement;
+  //const $dropValue = parseInt(document.querySelector(`#${$checkbox.value}`).options[$checkbox.selectedIndex].value);
+  const $dropValue = document.querySelector(`.id_${$checkbox.value}`);
+  let splitDropValue = 1;
+  if ($dropValue !== null) {
+    splitDropValue = $dropValue.value.split('-')[1];
+
+  }
   const $duration = $watchInfo.querySelector('.sugg__duration').textContent;
   const $durationTime = $duration.split(' ');
-  const durationNumber = parseInt($durationTime[0]);
+  const durationNumber = parseInt($durationTime[0]) * splitDropValue;
 
   if (document.querySelector('.selected__time--php')) {
     const $selectTimePhp = document.querySelector('.selected__time--php').textContent.split(' ');
