@@ -4,8 +4,7 @@
     <?php
     //api of detail
 
-    //providers
-      //var_dump($servicesList);
+
 
     if($typeDetail === 'tv'){
       $date = date( 'Y', strtotime($itemInfo->first_air_date));
@@ -25,7 +24,7 @@
       $currentApi = 'https://api.themoviedb.org/3/tv/'.$idDetail.'/season/'.$current_ses.'/episode/' . $current_ep .'?api_key=662c8478635d4f25ee66abbe201e121d';
       $currentCode = file_get_contents($currentApi);
       $currentInfo= json_decode($currentCode);
-      //var_dump($currentInfo);
+      
     }
       if($typeDetail === 'movie'){
       $date = date( 'Y', strtotime($itemInfo->release_date));

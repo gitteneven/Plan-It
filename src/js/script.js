@@ -34,8 +34,7 @@ const submitWithJS = async () => {
     resultList = resultListSeries.concat(resultListMovie);
   }
 
-  //console.log(resultList);
-  //updateList(resultList);
+
 
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
@@ -61,7 +60,7 @@ const updateList = async list => {
 
 
   for (let i = 0;i < list.length;i ++) {
-    // console.log(list[i].name);
+
     let poster;
     let language;
     id = list[i].id;
@@ -211,21 +210,20 @@ const handleAddItem = async e => {
   e.preventDefault();
   const url = e.currentTarget.getAttribute('action');
   const $form = e.currentTarget;
-  //const $button = document.querySelector('button__add--search');
+
   const data = new FormData($form);
   const obj = {};
   data.forEach((value, key) => {
     obj[key] = value;
   });
 
-  const response = await fetch(url, {
+  await fetch(url, {
     method: 'POST',
     headers: new Headers({
       'Content-Type': 'application/json'
     }),
     body: JSON.stringify(obj)
   });
-  console.log(response);
 
 };
 
@@ -262,7 +260,7 @@ const handleCheckPlannedItem = async e => {
         <p class="card__time">${returned.time.split(':')[0].padStart(2, '0')} : ${returned.time.split(':')[1].padStart(2, '0')} </p>
         </div>
   `;
-  // console.log(returned);
+
 };
 
 const handleRemovePlannedItem = async e => {
@@ -287,15 +285,23 @@ const handleRemovePlannedItem = async e => {
 
 let selectedTimesAll = 0;
 const updateSelectedTime = e => {
+
   if (document.querySelector('.time--selected')) {
     document.querySelector('.time--selected').remove();
   }
   const $form = document.querySelector('.timeslot__form');
   const $checkbox = e.currentTarget;
   const $watchInfo = $checkbox.parentElement.parentElement;
+
+  const $dropValue = document.querySelector(`.id_${$checkbox.value}`);
+  let splitDropValue = 1;
+  if ($dropValue !== null) {
+    splitDropValue = $dropValue.value.split('-')[1];
+
+  }
   const $duration = $watchInfo.querySelector('.sugg__duration').textContent;
   const $durationTime = $duration.split(' ');
-  const durationNumber = parseInt($durationTime[0]);
+  const durationNumber = parseInt($durationTime[0]) * splitDropValue;
 
   if (document.querySelector('.selected__time--php')) {
     const $selectTimePhp = document.querySelector('.selected__time--php').textContent.split(' ');
