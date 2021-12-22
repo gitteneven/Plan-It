@@ -635,4 +635,41 @@ class PagesController extends Controller {
   $this->set('title','Add a timeslot');
   }
 
+  public function account() {
+    $user = User::where('id', '=', $_SESSION['id'])->first();
+    $services = Stream_service::where('user_id', '=', $_SESSION['id'])->get();
+
+    $serviceView = [];
+    foreach($services as $info){
+          if($info->netflix == 1){
+            $serviceItem = '<img class="account__provider" src="../src/assets/netflix.svg" alt="netflix">';
+            array_push($serviceView, $serviceItem);
+          }
+          if($info->disney == 1){
+            $serviceItem = '<img class="account__provider" src="../src/assets/disney.svg" alt="disney">';
+            array_push($serviceView, $serviceItem);
+          }
+          if($info->amazon_prime == 1){
+            $serviceItem = '<img class="account__provider" src="../src/assets/prime.svg" alt="prime">';
+            array_push($serviceView, $serviceItem);
+          }
+          if($info->hulu == 1){
+            $serviceItem = '<img class="account__provider" src="../src/assets/hulu.svg" alt="hulu">';
+            array_push($serviceView, $serviceItem);
+          }
+          if($info->hbo_max == 1){
+            $serviceItem = '<img class="account__provider" src="../src/assets/hbo.svg" alt="hbo">';
+            array_push($serviceView, $serviceItem);
+          }
+
+      }
+
+      $date = substr($user->created_at, 0, -8);
+
+      $this->set('date', $date);
+      $this->set('serviceView', $serviceView);
+      $this->set('user', $user);
+      $this->set('title','Account');
+  }
+
 }

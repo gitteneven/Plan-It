@@ -1046,7 +1046,45 @@ em {
   margin: 1rem auto;
 }
 
+/*--------------------------------------account--------------------------------------*/
+
+.account__section {
+  width: 70vw;
+  height: auto;
+  padding: 2rem;
+}
+
+.services {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  font: var(--font);
+}
+
+.services__items {
+  margin: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.date {
+  margin-top: 2rem;
+  font: var(--font);
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.date__em {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 1300px) {
+
+  .account__provider {
+    width: 10vw;
+  }
 
   .planner__columns {
     grid-template-columns: repeat(4, 1fr);
@@ -1189,6 +1227,10 @@ em {
 }
 
 @media only screen and (max-width: 786px) {
+
+  .date, .date__em {
+    font-size: 1rem;
+  }
 
   .login__form {
     width: 60vw;
@@ -1338,6 +1380,19 @@ em {
 }
 
 @media only screen and (max-width: 670px) {
+
+  .account__section {
+    margin-top: 3rem;
+  }
+
+  .services__items {
+    flex-wrap: wrap;
+  }
+
+  .account__provider {
+    width: 5rem;
+    margin-bottom: 1rem;
+  }
 
   .nav {
     display: none;
