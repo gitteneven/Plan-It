@@ -1,4 +1,6 @@
 let timeoutID;
+let id;
+const idList = [];
 
 const handleInputField = () => {
   clearTimeout(timeoutID);
@@ -62,7 +64,8 @@ const updateList = async list => {
     // console.log(list[i].name);
     let poster;
     let language;
-    const id = list[i].id;
+    id = list[i].id;
+    idList.push(id);
     const languageSearch = list[i].original_language;
     const languageFull = languageNames.of(languageSearch);
     if (list[i].poster_path) {
@@ -109,14 +112,14 @@ const updateList = async list => {
                     ${poster}
                     ${language}
                     ${runtime}</a>
-                    <div class="form__add--button">
-                    <form class="add__button" method="post" enctype="multipart/form-data">
+                    <div class="form__add--button" >
+                    <form class="add__button add__watchlist" method="post" id="${id}">
                     <input type="hidden" name="action" value="addWatchlist">
                     <input type="hidden" name="watch__name" value="${list[i].name}">
                     <input type="hidden" name="watch__id" value="${id}">
                     <input type="hidden" name="watch__type" value="series">
                     <input type="hidden" name="title__search" value="${list[i].name}">
-                    <input type="submit" class="button button__add--search button__add" name="add" value="add to watchlist"/>
+                    <input type="submit" class="button button__add--search button__add" name="add" value="add to watchlist">
                     </form>
                     </div>
                     </li>`;
@@ -145,7 +148,7 @@ const updateList = async list => {
       }
 
       listInner += `<li class="overview__list--item search__list--item border">
-                    <a class="overview__list--link" href="index.php?page=detail&id=${id}&watch_type=TV&title=${list[i].name}">
+                    <a class="overview__list--link" href="index.php?page=detail&id=${id}&watch_type=movie&title=${list[i].title}">
                     <h2 class="overview__list--title"> ${list[i].title}  <em class="overview__list--date">${yearItem}</em></h2>
                    <input type="hidden" name="watch__name" value="${list[i].title}">
                       <p class="overview__list--type"> Movie </p>
@@ -154,29 +157,53 @@ const updateList = async list => {
                     ${language}
                     ${runtime} </a>
                     <div class="form__add--button">
-                   <form class="add__button" method="post" enctype="multipart/form-data">
+                   <form class="add__button add__watchlist" method="post" id="${id}" >
                     <input type="hidden" name="action" value="addWatchlist">
-                    <input type="hidden" name="watch__name" value="${list[i].name}">
+                    <input type="hidden" name="watch__name" value="${list[i].title}">
                     <input type="hidden" name="watch__id" value="${id}">
                     <input type="hidden" name="watch__type" value="movie">
-                    <input type="hidden" name="title__search" value="${list[i].name}">
+                    <input type="hidden" name="title__search" value="${list[i].title}">
                     <input type="submit" class="button button__add--search button__add" name="add" value="add to watchlist">
                     </form>
                     </div>
                     </li>`;
     }
-
-    //changeButton(id);
+    //etIds(id);
   }
 
   $list.innerHTML = listInner;
-
+  //console.log(listInner);
+  changeButton();
 };
 
-const changeButton = async id => {
-  const response = await fetch(`index.php?page=api-search&watch_id=${id}`);
+const changeButton = async () => {
+  //console.log(idList);
+  const response = await fetch(`index.php?page=api-search`);
   const dataId = await response.json();
-  console.log(dataId);
+  let watchUser;
+  const watchUserId = [];
+  dataId.forEach(id => {
+    watchUser = id.watch_id;
+    watchUserId.push(watchUser);
+    //console.log(watchUser);
+  });
+  // console.log(watchUserId);
+  idList.forEach(id => {
+    watchUserId.forEach(idU => {
+      if (id === idU) {
+        console.log(id);
+        const $form = document.querySelector(`[id="${id}"]`);
+        const $div = $form.parentElement;
+        console.log($div);
+        $form.classList.add('hidden');
+
+        $div.innerHTML = `<p class="button__add button__add--search button__added">Added</p>`;
+      }
+    }
+    );
+  });
+
+
 };
 
 
@@ -198,6 +225,8 @@ const handleAddItem = async e => {
     }),
     body: JSON.stringify(obj)
   });
+  console.log(response);
+
 };
 
 const handleCheckPlannedItem = async e => {
@@ -289,8 +318,8 @@ const updateSelectedTime = e => {
 export const init = async () => {
   document.documentElement.classList.add('has-js');
   document.querySelectorAll('.filter__field').forEach($field => $field.addEventListener('input', handleInputField));
-  if (document.querySelector('.search__list')) {document.querySelectorAll('.add__button').forEach($form => $form.addEventListener('submit', handleAddItem));}
-
+  if (document.querySelector('.search__list')) {document.querySelectorAll('.add__watchlist').forEach($form => $form.addEventListener('submit', handleAddItem));}
+  changeButton();
   if (document.querySelector('.planner')) {document.querySelectorAll('.checkButton').forEach($form => $form.addEventListener('submit', handleCheckPlannedItem));}
   if (document.querySelector('.planner')) {document.querySelectorAll('.removeButton').forEach($form => $form.addEventListener('submit', handleRemovePlannedItem));}
   if (document.querySelector('.timeslotPlanner')) {document.querySelectorAll('.sugg__add').forEach($check => $check.addEventListener('click', updateSelectedTime));}

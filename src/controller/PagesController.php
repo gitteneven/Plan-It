@@ -268,8 +268,8 @@ class PagesController extends Controller {
             $newWatch->movie = 1;
           }
         $newWatch->save();
-        // header('Location:index.php?page=overview');
-        // exit();
+        header('Location:index.php?page=overview');
+        exit();
        }
       }
     }
@@ -345,12 +345,15 @@ class PagesController extends Controller {
   }
 
   public function apiSearch() {
-    $exists = Watch_list::where('watch_id', '=', $_GET['watch_id'])->where('user_id', '=', $_SESSION['id'])->get();
+    $exists = Watch_list::where('user_id', '=', $_SESSION['id'])->get();
     //echo $_GET['watch_id'];
     //echo(json_decode($exists));
-
-     echo $exists;
-
+    // $watchIds = array();
+    // foreach($exists as $exist){
+    //   $watch_id = $exist->watch_id;
+    // }
+    // array_push($watchIds, $watch_id);
+    echo $exists;
     exit;
   }
 
